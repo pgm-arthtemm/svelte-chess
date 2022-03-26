@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { UsersService } from 'src/users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
+import { CreateUserDto } from 'src/users/dto/create-user.dto';
 
 @Injectable()
 export class AuthService {
@@ -28,5 +29,29 @@ export class AuthService {
     return {
       access_token: this.jwtSerivce.sign(payload),
     };
+  }
+
+  async register(signupUserInput: CreateUserDto) {
+    const usernameCheck = await this.usersService.findOneByUsername(
+      signupUserInput.username,
+    );
+    const emailCheck = await this.usersService.findOneByEmail(
+      signupUserInput.email,
+    );
+
+    if (usernameCheck) {
+      throw new Error('Username already exists');
+    }
+
+    if (emailCheck) {
+      throw new Error('Email already exists');
+    }
+
+    const password = await bcrypt.hash(signupUserInput.password, 10);
+
+    return this.usersService.create({
+      ...signupUserInput,
+      password,
+    });
   }
 }
