@@ -13,10 +13,14 @@ export class AuthController {
     return this.authService.login(req.user);
   }
 
+  @Post('register')
+  async register(@Request() req) {
+    return this.authService.register(req.body);
+  }
+
   @Get('protected')
   @UseGuards(JwtAuthGuard)
   getHello(@Request() req): string {
-    // @TODO: require valid Bearer Token
     return req.user;
   }
 }
