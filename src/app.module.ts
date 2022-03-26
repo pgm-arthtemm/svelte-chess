@@ -6,6 +6,8 @@ import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import * as dotenv from 'dotenv';
 import { join } from 'path';
+import { AuthService } from './auth/auth.service';
+import { AuthModule } from './auth/auth.module';
 
 dotenv.config();
 
@@ -34,8 +36,9 @@ const env = `${(process.env.NODE_ENV || 'development').toLowerCase()}`;
       }),
     }),
     UsersModule,
+    AuthModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, AuthService],
 })
 export class AppModule {}

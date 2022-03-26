@@ -12,9 +12,9 @@ export class UsersController {
     return this.usersService.findAll();
   }
 
-  @Get('/:id')
-  findOne(id: number): Promise<User> {
-    return this.usersService.findOne(id);
+  @Get('/:username')
+  findOne(username: string) {
+    return this.usersService.findOne(username);
   }
 
   @Post('/')

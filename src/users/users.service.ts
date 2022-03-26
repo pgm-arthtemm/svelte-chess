@@ -14,10 +14,12 @@ export class UsersService {
     return this.usersRepository.find();
   }
 
-  async findOne(id: number): Promise<User> {
-    return this.usersRepository.findOneOrFail({
-      where: { id },
-    });
+  async findOne(username: string) {
+    return this.usersRepository.findOne({ where: { username } });
+  }
+
+  async findOneById(id: number): Promise<User> {
+    return this.usersRepository.findOneOrFail({ where: { id } });
   }
 
   async create(CreateUserDto: CreateUserDto): Promise<User> {
