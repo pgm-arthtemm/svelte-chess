@@ -15,6 +15,7 @@ specifiers:
   prettier-plugin-svelte: ^2.5.0
   svelte: ^3.44.0
   svelte-check: ^2.2.6
+  svelte-forms: ^2.3.0
   svelte-preprocess: ^4.10.1
   tailwindcss: ^3.0.23
   tslib: ^2.3.1
@@ -23,6 +24,7 @@ specifiers:
 dependencies:
   autoprefixer: 10.4.4_postcss@8.4.12
   postcss: 8.4.12
+  svelte-forms: 2.3.0
   tailwindcss: 3.0.23_autoprefixer@10.4.4
 
 devDependencies:
@@ -2007,6 +2009,10 @@ packages:
     resolution: {integrity: sha512-41Cifkg6e8TylSpdtTpeLVMqvSBEVzTttHvERD741+pnZ8ANv0004MRL43QKPDlK9cGvNp6NZWZUBlbGXYxxng==}
     engines: {node: '>=0.12.0'}
 
+  /is-promise/4.0.0:
+    resolution: {integrity: sha512-hvpoI6korhJMnej285dSg6nu1+e6uxs7zG3BYAm5byqDsgJNWwxzM6z6iZiAgQR4TJ30JmBTOwqZUw3WlyH3AQ==}
+    dev: false
+
   /is-wsl/2.2.0:
     resolution: {integrity: sha512-fKzAra0rGJUUBwGBgNkHZuToZcn+TtXHpeCgmkMJMMYx1sQDYaCSyjJBSCa2nH1DGm7s3n1oBnohoVTBaN7Lww==}
     engines: {node: '>=8'}
@@ -2768,6 +2774,12 @@ packages:
       - stylus
       - sugarss
     dev: true
+
+  /svelte-forms/2.3.0:
+    resolution: {integrity: sha512-0dYfCBkhEpNBTENXnvN3ADkWtVJzcCARG2Y32SiO3joMLFBTOslOMY2nxP+IJ/aHmD4cJBZ5ed+tfN1olo1pvQ==}
+    dependencies:
+      is-promise: 4.0.0
+    dev: false
 
   /svelte-hmr/0.14.11_svelte@3.46.4:
     resolution: {integrity: sha512-R9CVfX6DXxW1Kn45Jtmx+yUe+sPhrbYSUp7TkzbW0jI5fVPn6lsNG9NEs5dFg5qRhFNAoVdRw5qQDLALNKhwbQ==}

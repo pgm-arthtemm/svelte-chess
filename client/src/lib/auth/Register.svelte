@@ -1,14 +1,15 @@
 <script lang="typescript">
 	import { apiBaseUrl } from '$lib/config/config';
+	import { form, field } from 'svelte-forms';
+	import { required, email } from 'svelte-forms/validators';
 
-	let username: string;
-	let email: string;
-	let password: string;
+	const userEmail = field('email', '', [required(), email()]);
+	const username = field('username', '', [required()]);
+	const password = field('password', '', [required()]);
 
-	let status: any;
+	const myForm = form(username, password, userEmail);
 
-	const register = async (): Promise<void> => {
-		// post to register, get the status
+	const register = async (username: string, email: string, password: string): Promise<void> => {
 		const response = await fetch(`${apiBaseUrl}/auth/register`, {
 			method: 'POST',
 			headers: {
@@ -21,31 +22,43 @@
 			})
 		});
 
-		// const res: Response = await fetch(`${apiBaseUrl}/auth/register`, {
-		// 	method: 'POST',
-		// 	headers: {
-		// 		'Content-Type': 'application/json'
-		// 	},
-		// 	body: JSON.stringify({
-		// 		username,
-		// 		email,
-		// 		password
-		// 	})
-		// });
+		console.log(response);
 	};
 </script>
 
-<form on:submit|preventDefault={register}>
-	<div class="flex">
-		<input type="text" bind:value={username} placeholder="username" />
-		<input type="text" bind:value={email} placeholder="email" />
-		<input type="password" bind:value={password} placeholder="password" />
+<section>
+	<div>
+		<label for="username">Username</label>
+		<input type="text" bind:value={$username.value} placeholder="username" />
+		{#if $myForm.hasError('username.required')}
+			<p>Username is required</p>
+		{/if}
 	</div>
-	<button class="bg-blue-400 p-4 text-white m-4 hover:bg-blue-700" type="submit"> Login </button>
-</form>
 
-<style lang="postcss">
+	<div>
+		<input type="password" bind:value={$password.value} placeholder="password" />
+		{#if $myForm.hasError('password.required')}
+			<p>Password is required</p>
+		{/if}
+	</div>
+
+	<button
+		on:click={() => {
+			username.validate().then(() => {
+				password.validate().then(() => {
+					userEmail.validate().then(() => {
+						register($username.value, $userEmail.value, $password.value);
+					});
+				});
+			});
+		}}>Register</button
+	>
+</section>
+
+<style>
 	input {
-		@apply border-b-2 border-blue-500 m-2;
+		border: 1px solid #ccc;
+		padding: 10px;
+		margin-bottom: 10px;
 	}
 </style>

@@ -1,18 +1,15 @@
 <script lang="typescript">
+	import { form, field } from 'svelte-forms';
+	import { required } from 'svelte-forms/validators';
 	import { apiBaseUrl } from '$lib/config/config';
 
-	interface LoginType {
-		username: string;
-		password: string;
-	}
+	let username = field('username', '', [required()]);
+	let password = field('password', '', [required()]);
 
-	let username: string;
-	let password: string;
+	const myForm = form(username, password);
 
-	let data: LoginType;
-
-	const login = async (): Promise<void> => {
-		const res: Response = await fetch(`${apiBaseUrl}/auth/login`, {
+	const login = async (username: string, password: string): Promise<void> => {
+		const res = await fetch(`${apiBaseUrl}/auth/login`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'
@@ -22,27 +19,39 @@
 				password
 			})
 		});
-
-		if (res.ok) {
-			data = await res.json();
-			console.log(data);
-		} else {
-			const error = res.statusText;
-			console.log(error);
-		}
+		console.log(res);
 	};
 </script>
 
-<form on:submit|preventDefault={login}>
-	<div class="flex">
-		<input type="text" bind:value={username} placeholder="username" />
-		<input type="password" bind:value={password} placeholder="password" />
+<section>
+	<div>
+		<input type="text" bind:value={$username.value} placeholder="username" />
+		{#if $myForm.hasError('username.required')}
+			<p>Username is required</p>
+		{/if}
 	</div>
-	<button class="bg-blue-400 p-4 text-white m-4 hover:bg-blue-700" type="submit"> Login </button>
-</form>
 
-<style lang="postcss">
+	<div>
+		<input type="password" bind:value={$password.value} placeholder="password" />
+		{#if $myForm.hasError('password.required')}
+			<p>Password is required</p>
+		{/if}
+	</div>
+	<button
+		on:click={() => {
+			username.validate().then(() => {
+				password.validate().then(() => {
+					login($username.value, $password.value);
+				});
+			});
+		}}>Log in</button
+	>
+</section>
+
+<style>
 	input {
-		@apply border-b-2 border-blue-500 m-2;
+		border: 1px solid #ccc;
+		padding: 10px;
+		margin-bottom: 10px;
 	}
 </style>
