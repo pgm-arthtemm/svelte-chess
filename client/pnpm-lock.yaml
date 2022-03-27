@@ -4,12 +4,14 @@ specifiers:
   '@playwright/test': ^1.20.0
   '@sveltejs/adapter-auto': next
   '@sveltejs/kit': next
+  '@types/js-cookie': ^3.0.1
   '@typescript-eslint/eslint-plugin': ^5.10.1
   '@typescript-eslint/parser': ^5.10.1
   autoprefixer: ^10.4.4
   eslint: ^7.32.0
   eslint-config-prettier: ^8.3.0
   eslint-plugin-svelte3: ^3.2.1
+  js-cookie: ^3.0.1
   postcss: ^8.4.12
   prettier: ^2.5.1
   prettier-plugin-svelte: ^2.5.0
@@ -23,6 +25,7 @@ specifiers:
 
 dependencies:
   autoprefixer: 10.4.4_postcss@8.4.12
+  js-cookie: 3.0.1
   postcss: 8.4.12
   svelte-forms: 2.3.0
   tailwindcss: 3.0.23_autoprefixer@10.4.4
@@ -31,6 +34,7 @@ devDependencies:
   '@playwright/test': 1.20.1
   '@sveltejs/adapter-auto': 1.0.0-next.33
   '@sveltejs/kit': 1.0.0-next.303_svelte@3.46.4
+  '@types/js-cookie': 3.0.1
   '@typescript-eslint/eslint-plugin': 5.16.0_779783495dcf5ccdc83bcb9708311c62
   '@typescript-eslint/parser': 5.16.0_eslint@7.32.0+typescript@4.6.3
   eslint: 7.32.0
@@ -770,6 +774,10 @@ packages:
     resolution: {integrity: sha512-c3mAZEuK0lvBp8tmuL74XRKn1+y2dcwOUpH7x4WrF6gk1GIgiluDRgMYQtw2OFcBvAJWlt6ASU3tSqxp0Uu0Aw==}
     dependencies:
       '@types/istanbul-lib-report': 3.0.0
+    dev: true
+
+  /@types/js-cookie/3.0.1:
+    resolution: {integrity: sha512-7wg/8gfHltklehP+oyJnZrz9XBuX5ZPP4zB6UsI84utdlkRYLnOm2HfpLXazTwZA+fpGn0ir8tGNgVnMEleBGQ==}
     dev: true
 
   /@types/json-schema/7.0.11:
@@ -2072,6 +2080,11 @@ packages:
   /jpeg-js/0.4.3:
     resolution: {integrity: sha512-ru1HWKek8octvUHFHvE5ZzQ1yAsJmIvRdGWvSoKV52XKyuyYA437QWDttXT8eZXDSbuMpHlLzPDZUPd6idIz+Q==}
     dev: true
+
+  /js-cookie/3.0.1:
+    resolution: {integrity: sha512-+0rgsUXZu4ncpPxRL+lNEptWMOWl9etvPHc/koSRp6MPwpRYAhmk0dUG00J4bxVV3r9uUzfo24wW0knS07SKSw==}
+    engines: {node: '>=12'}
+    dev: false
 
   /js-tokens/4.0.0:
     resolution: {integrity: sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==}
