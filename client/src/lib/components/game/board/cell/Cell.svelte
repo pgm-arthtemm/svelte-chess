@@ -1,10 +1,44 @@
 <script lang="ts">
-	export let color;
-	export let file;
-	export let rank;
+	export let color: string;
+	export let file: number;
+	export let rank: string;
+
+	const drag = (e: any): any => {
+		e.dataTransfer.setData('text/plain', e.target.id);
+	};
+
+	const drop = (e: any): any => {
+		e.preventDefault();
+		const data = e.dataTransfer.getData('text');
+		e.target.appendChild(document.getElementById(data));
+	};
+
+	const dragOver = (e: any): any => {
+		e.preventDefault();
+	};
 </script>
 
-<div data-id={`${rank}${file}`} class={`cell ${color}`} />
+<div on:drop={drop} on:dragover={dragOver} data-id={`${rank}${file}`} class={`cell ${color} m-0`}>
+	{#if file === 2}
+		<img
+			id={`piece-${rank}${file}`}
+			draggable="true"
+			src="/pieces/w-pawn.png"
+			alt="white pawn"
+			on:dragstart={drag}
+		/>
+	{/if}
+
+	{#if file === 7}
+		<img
+			id={`piece-${rank}${file}`}
+			draggable="true"
+			src="/pieces/b-pawn.png"
+			alt="black pawn"
+			on:dragstart={drag}
+		/>
+	{/if}
+</div>
 
 <style>
 	.cell {
