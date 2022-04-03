@@ -9,6 +9,7 @@ import { join } from 'path';
 import { AuthService } from './auth/auth.service';
 import { AuthModule } from './auth/auth.module';
 import { JwtModule } from '@nestjs/jwt';
+import { MessagesModule } from './messages/messages.module';
 
 dotenv.config();
 
@@ -42,6 +43,7 @@ const env = `${(process.env.NODE_ENV || 'development').toLowerCase()}`;
       secret: 'secretKey',
       signOptions: { expiresIn: '60s' },
     }),
+    MessagesModule,
   ],
   controllers: [AppController],
   providers: [AppService, AuthService],

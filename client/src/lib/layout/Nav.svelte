@@ -1,8 +1,8 @@
 <script lang="ts">
-	import Login from '$lib/auth/Login.svelte';
+	import Login from '$lib/components/auth/Login.svelte';
 	import Cookies from 'js-cookie';
 
-	export let isLoggedIn;
+	export let isLoggedIn: boolean;
 
 	let visible: boolean = false;
 
@@ -27,6 +27,3 @@
 {#if visible}
 	<Login />
 {/if}
-
-<h1>{visible}</h1>
-<h1>{isLoggedIn}</h1>

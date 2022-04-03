@@ -1,4 +1,4 @@
-<script lang="typescript">
+<script lang="ts">
 	import { apiBaseUrl } from '$lib/config/config';
 	import { form, field } from 'svelte-forms';
 	import { required, email } from 'svelte-forms/validators';
