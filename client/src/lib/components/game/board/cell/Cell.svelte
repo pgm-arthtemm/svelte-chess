@@ -9,8 +9,22 @@
 
 	const drop = (e: any): any => {
 		e.preventDefault();
-		const data = e.dataTransfer.getData('text');
-		e.target.appendChild(document.getElementById(data));
+
+		let valid: boolean = false;
+
+		if (e.target.tagName === 'IMG') {
+			// Pawn already on thie position, move on to validating the move
+			// TODO: Validate move
+
+			if (valid) {
+				const data = e.dataTransfer.getData('text');
+				e.target.appendChild(document.getElementById(data));
+			}
+		} else {
+			// TODO: Validate move
+			const data = e.dataTransfer.getData('text');
+			e.target.appendChild(document.getElementById(data));
+		}
 	};
 
 	const dragOver = (e: any): any => {

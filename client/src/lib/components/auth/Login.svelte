@@ -25,7 +25,7 @@
 		if (res.ok) {
 			const data = await res.json();
 			Cookies.set('access_token', data.access_token);
-			await goto('/');
+			goto('/');
 		}
 	};
 </script>
