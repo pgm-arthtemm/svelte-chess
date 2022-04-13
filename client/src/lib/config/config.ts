@@ -19,6 +19,6 @@ export const gameModes = [
 	{
 		name: 'Classical',
 		description: 'Each player can have between 45 and 60 minutes',
-		times: [45, 60]
+		times: [45, 50, 55, 60, 70, 90]
 	}
 ];

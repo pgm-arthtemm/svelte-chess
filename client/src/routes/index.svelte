@@ -1,7 +1,9 @@
 <script lang="ts">
-	import Board from '$lib/components/game/board/Board.svelte';
-	import Modal from '$lib/layout/modal/Modal.svelte';
+	import { settings } from '../store';
+	import { goto } from '$app/navigation';
 	import { gameModes } from '$lib/config/config';
+	import Modal from '$lib/layout/modal/Modal.svelte';
+	let showModal = false;
 
 	let selectedMode: string;
 	let selectedTime: number;
@@ -10,9 +12,19 @@
 
 	$: times = selectedMode ? gameModes.filter((mode) => mode.name === selectedMode)[0].times : [];
 
-	let showModal = false;
 	const handleToggleModal = () => {
 		showModal = !showModal;
+	};
+
+	const handleConfirm = () => {
+		if (selectedMode && selectedTime) {
+			settings.set({
+				mode: selectedMode,
+				time: selectedTime
+			});
+			handleToggleModal();
+			goto('/game');
+		}
 	};
 </script>
 
@@ -20,20 +32,29 @@
 
 <Modal title="Choose Game Settings" open={showModal} on:close={() => handleToggleModal()}>
 	<svelte:fragment slot="modal-body">
-		<p>Choose mode</p>
-		<select bind:value={selectedMode}>
-			{#each gameModes as gameMode}
-				<option>{gameMode.name}</option>
-			{/each}
-		</select>
-
-		<p>Select time for each player</p>
-		{#if times}
-			<select bind:value={selectedTime}>
-				{#each times as time}
-					<option>{time}</option>
+		<div>
+			<p>Choose mode</p>
+			<select bind:value={selectedMode}>
+				{#each gameModes as gameMode}
+					<option>{gameMode.name}</option>
 				{/each}
 			</select>
-		{/if}
+
+			<p>Select time for each player</p>
+			{#if times}
+				<select bind:value={selectedTime}>
+					{#each times as time}
+						<option>{time}</option>
+					{/each}
+				</select>
+			{/if}
+		</div>
+
+		<button
+			class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded"
+			on:click|preventDefault={handleConfirm}
+		>
+			Confirm
+		</button>
 	</svelte:fragment>
 </Modal>
