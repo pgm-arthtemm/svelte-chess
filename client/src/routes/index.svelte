@@ -1,8 +1,9 @@
 <script lang="ts">
-	import { settings } from '../store';
+	import { settings } from '../stores';
 	import { goto } from '$app/navigation';
 	import { gameModes } from '$lib/config/config';
 	import Modal from '$lib/layout/modal/Modal.svelte';
+
 	let showModal = false;
 
 	let selectedMode: string;

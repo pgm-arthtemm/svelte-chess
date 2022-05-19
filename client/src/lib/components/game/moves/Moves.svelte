@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { moves } from '../../../../store';
+	import { moves } from '../../../../stores';
 </script>
 
 <div>

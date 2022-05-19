@@ -1,5 +1,5 @@
 <script>
-	import { settings } from '../../store';
+	import { settings } from '../../stores';
 	console.log($settings);
 </script>
 
