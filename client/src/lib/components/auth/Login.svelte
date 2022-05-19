@@ -4,6 +4,22 @@
 	import { form, field } from 'svelte-forms';
 	import { required } from 'svelte-forms/validators';
 	import { apiBaseUrl } from '$lib/config/config';
+	import Modal from '$lib/components/modal/Modal.svelte';
+	import Register from './Register.svelte';
+
+	export let visible: boolean;
+	export let handleToggle: () => void;
+
+	let registerModal: boolean = false;
+
+	const gotoRegister = (): any => {
+		registerModal = !registerModal;
+		visible = !visible;
+	};
+
+	const registerToggle = () => {
+		registerModal = !registerModal;
+	};
 
 	let username = field('username', '', [required()]);
 	let password = field('password', '', [required()]);
@@ -30,37 +46,43 @@
 	};
 </script>
 
-<div class="bg-gra">
-	<section
-		class="w-1/4 m-auto p-2 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
-	>
-		<div class="flex flex-col">
-			<label for="username" class="p-2 text-lg font-bold">Username</label>
-			<input type="text" bind:value={$username.value} placeholder="username" />
-			{#if $myForm.hasError('username.required')}
-				<p class="p-2 pt-0 text-red-500">Username is required</p>
-			{/if}
-		</div>
+{#if visible}
+	<Modal title="Login" open={visible} on:close={() => handleToggle()}>
+		<svelte:fragment slot="modal-body">
+			<section>
+				<div class="flex flex-col">
+					<label class="font-bold text-xl pb-2" for="username">Username</label>
+					<input type="text" placeholder="username" />
+				</div>
 
-		<div class="flex flex-col">
-			<label for="password" class="p-2 text-lg font-bold">Password</label>
-			<input type="password" bind:value={$password.value} placeholder="password" />
-			{#if $myForm.hasError('password.required')}
-				<p class="p-2 pt-0 text-red-500">Password is required</p>
-			{/if}
-		</div>
-		<button
-			class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-			on:click={() => {
-				username.validate().then(() => {
-					password.validate().then(() => {
-						login($username.value, $password.value);
+				<div class="flex flex-col">
+					<label class="font-bold text-xl pb-2" for="password">Password</label>
+					<input type="password" placeholder="password" />
+				</div>
+			</section>
+
+			<button
+				class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mt-4 rounded"
+				on:click={() => {
+					username.validate().then(() => {
+						password.validate().then(() => {
+							login($username.value, $password.value);
+						});
 					});
-				});
-			}}>Log in</button
-		>
-	</section>
-</div>
+				}}>Log in</button
+			>
+			<div class="mt-4">
+				<p on:click={gotoRegister} class="text-blue-800 underline hover:cursor-pointer">
+					Don't have an account yet? Click here.
+				</p>
+			</div>
+		</svelte:fragment>
+	</Modal>
+{/if}
+
+{#if registerModal}
+	<Register visible={registerModal} handleToggle={registerToggle} />
+{/if}
 
 <style>
 	input {

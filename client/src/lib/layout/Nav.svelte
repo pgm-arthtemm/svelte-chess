@@ -2,7 +2,7 @@
 	import Login from '$lib/components/auth/Login.svelte';
 	import ThemeToggle from '$lib/components/theme/ThemeToggle.svelte';
 	import Cookies from 'js-cookie';
-	import { theme } from '../../stores';
+	import Modal from '$lib/components/modal/Modal.svelte';
 
 	export let isLoggedIn: boolean;
 
@@ -37,5 +37,5 @@
 </div>
 
 {#if visible}
-	<Login />
+	<Login {visible} {handleToggle} />
 {/if}

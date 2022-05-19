@@ -16,7 +16,7 @@
 		<div
 			in:fly={{ y: 100, duration: 500 }}
 			out:fly={{ y: 100, duration: 500 }}
-			class="bg-white w-full lg:h-max lg:w-1/2  mx-auto rounded-lg shadow-xl z-50 overflow-y-auto"
+			class="bg-white w-full lg:h-max lg:w-1/3  mx-auto rounded-lg shadow-xl z-50 overflow-y-auto"
 		>
 			<div class="flex justify-between items-center head bg-gray-100 py-5 px-8 text-2xl font-bold">
 				{title}

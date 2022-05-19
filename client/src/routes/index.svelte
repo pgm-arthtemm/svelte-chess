@@ -2,7 +2,7 @@
 	import { settings } from '../stores';
 	import { goto } from '$app/navigation';
 	import { gameModes } from '$lib/config/config';
-	import Modal from '$lib/layout/modal/Modal.svelte';
+	import Modal from '$lib/components/modal/Modal.svelte';
 
 	let showModal = false;
 
@@ -29,7 +29,7 @@
 	};
 </script>
 
-<!-- <button on:click={() => handleToggleModal()}>Open modal</button> -->
+<button on:click={() => handleToggleModal()}>Open modal</button>
 
 <div class="h-full bg-red-100">
 	<h1>test</h1>
