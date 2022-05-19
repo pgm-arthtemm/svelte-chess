@@ -1,14 +1,15 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import Cookies from 'js-cookie';
-	import { form, field } from 'svelte-forms';
-	import { required } from 'svelte-forms/validators';
 	import { apiBaseUrl } from '$lib/config/config';
 	import Modal from '$lib/components/modal/Modal.svelte';
 	import Register from './Register.svelte';
 
 	export let visible: boolean;
 	export let handleToggle: () => void;
+
+	let username: string = '';
+	let password: string = '';
 
 	let registerModal: boolean = false;
 
@@ -20,11 +21,6 @@
 	const registerToggle = () => {
 		registerModal = !registerModal;
 	};
-
-	let username = field('username', '', [required()]);
-	let password = field('password', '', [required()]);
-
-	const myForm = form(username, password);
 
 	const login = async (username: string, password: string): Promise<void> => {
 		const res = await fetch(`${apiBaseUrl}/auth/login`, {
@@ -41,6 +37,7 @@
 		if (res.ok) {
 			const data = await res.json();
 			Cookies.set('access_token', data.access_token);
+			visible = !visible;
 			goto('/');
 		}
 	};
@@ -52,23 +49,19 @@
 			<section>
 				<div class="flex flex-col">
 					<label class="font-bold text-xl pb-2" for="username">Username</label>
-					<input type="text" placeholder="username" />
+					<input bind:value={username} type="text" placeholder="username" />
 				</div>
 
 				<div class="flex flex-col">
 					<label class="font-bold text-xl pb-2" for="password">Password</label>
-					<input type="password" placeholder="password" />
+					<input bind:value={password} type="password" placeholder="password" />
 				</div>
 			</section>
 
 			<button
 				class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mt-4 rounded"
 				on:click={() => {
-					username.validate().then(() => {
-						password.validate().then(() => {
-							login($username.value, $password.value);
-						});
-					});
+					login(username, password);
 				}}>Log in</button
 			>
 			<div class="mt-4">

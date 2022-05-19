@@ -21,8 +21,6 @@
 				password
 			})
 		});
-
-		console.log(response);
 	};
 </script>
 
@@ -31,18 +29,18 @@
 		<svelte:fragment slot="modal-body">
 			<section>
 				<div class="flex flex-col">
-					<label class="font-bold text-xl pb-2" for="email">Email</label>
-					<input type="email" placeholder="username" />
+					<label class="font-bold text-xl pb-2" for="username">Username</label>
+					<input bind:value={username} type="text" placeholder="username" />
 				</div>
 
 				<div class="flex flex-col">
-					<label class="font-bold text-xl pb-2" for="username">Username</label>
-					<input type="text" placeholder="username" />
+					<label class="font-bold text-xl pb-2" for="email">Email</label>
+					<input bind:value={email} type="email" placeholder="email" />
 				</div>
 
 				<div class="flex flex-col">
 					<label class="font-bold text-xl pb-2" for="password">Password</label>
-					<input type="password" placeholder="password" />
+					<input bind:value={password} type="password" placeholder="password" />
 				</div>
 
 				<button

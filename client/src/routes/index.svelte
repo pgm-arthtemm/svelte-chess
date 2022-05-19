@@ -3,6 +3,7 @@
 	import { goto } from '$app/navigation';
 	import { gameModes } from '$lib/config/config';
 	import Modal from '$lib/components/modal/Modal.svelte';
+	import { checkLogin } from '$lib/utils/checkLogin';
 
 	let showModal = false;
 
@@ -29,6 +30,7 @@
 	};
 </script>
 
+<button on:click={() => checkLogin()}>CHECK FOR COOKIE</button>
 <button on:click={() => handleToggleModal()}>Open modal</button>
 
 <div class="h-full bg-red-100">

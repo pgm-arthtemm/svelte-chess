@@ -2,9 +2,8 @@
 	import Login from '$lib/components/auth/Login.svelte';
 	import ThemeToggle from '$lib/components/theme/ThemeToggle.svelte';
 	import Cookies from 'js-cookie';
-	import Modal from '$lib/components/modal/Modal.svelte';
 
-	export let isLoggedIn: boolean;
+	export let checkLogin: () => boolean;
 
 	let visible: boolean = false;
 
@@ -26,8 +25,9 @@
 	</div>
 	<div class="flex">
 		<div>
-			{#if isLoggedIn}
+			{#if checkLogin()}
 				<button on:click={handleLogOut}>Log out</button>
+				<a href="/profile">Profile</a>
 			{:else}
 				<button on:click={handleToggle}>Log in</button>
 			{/if}
