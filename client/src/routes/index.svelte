@@ -29,7 +29,11 @@
 	};
 </script>
 
-<button on:click={() => handleToggleModal()}>Open modal</button>
+<!-- <button on:click={() => handleToggleModal()}>Open modal</button> -->
+
+<div class="h-full bg-red-100">
+	<h1>test</h1>
+</div>
 
 <Modal title="Choose Game Settings" open={showModal} on:close={() => handleToggleModal()}>
 	<svelte:fragment slot="modal-body">

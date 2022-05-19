@@ -11,15 +11,12 @@
 </script>
 
 <div>
-	<!-- if theme is dark button is dark gray, if theme is light button is light gray -->
 	<button
 		class={`bg-${
 			$theme === 'dark' ? 'gray-700' : 'gray-300'
-		} text-white font-bold py-2 px-4 border border-${
-			$theme === 'dark' ? 'gray-300' : 'gray-700'
-		} rounded`}
+		} text-white border border-gray-400 rounded-lg px-2 font-bold`}
 		on:click={themeToggle}
 	>
-		Toggle theme
+		toggle
 	</button>
 </div>

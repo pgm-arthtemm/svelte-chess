@@ -18,13 +18,22 @@
 	};
 </script>
 
-<div class={`bg-${$theme === 'dark' ? 'gray-900' : 'gray-700'} text-white p-4 text-xl`}>
-	{#if isLoggedIn}
-		<button on:click={handleLogOut}>Log out</button>
-	{:else}
-		<button on:click={handleToggle}>Log in</button>
-	{/if}
-	<ThemeToggle />
+<div class="bg-gray-800 flex justify-between items-center h-20 px-4 text-white">
+	<div>
+		<a href="/">
+			<h1 class="text-2xl font-bold">Svelte <span class="text-red-500">Chess</span></h1>
+		</a>
+	</div>
+	<div class="flex">
+		<div>
+			{#if isLoggedIn}
+				<button on:click={handleLogOut}>Log out</button>
+			{:else}
+				<button on:click={handleToggle}>Log in</button>
+			{/if}
+		</div>
+		<ThemeToggle />
+	</div>
 </div>
 
 {#if visible}

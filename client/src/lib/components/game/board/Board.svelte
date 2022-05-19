@@ -5,7 +5,7 @@
 	let ranks: string[] = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
 </script>
 
-<div class="board m-auto w-96 h-96 mt-12">
+<div class="board w-96 h-96">
 	<div class="flex flex-wrap">
 		{#each files as file, fileIndex}
 			{#if fileIndex % 2 === 0}
