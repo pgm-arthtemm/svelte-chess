@@ -5,33 +5,18 @@
 	let ranks: string[] = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
 </script>
 
-<div class="board w-96 h-96">
-	<div class="flex flex-wrap">
+<div class="board">
+	<div class="grid grid-cols-8 aspect-square">
 		{#each files as file, fileIndex}
 			{#if fileIndex % 2 === 0}
 				{#each ranks as rank, rankIndex}
-					{#if rankIndex % 2 === 0}
-						<Cell {file} {rank} color={'white'} />
-					{:else}
-						<Cell {file} {rank} color={'black'} />
-					{/if}
+					<Cell color={`${rankIndex % 2 === 0 ? 'white' : 'black'}`} {file} {rank} />
 				{/each}
 			{:else}
 				{#each ranks as rank, rankIndex}
-					{#if rankIndex % 2 === 0}
-						<Cell {file} {rank} color={'black'} />
-					{:else}
-						<Cell {file} {rank} color={'white'} />
-					{/if}
+					<Cell color={`${rankIndex % 2 === 0 ? 'black' : 'white'}`} {file} {rank} />
 				{/each}
 			{/if}
 		{/each}
 	</div>
 </div>
-
-<style lang="postcss">
-	.board {
-		width: 40em;
-		height: 40em;
-	}
-</style>

@@ -32,9 +32,15 @@
 	};
 </script>
 
-<div on:drop={drop} on:dragover={dragOver} data-id={`${rank}${file}`} class={`cell ${color} m-0`}>
+<div
+	on:drop={drop}
+	on:dragover={dragOver}
+	data-id={`${rank}${file}`}
+	class={`cell ${color} md:w-16 md:h-16 lg:w-20 lg:h-20 xl:w-24 xl:h-24`}
+>
 	{#if file === 2}
 		<img
+			class="absolute"
 			id={`piece-${rank}${file}`}
 			draggable="true"
 			src="/pieces/w-pawn.png"
@@ -45,6 +51,7 @@
 
 	{#if file === 7}
 		<img
+			class="absolute"
 			id={`piece-${rank}${file}`}
 			draggable="true"
 			src="/pieces/b-pawn.png"
@@ -54,11 +61,7 @@
 	{/if}
 </div>
 
-<style>
-	.cell {
-		width: calc(40em / 8);
-		height: calc(40em / 8);
-	}
+<style lang="postcss">
 	.white {
 		background-color: rgb(245, 238, 238);
 	}

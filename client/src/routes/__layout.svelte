@@ -8,7 +8,7 @@
 
 <div class="bg-gray-700 h-screen">
 	<Nav {isLoggedIn} />
-	<main class="container">
+	<main class="container mx-auto p-2 sm:p-0">
 		<slot />
 	</main>
 </div>

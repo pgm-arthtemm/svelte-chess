@@ -5,7 +5,7 @@
 	console.log($settings);
 </script>
 
-<div class="flex">
+<div class="block md:flex">
 	<!-- <Chat /> -->
 	<Box title="Chat with your opponent" textInput={true} content="test" />
 	<Board />
