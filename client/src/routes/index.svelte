@@ -4,6 +4,8 @@
 	import { gameModes } from '$lib/config/config';
 	import Modal from '$lib/components/modal/Modal.svelte';
 	import { checkLogin } from '$lib/utils/checkLogin';
+	import Button from '$lib/components/button/Button.svelte';
+	import { ButtonEnum } from '$lib/constants/button-enum';
 
 	let showModal = false;
 
@@ -65,3 +67,7 @@
 		</button>
 	</svelte:fragment>
 </Modal>
+
+<Button type={ButtonEnum.success} text="WIN" />
+<Button type={ButtonEnum.danger} text="LOSS" />
+<Button type={ButtonEnum.warning} text="DRAW" />

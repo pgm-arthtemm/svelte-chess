@@ -17,7 +17,7 @@
 	};
 </script>
 
-<div class="bg-gray-800 flex justify-between items-center h-20 px-4 text-white">
+<div class="bg-gray-800 flex justify-between items-center h-20 px-4 mb-4 text-white">
 	<div>
 		<a href="/">
 			<h1 class="text-2xl font-bold">Svelte <span class="text-red-500">Chess</span></h1>
