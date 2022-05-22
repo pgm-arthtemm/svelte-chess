@@ -4,6 +4,7 @@
 	import { apiBaseUrl } from '$lib/config/config';
 	import Modal from '$lib/components/modal/Modal.svelte';
 	import Register from './Register.svelte';
+	import { login } from '$lib/utils/auth/login';
 
 	export let visible: boolean;
 	export let handleToggle: () => void;
@@ -22,24 +23,8 @@
 		registerModal = !registerModal;
 	};
 
-	const login = async (username: string, password: string): Promise<void> => {
-		const res = await fetch(`${apiBaseUrl}/auth/login`, {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({
-				username,
-				password
-			})
-		});
-
-		if (res.ok) {
-			const data = await res.json();
-			Cookies.set('access_token', data.access_token);
-			visible = !visible;
-			goto('/');
-		}
+	const loginUser = async (username: string, password: string): Promise<void> => {
+		login(username, password, visible);
 	};
 </script>
 
@@ -61,7 +46,7 @@
 			<button
 				class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mt-4 rounded"
 				on:click={() => {
-					login(username, password);
+					loginUser(username, password);
 				}}>Log in</button
 			>
 			<div class="mt-4">

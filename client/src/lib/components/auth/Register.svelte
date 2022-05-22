@@ -1,6 +1,9 @@
 <script lang="ts">
 	import { apiBaseUrl } from '$lib/config/config';
+	import { goto } from '$app/navigation';
 	import Modal from '../modal/Modal.svelte';
+	import Cookies from 'js-cookie';
+	import { login } from '$lib/utils/auth/login';
 
 	export let visible: boolean;
 	export let handleToggle: () => void;
@@ -10,7 +13,7 @@
 	let password: string = '';
 
 	const register = async (username: string, email: string, password: string): Promise<void> => {
-		const response = await fetch(`${apiBaseUrl}/auth/register`, {
+		const res = await fetch(`${apiBaseUrl}/auth/register`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'
@@ -21,6 +24,10 @@
 				password
 			})
 		});
+
+		if (res.ok) {
+			login(username, password, visible);
+		}
 	};
 </script>
 

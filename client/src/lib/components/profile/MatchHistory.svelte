@@ -1,47 +1,105 @@
 <script lang="ts" context="module">
-	// fetch match data
-</script>
-
-<script>
-	import { ButtonEnum } from '$lib/constants/button-enum';
-
 	const matches = [
 		{
-			date: '2020-01-01',
-			opponent: 'Opponent 1',
-			result: ButtonEnum.danger
+			id: 1,
+			date: new Date(new Date().getTime()),
+			result: 'win',
+			username: 'LoggedinUser',
+			opponent: {
+				id: 2,
+				username: 'Opponent123',
+				color: 'black'
+			}
 		},
 		{
-			date: '2020-01-01',
-			opponent: 'Opponent 2',
-			result: ButtonEnum.success
+			id: 1,
+			date: new Date(new Date().getTime()),
+			result: 'draw',
+			username: 'LoggedinUser',
+			opponent: {
+				id: 2,
+				username: 'Opponent123',
+				color: 'white'
+			}
 		},
 		{
-			date: '2020-01-01',
-			opponent: 'Opponent 3',
-			result: ButtonEnum.warning
+			id: 1,
+			date: new Date(new Date().getTime()),
+			result: 'loss',
+			username: 'LoggedinUser',
+			opponent: {
+				id: 2,
+				username: 'Opponent123',
+				color: 'white'
+			}
+		},
+		{
+			id: 1,
+			date: new Date(new Date().getTime()),
+			result: 'win',
+			username: 'LoggedinUser',
+			opponent: {
+				id: 2,
+				username: 'Opponent123',
+				color: 'white'
+			}
 		}
 	];
 </script>
 
-<div class="border-8 border-gray-800 rounded-lg h-20">
+<script lang="ts">
+	import { ButtonEnum } from '$lib/constants/button-enum';
+	import Button from '../button/Button.svelte';
+	import { dateFormat } from '$lib/utils/dateFormat';
+
+	const userColor = (match: any): string => {
+		if (match.opponent.color === 'white') {
+			return 'black';
+		} else {
+			return 'white';
+		}
+	};
+
+	const opponentColor = (match: any): string => {
+		if (match.opponent.color === 'white') {
+			return 'white';
+		} else {
+			return 'black';
+		}
+	};
+</script>
+
+<div class="border-8 border-gray-800 rounded-lg py-2 px-6">
 	<ul>
 		{#each matches as match}
-			<li>
-				<div class="flex justify-between">
-					<div>
-						<span class="font-bold">{match.date}</span>
-						<span>{match.opponent}</span>
+			<li class="py-4">
+				<div class="flex justify-between items-center">
+					<div class="flex-1 justify-between  font-semibold text-lg leading-8">
+						<div class="flex items-center">
+							<p class={`pl-2 text-${userColor(match)}`}>{match.username}</p>
+						</div>
+						<div class="flex items-center">
+							<p class={`pl-2 text-${opponentColor(match)}`}>{match.opponent.username}</p>
+						</div>
 					</div>
-					<div>
-						<button
-							class={match.result === ButtonEnum.danger
-								? 'bg-red-500 hover:bg-red-700 text-white w-24 font-bold py-2 px-4 rounded-lg border-b-4 border-red-800'
-								: match.result === ButtonEnum.success
-								? 'bg-green-500 hover:bg-green-700 text-white w-24 font-bold py-2 px-4 rounded-lg border-b-4 border-green-800'
-								: 'bg-yellow-500 hover:bg-yellow-700 text-white w-24 font-bold py-2 px-4 rounded-lg border-b-4 border-yellow-800'}
-							>{match.result}</button
+					<div class="flex-1">
+						{#if match.result === 'win'}
+							<Button text="WIN" type={ButtonEnum.success} />
+						{/if}
+						{#if match.result === 'draw'}
+							<Button text="DRAW" type={ButtonEnum.warning} />
+						{/if}
+						{#if match.result === 'loss'}
+							<Button text="LOSS" type={ButtonEnum.danger} />
+						{/if}
+					</div>
+					<div class="flex-1">
+						<a class="underline text-blue-300 visited:text-purple-500" href={`/analyze/${match.id}`}
+							>Analyze</a
 						>
+					</div>
+					<div class="flex-1">
+						<span class="text-white font-semibold text-lg">{dateFormat(match.date)}</span>
 					</div>
 				</div>
 			</li>
