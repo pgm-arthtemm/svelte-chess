@@ -1,14 +1,14 @@
 <script lang="ts">
 	import Login from '$lib/components/auth/Login.svelte';
 	import ThemeToggle from '$lib/components/theme/ThemeToggle.svelte';
-	import Cookies from 'js-cookie';
+	import * as Cookie from 'js-cookie';
 
 	export let checkLogin: () => boolean;
 
 	let visible: boolean = false;
 
 	const handleLogOut = () => {
-		Cookies.remove('access_token');
+		Cookie.remove('access_token');
 		window.location.reload();
 	};
 

@@ -1,12 +1,8 @@
 import { goto } from '$app/navigation';
 import { apiBaseUrl } from '$lib/config/config';
-import Cookies from 'js-cookie';
+import * as Cookies from 'js-cookie';
 
-export const login = async (
-	username: string,
-	password: string,
-	visible: boolean = false
-): Promise<void> => {
+export const login = async (username: string, password: string, visible = false): Promise<void> => {
 	const res = await fetch(`${apiBaseUrl}/auth/login`, {
 		method: 'POST',
 		headers: {

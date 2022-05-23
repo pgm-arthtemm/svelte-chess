@@ -1,7 +1,4 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
-	import Cookies from 'js-cookie';
-	import { apiBaseUrl } from '$lib/config/config';
 	import Modal from '$lib/components/modal/Modal.svelte';
 	import Register from './Register.svelte';
 	import { login } from '$lib/utils/auth/login';

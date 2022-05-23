@@ -1,14 +1,28 @@
-import adapter from '@sveltejs/adapter-auto';
+import adapter from '@sveltejs/adapter-node';
 import preprocess from 'svelte-preprocess';
+import { Server } from 'socket.io';
 
-/** @type {import('@sveltejs/kit').Config} */
+export const webSocketServer = {
+	name: 'webSocketServer',
+	configureServer(server) {
+		const io = new Server(server.httpServer);
+
+		io.on('connect', (socket) => {
+			socket.on('createGame', (status) => {
+				console.log('Created game', status);
+			});
+		});
+	}
+};
+
 const config = {
-	// Consult https://github.com/sveltejs/svelte-preprocess
-	// for more information about preprocessors
 	preprocess: preprocess(),
 
 	kit: {
-		adapter: adapter()
+		adapter: adapter(),
+		vite: {
+			plugins: [webSocketServer]
+		}
 	}
 };
 

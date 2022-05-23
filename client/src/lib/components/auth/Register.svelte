@@ -1,8 +1,6 @@
 <script lang="ts">
 	import { apiBaseUrl } from '$lib/config/config';
-	import { goto } from '$app/navigation';
 	import Modal from '../modal/Modal.svelte';
-	import Cookies from 'js-cookie';
 	import { login } from '$lib/utils/auth/login';
 
 	export let visible: boolean;

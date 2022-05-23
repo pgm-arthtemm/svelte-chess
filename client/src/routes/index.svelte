@@ -4,20 +4,30 @@
 	import { gameModes } from '$lib/config/config';
 	import Modal from '$lib/components/modal/Modal.svelte';
 	import { checkLogin } from '$lib/utils/checkLogin';
-	import Button from '$lib/components/button/Button.svelte';
-	import { ButtonEnum } from '$lib/constants/button-enum';
+	import { io } from 'socket.io-client';
+	import { v4 as uuidv4 } from 'uuid';
 
+	const socket = io();
+
+	let username: string;
 	let showModal = false;
-
 	let selectedMode: string;
 	let selectedTime: number;
-
 	let times: number[];
+	let gameRoomIdValue: string;
+	let entered: boolean = false;
 
 	$: times = selectedMode ? gameModes.filter((mode) => mode.name === selectedMode)[0].times : [];
 
 	const handleToggleModal = () => {
 		showModal = !showModal;
+	};
+
+	const enterUsername = (): void => {
+		entered = true;
+		const gameRoomId = uuidv4();
+		gameRoomIdValue = gameRoomId;
+		socket.emit('createGame', gameRoomIdValue);
 	};
 
 	const handleConfirm = () => {
@@ -68,6 +78,12 @@
 	</svelte:fragment>
 </Modal>
 
-<Button type={ButtonEnum.success} text="WIN" />
-<Button type={ButtonEnum.danger} text="LOSS" />
-<Button type={ButtonEnum.warning} text="DRAW" />
+{#if entered}
+	{goto(`game/${gameRoomIdValue}`)}
+{/if}
+
+<div class="border-2 border-red-500 w-full h-72">
+	<h1>username</h1>
+	<input bind:value={username} type="text" placeholder="username" />
+	<button on:click={enterUsername}>Confirm</button>
+</div>
