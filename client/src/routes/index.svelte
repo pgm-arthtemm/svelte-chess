@@ -14,7 +14,7 @@
 	let selectedMode: string;
 	let selectedTime: number;
 	let times: number[];
-	let gameRoomIdValue: string;
+	let gameRoomIdValue: string = uuidv4();
 	let entered: boolean = false;
 
 	$: times = selectedMode ? gameModes.filter((mode) => mode.name === selectedMode)[0].times : [];
@@ -25,8 +25,6 @@
 
 	const enterUsername = (): void => {
 		entered = true;
-		const gameRoomId = uuidv4();
-		gameRoomIdValue = gameRoomId;
 		socket.emit('createGame', gameRoomIdValue);
 	};
 

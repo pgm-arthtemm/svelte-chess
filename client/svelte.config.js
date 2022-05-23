@@ -7,9 +7,10 @@ export const webSocketServer = {
 	configureServer(server) {
 		const io = new Server(server.httpServer);
 
-		io.on('connect', (socket) => {
-			socket.on('createGame', (status) => {
-				console.log('Created game', status);
+		io.on('connection', (socket) => {
+			socket.on('createGame', function (gameId) {
+				socket.join(gameId);
+				console.log(io.sockets.adapter.rooms);
 			});
 		});
 	}
