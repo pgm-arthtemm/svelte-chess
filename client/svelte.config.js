@@ -12,6 +12,17 @@ export const webSocketServer = {
 				socket.join(gameId);
 				console.log(io.sockets.adapter.rooms);
 			});
+
+			socket.on('joinRoom', function (gameId) {
+				const room = io.sockets.adapter.rooms.get(gameId);
+				socket.join(room);
+				console.log(io.sockets.adapter.rooms.get(gameId).size);
+			});
+
+			socket.on('getRoomSize', function (gameId) {
+				const roomSize = io.sockets.adapter.rooms.get(gameId).size;
+				console.log(roomSize);
+			});
 		});
 	}
 };

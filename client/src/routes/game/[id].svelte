@@ -6,10 +6,19 @@
 
 	const joinRoom = (): void => {
 		const gameId = $page.params.id;
-		socket.emit('getRoom', { gameId });
+		socket.emit('joinRoom', gameId);
+	};
+
+	const getRoomSize = (): void => {
+		const gameId = $page.params.id;
+		socket.emit('getRoomSize', gameId);
 	};
 </script>
 
 <div>
-	<button on:click={joinRoom}>JOIN ROOM</button>
+	<p>{`http://localhost:3000/game/${$page.params.id}`}</p>
+
+	<button on:click={joinRoom}>GET ROOM</button>
+
+	<button on:click={getRoomSize}>GET ROOM SIZE</button>
 </div>
