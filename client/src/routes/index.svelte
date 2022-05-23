@@ -6,7 +6,6 @@
 	import { checkLogin } from '$lib/utils/checkLogin';
 	import { io } from 'socket.io-client';
 	import { v4 as uuidv4 } from 'uuid';
-
 	const socket = io();
 
 	let username: string;
