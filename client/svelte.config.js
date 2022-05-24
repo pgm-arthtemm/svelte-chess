@@ -8,15 +8,13 @@ export const webSocketServer = {
 		const io = new Server(server.httpServer);
 
 		io.on('connection', (socket) => {
-			socket.on('createGame', function (gameId) {
+			socket.on('createGame', (gameId) => {
 				socket.join(gameId);
 				console.log(io.sockets.adapter.rooms);
 			});
 
-			socket.on('joinRoom', function (gameId) {
-				const room = io.sockets.adapter.rooms.get(gameId);
-				socket.join(room);
-				console.log(io.sockets.adapter.rooms.get(gameId).size);
+			socket.on('joinRoom', (gameId) => {
+				socket.join(gameId);
 			});
 
 			socket.on('getRoomSize', function (gameId) {
