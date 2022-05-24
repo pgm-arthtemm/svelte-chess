@@ -3,6 +3,7 @@
 	import { chat, username } from '../../stores';
 	import { io } from 'socket.io-client';
 	import Box from '$lib/components/box/Box.svelte';
+	import Board from '$lib/components/game/board/Board.svelte';
 
 	const socket = io();
 
@@ -33,17 +34,24 @@
 	});
 </script>
 
-<div>
-	{#if $username === ''}
+{#if !accepted}
+	<div>
+		{#if $username === ''}
+			<div>
+				<input bind:value={usernameValue} type="text" placeholder="username" />
+			</div>
+		{/if}
+
+		<p class="text-white">{`http://localhost:3000/game/${$page.params.id}`}</p>
+		<button class="text-white font-bold" on:click={joinRoom}>READY</button>
+	</div>
+{:else}
+	<div class="block md:flex justify-between">
+		<Box gameId={$page.params.id} title="Chat with your opponent" textInput={true} />
+		<Board />
 		<div>
-			<input bind:value={usernameValue} type="text" placeholder="username" />
+			<Box title="Moves played" />
+			<Box title="Actions" />
 		</div>
-	{/if}
-
-	<p class="text-white">{`http://localhost:3000/game/${$page.params.id}`}</p>
-	<button class="text-white font-bold" on:click={joinRoom}>READY</button>
-</div>
-
-{#if accepted}
-	<Box gameId={$page.params.id} title="Chat with your opponent" textInput={true} />
+	</div>
 {/if}
