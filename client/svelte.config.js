@@ -17,7 +17,7 @@ export const webSocketServer = {
 				if (room) {
 					socket.join(gameId);
 					const roomSize = io.sockets.adapter.rooms.get(gameId).size;
-					if (roomSize === 2) {
+					if (roomSize === 3) {
 						io.in(gameId).emit('startGame');
 					}
 				} else {

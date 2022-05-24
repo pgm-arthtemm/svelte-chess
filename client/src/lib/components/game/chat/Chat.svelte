@@ -2,7 +2,7 @@
 	import { chat, username } from '../../../../stores';
 
 	const checkSender = (chat: any): string => {
-		return chat.username === username ? 'You' : chat.username;
+		return chat.username === $username ? 'You' : chat.username;
 	};
 </script>
 
