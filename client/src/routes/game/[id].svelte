@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/stores';
+	import { chat } from '../../stores';
 	import { io } from 'socket.io-client';
 	import Box from '$lib/components/box/Box.svelte';
 
@@ -22,13 +23,13 @@
 		console.log('room full');
 	});
 
-	socket.on('startGame', (data) => {
+	socket.on('startGame', () => {
 		console.log('START GAME');
 		accepted = true;
 	});
 
 	socket.on('getMessage', (data) => {
-		console.log(data);
+		$chat = [...$chat, data];
 	});
 </script>
 

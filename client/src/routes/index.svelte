@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { settings } from '../stores';
+	import { settings, username } from '../stores';
 	import { goto } from '$app/navigation';
 	import { gameModes } from '$lib/config/config';
 	import Modal from '$lib/components/modal/Modal.svelte';
@@ -8,7 +8,7 @@
 	import { v4 as uuidv4 } from 'uuid';
 	const socket = io();
 
-	let username: string;
+	let userName: string;
 	let showModal = false;
 	let selectedMode: string;
 	let selectedTime: number;
@@ -16,6 +16,7 @@
 	let gameRoomIdValue: string = uuidv4();
 	let entered: boolean = false;
 
+	$: $username = userName;
 	$: times = selectedMode ? gameModes.filter((mode) => mode.name === selectedMode)[0].times : [];
 
 	const handleToggleModal = () => {
@@ -81,6 +82,6 @@
 
 <div class="border-2 border-red-500 w-full h-72">
 	<h1>username</h1>
-	<input bind:value={username} type="text" placeholder="username" />
+	<input bind:value={userName} type="text" placeholder="username" />
 	<button on:click={enterUsername}>Confirm</button>
 </div>

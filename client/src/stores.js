@@ -5,6 +5,8 @@ export const moves = writable([]);
 
 export const chat = writable([]);
 
+export const username = writable('');
+
 export const settings = writable({});
 
 export const theme = writable((browser && localStorage.getItem('theme')) || 'dark');
