@@ -1,7 +1,10 @@
 <script lang="ts">
+	import { gameIdStore } from '../../../stores';
 	import Chat from '../game/chat/Chat.svelte';
-	import { chat } from '../../../stores';
+	import { io } from 'socket.io-client';
+	const socket = io();
 
+	export let gameId: any;
 	export let title: string;
 	export let textInput: boolean = false;
 
@@ -9,7 +12,7 @@
 
 	const onKeyPress = (e: KeyboardEventInit): void => {
 		if (e.key === 'Enter') {
-			$chat = [...$chat, { message: chatMessage, user: 'You' }];
+			socket.emit('sendMessage', { message: chatMessage, gameId: gameId });
 			chatMessage = '';
 		}
 	};

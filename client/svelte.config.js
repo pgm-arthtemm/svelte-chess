@@ -10,16 +10,24 @@ export const webSocketServer = {
 		io.on('connection', (socket) => {
 			socket.on('createGame', (gameId) => {
 				socket.join(gameId);
-				console.log(io.sockets.adapter.rooms);
 			});
 
 			socket.on('joinRoom', (gameId) => {
-				socket.join(gameId);
+				const room = io.sockets.adapter.rooms.get(gameId);
+				if (room) {
+					socket.join(gameId);
+					const roomSize = io.sockets.adapter.rooms.get(gameId).size;
+					if (roomSize === 2) {
+						io.in(gameId).emit('startGame');
+					}
+				} else {
+					socket.emit('gameNotFound');
+				}
 			});
 
-			socket.on('getRoomSize', function (gameId) {
-				const roomSize = io.sockets.adapter.rooms.get(gameId).size;
-				console.log(roomSize);
+			socket.on('sendMessage', (data) => {
+				console.log(data);
+				io.in(data.gameId).emit('getMessage', data);
 			});
 		});
 	}
