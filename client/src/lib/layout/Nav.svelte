@@ -1,36 +1,56 @@
 <script lang="ts">
 	import Login from '$lib/components/auth/Login.svelte';
+	import NewGame from '$lib/components/game/modal/NewGame.svelte';
 	import ThemeToggle from '$lib/components/theme/ThemeToggle.svelte';
-	import * as Cookie from 'js-cookie';
+	import Cookie from 'js-cookie';
 
 	export let checkLogin: () => boolean;
 
 	let visible: boolean = false;
+	let newGameVisible: boolean = false;
 
-	const handleLogOut = () => {
+	const handleLogOut = (): void => {
 		Cookie.remove('access_token');
 		window.location.reload();
 	};
 
-	const handleToggle = () => {
+	const newGame = () => {
+		newGameVisible = !newGameVisible;
+	};
+
+	const handleToggle = (): void => {
 		visible = !visible;
+	};
+
+	const handleToggleNewGame = (): void => {
+		newGameVisible = !newGameVisible;
 	};
 </script>
 
 <div class="bg-gray-800 flex justify-between items-center h-20 px-4 mb-4 text-white">
 	<div>
-		<a href="/">
+		<a sveltekit:prefetch href="/">
 			<h1 class="text-2xl font-bold">Svelte <span class="text-red-500">Chess</span></h1>
 		</a>
 	</div>
 	<div class="flex">
 		<div>
-			{#if checkLogin()}
-				<button on:click={handleLogOut}>Log out</button>
-				<a href="/profile">Profile</a>
-			{:else}
-				<button on:click={handleToggle}>Log in</button>
-			{/if}
+			<ul class="flex">
+				<li class="px-2">
+					<button on:click={newGame}>New Game</button>
+				</li>
+				<li>
+					<a href="/about">About</a>
+				</li>
+				<li>
+					{#if checkLogin()}
+						<button on:click={handleLogOut}>Log out</button>
+						<a sveltekit:prefetch href="/profile">Profile</a>
+					{:else}
+						<button on:click={handleToggle}>Log in</button>
+					{/if}
+				</li>
+			</ul>
 		</div>
 		<ThemeToggle />
 	</div>
@@ -38,4 +58,8 @@
 
 {#if visible}
 	<Login {visible} {handleToggle} />
+{/if}
+
+{#if newGameVisible}
+	<NewGame {newGameVisible} {handleToggleNewGame} />
 {/if}

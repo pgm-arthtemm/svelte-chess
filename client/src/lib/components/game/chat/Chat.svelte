@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { chat, username } from '../../../../stores';
+	import { chat, usernameStore } from '../../../../stores';
 
 	const checkSender = (chat: any): string => {
-		return chat.username === $username ? 'You' : chat.username;
+		return chat.username === $usernameStore ? 'You' : chat.username;
 	};
 </script>
 

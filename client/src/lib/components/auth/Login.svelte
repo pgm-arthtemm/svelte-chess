@@ -21,7 +21,11 @@
 	};
 
 	const loginUser = async (username: string, password: string): Promise<void> => {
-		login(username, password, visible);
+		try {
+			login(username, password, visible);
+		} catch (e) {
+			console.log(e);
+		}
 	};
 </script>
 

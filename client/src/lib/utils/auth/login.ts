@@ -1,6 +1,6 @@
 import { goto } from '$app/navigation';
 import { apiBaseUrl } from '$lib/config/config';
-import * as Cookies from 'js-cookie';
+import Cookies from 'js-cookie';
 
 export const login = async (username: string, password: string, visible = false): Promise<void> => {
 	const res = await fetch(`${apiBaseUrl}/auth/login`, {
@@ -13,7 +13,7 @@ export const login = async (username: string, password: string, visible = false)
 
 	if (res.ok) {
 		const data = await res.json();
-		Cookies.set('access_token', data.access_token);
+		Cookies.set('access_token', data.access_token, { expires: 1 });
 		visible = !visible;
 		goto('/profile');
 	}

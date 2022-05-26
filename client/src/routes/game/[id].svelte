@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import { chat, username } from '../../stores';
+	import { chat, usernameStore } from '../../stores';
 	import { io } from 'socket.io-client';
 	import Box from '$lib/components/box/Box.svelte';
 	import Board from '$lib/components/game/board/Board.svelte';
@@ -8,13 +8,14 @@
 	const socket = io();
 
 	let usernameValue: string = '';
+	let userMove: boolean = false;
 
 	let accepted: boolean = false;
 
 	const joinRoom = (): void => {
 		socket.emit('joinRoom', $page.params.id);
-		if ($username === '') {
-			$username = usernameValue;
+		if ($usernameStore === '') {
+			$usernameStore = usernameValue;
 		}
 		console.log('joinRoom');
 	};
@@ -32,11 +33,22 @@
 	socket.on('getMessage', (data) => {
 		$chat = [...$chat, data];
 	});
+
+	const changeTitle = (userMove: boolean): string => {
+		if (userMove) {
+			return 'Your turn';
+		}
+		return `Opponent's turn`;
+	};
 </script>
+
+<svelte:head>
+	<title>{changeTitle(userMove)} - Svelte Chess</title>
+</svelte:head>
 
 {#if !accepted}
 	<div>
-		{#if $username === ''}
+		{#if $usernameStore === ''}
 			<div>
 				<input bind:value={usernameValue} type="text" placeholder="username" />
 			</div>
