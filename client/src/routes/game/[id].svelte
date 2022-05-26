@@ -12,7 +12,13 @@
 	let accepted: boolean = false;
 
 	let startColor: string = $selectedColor;
-	let ready: boolean = false;
+
+	/**
+	 * @TODO:
+	 * CHANGE THIS TO FALSE BEFORE DEPLOYMENT
+	 * READY = TRUE IS ONLY FOR TESTING
+	 */
+	let ready: boolean = true;
 
 	const joinRoom = (): void => {
 		socket.emit('joinRoom', $page.params.id);
@@ -26,14 +32,11 @@
 		socket.emit('chosenColor', { color: $selectedColor, gameId: $page.params.id });
 
 		socket.on('getColor', (color: string) => {
-			console.log('I GET THE COLOR', color);
 			if (color !== null) {
 				color === 'white' ? (startColor = 'black') : (startColor = 'white');
 			}
-
 			ready = true;
 		});
-
 		accepted = true;
 	});
 
@@ -69,7 +72,9 @@
 		<p class="text-white">{`http://localhost:3000/game/${$page.params.id}`}</p>
 		<button class="text-white font-bold" on:click={joinRoom}>READY</button>
 	</div>
-{:else if ready}
+{/if}
+
+{#if accepted && ready}
 	<div class="block md:hidden">
 		<!-- add time stats components here -->
 		<Board color={startColor} />
@@ -82,7 +87,7 @@
 	<div class="hidden md:block xl:hidden">
 		<div class="hidden md:flex justify-between xl:hidden">
 			<Box
-				style="w-[calc(33% - 1rem)] w-max-[calc(33% - 1rem)]"
+				style="w-[calc(33% - 1rem)] max-w-[32%]"
 				gameId={$page.params.id}
 				title="Chat with your opponent"
 				textInput={true}
@@ -97,7 +102,7 @@
 
 	<div class="hidden xl:flex justify-between 2xl:hidden">
 		<Box
-			style="w-1/6 w-max-1-6"
+			style="w-1/6 max-w-1/6"
 			gameId={$page.params.id}
 			title="Chat with your opponent"
 			textInput={true}
@@ -111,7 +116,7 @@
 
 	<div class="hidden 2xl:flex justify-between">
 		<Box
-			style="w-1/5 w-max-1/5"
+			style="w-1/5 max-w-1/5"
 			gameId={$page.params.id}
 			title="Chat with your opponent"
 			textInput={true}

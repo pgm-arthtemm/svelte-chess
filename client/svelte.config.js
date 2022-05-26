@@ -30,7 +30,6 @@ export const webSocketServer = {
 			});
 
 			socket.on('chosenColor', (data) => {
-				console.log(data.color);
 				socket.broadcast.to(data.gameId).emit('getColor', data.color);
 			});
 		});

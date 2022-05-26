@@ -23,6 +23,7 @@
 	const loginUser = async (username: string, password: string): Promise<void> => {
 		try {
 			login(username, password, visible);
+			visible = !visible;
 		} catch (e) {
 			console.log(e);
 		}
