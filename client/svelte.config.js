@@ -26,7 +26,6 @@ export const webSocketServer = {
 			});
 
 			socket.on('sendMessage', (data) => {
-				console.log(data);
 				io.in(data.gameId).emit('getMessage', data);
 			});
 		});

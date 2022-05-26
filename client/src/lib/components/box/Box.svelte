@@ -8,6 +8,7 @@
 	export let gameId: any = '';
 	export let title: string;
 	export let textInput: boolean = false;
+	export let style: string = '';
 
 	let chatMessage: string = '';
 
@@ -19,7 +20,7 @@
 	};
 </script>
 
-<div class="rounded-lg border-8 border-gray-800 w-1/4 max-h-[calc(100%)]">
+<div class={`${style} rounded-lg border-8 border-gray-800 max-h-[calc(100%)]`}>
 	<div class="h-[calc(100%-3rem)]">
 		<h2 class="border-b-8 border-gray-800 p-1 text-gray-200 font-bold bg-gray-800">{title}</h2>
 		{#if textInput}

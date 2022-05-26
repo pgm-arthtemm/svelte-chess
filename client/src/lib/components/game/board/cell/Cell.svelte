@@ -36,7 +36,7 @@
 	on:drop={drop}
 	on:dragover={dragOver}
 	data-id={`${rank}${file}`}
-	class={`cell ${color} md:w-16 md:h-16 lg:w-20 lg:h-20 xl:w-21 xl:h-21`}
+	class={`cell ${color} md:w-16 md:h-16 lg:w-20 lg:h-20 xl:w-24 xl:h-24`}
 >
 	{#if file === 2}
 		<img
