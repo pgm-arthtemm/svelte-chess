@@ -28,6 +28,11 @@ export const webSocketServer = {
 			socket.on('sendMessage', (data) => {
 				io.in(data.gameId).emit('getMessage', data);
 			});
+
+			socket.on('chosenColor', (data) => {
+				console.log(data.color);
+				socket.broadcast.to(data.gameId).emit('getColor', data.color);
+			});
 		});
 	}
 };

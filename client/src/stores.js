@@ -14,4 +14,4 @@ theme.subscribe((theme) => browser && (localStorage.theme = theme));
 
 export const gameIdStore = writable('');
 
-export const selectedColor = writable('random');
+export const selectedColor = writable();

@@ -5,6 +5,7 @@
 	import { io } from 'socket.io-client';
 	import { v4 as uuidv4 } from 'uuid';
 	import { goto } from '$app/navigation';
+	import { onMount } from 'svelte';
 
 	const socket = io();
 	const gameRoomId: string = uuidv4();
@@ -12,12 +13,35 @@
 	export let newGameVisible: boolean;
 	export let handleToggleNewGame: () => void;
 
+	onMount(() => {
+		document
+			.querySelector(`[data-color="random"]`)
+			.classList.add('border-2', 'border-red-500', 'p-2', 'selected');
+	});
+
 	const selectColor = (color: string): any => {
-		$selectedColor = color;
+		const listElements = document.querySelectorAll('[data-color]');
+		const colorElement = document.querySelector(`[data-color="${color}"]`);
+
+		listElements.forEach((item) => {
+			item.classList.remove('border-2', 'border-red-500', 'p-2', 'selected');
+		});
+		colorElement.classList.add('border-2', 'border-red-500', 'p-2', 'selected');
 	};
 
 	const startGame = (): void => {
 		socket.emit('createGame', gameRoomId);
+
+		const selectedElement: any = document.querySelector('.selected');
+		const color = selectedElement.dataset.color;
+
+		if (color === 'random') {
+			const randomColor = Math.floor(Math.random() * 2) === 0 ? 'white' : 'black';
+			$selectedColor = randomColor;
+		} else {
+			$selectedColor = color;
+		}
+
 		newGameVisible = false;
 		goto(`game/${gameRoomId}`);
 	};
@@ -45,14 +69,14 @@
 
 			<section>
 				<ul class="flex w-4/6 m-auto justify-between items-center">
-					<li>
-						<button on:click={selectColor('white')}>White</button>
+					<li data-color="white">
+						<button on:click={() => selectColor('white')}>White</button>
 					</li>
-					<li>
-						<button on:click={selectColor('random')}>Random</button>
+					<li data-color="random">
+						<button on:click={() => selectColor('random')}>Random</button>
 					</li>
-					<li>
-						<button on:click={selectColor('black')}>Black</button>
+					<li data-color="black">
+						<button on:click={() => selectColor('black')}>Black</button>
 					</li>
 				</ul>
 			</section>

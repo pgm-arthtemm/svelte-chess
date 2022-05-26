@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import { chat, usernameStore } from '../../stores';
+	import { chat, usernameStore, selectedColor } from '../../stores';
 	import { io } from 'socket.io-client';
 	import Box from '$lib/components/box/Box.svelte';
 	import Board from '$lib/components/game/board/Board.svelte';
@@ -9,8 +9,10 @@
 
 	let usernameValue: string = '';
 	let userMove: boolean = false;
-
 	let accepted: boolean = false;
+
+	let startColor: string = $selectedColor;
+	let ready: boolean = false;
 
 	const joinRoom = (): void => {
 		socket.emit('joinRoom', $page.params.id);
@@ -20,14 +22,24 @@
 		console.log('joinRoom');
 	};
 
+	socket.on('startGame', () => {
+		socket.emit('chosenColor', { color: $selectedColor, gameId: $page.params.id });
+
+		socket.on('getColor', (color: string) => {
+			console.log('I GET THE COLOR', color);
+			if (color !== null) {
+				color === 'white' ? (startColor = 'black') : (startColor = 'white');
+			}
+
+			ready = true;
+		});
+
+		accepted = true;
+	});
+
 	socket.on('roomFull', () => {
 		// @TODO: Show error message
 		console.log('room full');
-	});
-
-	socket.on('startGame', () => {
-		console.log('START GAME');
-		accepted = true;
 	});
 
 	socket.on('getMessage', (data) => {
@@ -57,10 +69,10 @@
 		<p class="text-white">{`http://localhost:3000/game/${$page.params.id}`}</p>
 		<button class="text-white font-bold" on:click={joinRoom}>READY</button>
 	</div>
-{:else}
+{:else if ready}
 	<div class="block md:hidden">
 		<!-- add time stats components here -->
-		<Board />
+		<Board color={startColor} />
 		<Box style="mt-4" title="Actions" />
 		<Box style="mt-4" title="Moves played" />
 		<Box style="mt-4" gameId={$page.params.id} title="Chat with your opponent" textInput={true} />
@@ -75,7 +87,7 @@
 				title="Chat with your opponent"
 				textInput={true}
 			/>
-			<Board />
+			<Board color={startColor} />
 		</div>
 		<div class="md:flex justify-between mt-4">
 			<Box style="w-[calc(50%-0.5rem)]" title="Actions" />
@@ -90,7 +102,7 @@
 			title="Chat with your opponent"
 			textInput={true}
 		/>
-		<Board />
+		<Board color={startColor} />
 		<div class="w-1/5">
 			<Box title="Actions" />
 			<Box title="Moves played" />
@@ -104,7 +116,7 @@
 			title="Chat with your opponent"
 			textInput={true}
 		/>
-		<Board />
+		<Board color={startColor} />
 		<div class="w-1/4">
 			<Box title="Actions" />
 			<Box title="Moves played" />

@@ -1,8 +1,18 @@
 <script lang="ts">
 	import Cell from './cell/Cell.svelte';
 
-	let files: number[] = [1, 2, 3, 4, 5, 6, 7, 8].reverse();
-	let ranks: string[] = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
+	export let color: string;
+
+	let files: number[];
+	let ranks: string[];
+
+	if (color === 'black') {
+		files = [1, 2, 3, 4, 5, 6, 7, 8];
+	} else {
+		files = [1, 2, 3, 4, 5, 6, 7, 8].reverse();
+	}
+
+	ranks = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
 </script>
 
 <div class="board">

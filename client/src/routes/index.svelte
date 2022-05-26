@@ -47,6 +47,10 @@
 	{goto(`game/${gameRoomIdValue}`)}
 {/if}
 
+<svelte:head>
+	<title>Svelte Chess - Home</title>
+</svelte:head>
+
 <div class="border-2 border-red-500 w-full h-72">
 	<h1>username</h1>
 	<input bind:value={userName} type="text" placeholder="username" />
