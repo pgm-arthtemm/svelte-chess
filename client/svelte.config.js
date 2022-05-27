@@ -36,6 +36,14 @@ export const webSocketServer = {
 			socket.on('move', (data) => {
 				io.in(data.gameId).emit('getMove', data.move);
 			});
+
+			socket.on('getStarter', (data) => {
+				io.in(data.gameId).emit('getStaringPlayer', data.playerMove);
+			});
+
+			socket.on('opponentName', (data) => {
+				io.in(data.gameId).emit('getOpponentName', data.name);
+			});
 		});
 	}
 };

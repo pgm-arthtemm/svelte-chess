@@ -1,6 +1,13 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import { chat, usernameStore, selectedColor, moves } from '../../stores';
+	import {
+		chat,
+		opponentName,
+		usernameStore,
+		selectedColor,
+		moves,
+		playerMoveStore
+	} from '../../stores';
 	import { io } from 'socket.io-client';
 	import Box from '$lib/components/box/Box.svelte';
 	import Board from '$lib/components/game/board/Board.svelte';
@@ -25,6 +32,7 @@
 		if ($usernameStore === '') {
 			$usernameStore = usernameValue;
 		}
+		console.log('usernameStore: ', $usernameStore);
 		console.log('joinRoom');
 	};
 
@@ -40,6 +48,30 @@
 		accepted = true;
 	});
 
+	socket.on('getStaringPlayer', (name) => {
+		$playerMoveStore = name;
+
+		if (name !== $usernameStore) {
+			$opponentName = name;
+			socket.emit('opponentName', { name: $usernameStore, gameId: $page.params.id });
+		}
+	});
+
+	socket.on('getMove', (data) => {
+		$moves.push(data);
+		if ($playerMoveStore === $usernameStore) {
+			$playerMoveStore = $opponentName;
+		} else {
+			$playerMoveStore = $usernameStore;
+		}
+	});
+
+	socket.on('getOpponentName', (name) => {
+		if (name !== $usernameStore) {
+			$opponentName = name;
+		}
+	});
+
 	socket.on('roomFull', () => {
 		// @TODO: Show error message
 		console.log('room full');
@@ -47,11 +79,6 @@
 
 	socket.on('getMessage', (data) => {
 		$chat = [...$chat, data];
-	});
-
-	socket.on('getMove', (data) => {
-		console.log('THIS IS THE DATA', data);
-		$moves = [...$moves, data];
 	});
 
 	const changeTitle = (userMove: boolean): string => {

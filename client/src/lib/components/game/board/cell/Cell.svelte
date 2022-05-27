@@ -1,8 +1,7 @@
 <script lang="ts">
+	import { playerMoveStore, usernameStore } from '../../../../../stores';
 	import { page } from '$app/stores';
 	import { move } from '$lib/utils/game/move';
-
-	console.log('IM HERE');
 
 	export let color: string;
 	export let file: number;
@@ -14,6 +13,11 @@
 
 	const drop = (e: any): any => {
 		e.preventDefault();
+
+		if ($usernameStore !== $playerMoveStore) {
+			console.log('NOT YOUR TURN');
+			return;
+		}
 
 		// get the image element inside the div element
 		const data = e.dataTransfer.getData('text/plain');

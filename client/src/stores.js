@@ -15,3 +15,7 @@ theme.subscribe((theme) => browser && (localStorage.theme = theme));
 export const gameIdStore = writable('');
 
 export const selectedColor = writable();
+
+export const playerMoveStore = writable();
+
+export const opponentName = writable();

@@ -1,5 +1,10 @@
 <script lang="ts">
+	import { page } from '$app/stores';
+	import { usernameStore } from '../../../../stores';
+	import { io } from 'socket.io-client';
 	import Cell from './cell/Cell.svelte';
+
+	const socket = io();
 
 	export let color: string;
 
@@ -9,6 +14,7 @@
 	if (color === 'black') {
 		files = [1, 2, 3, 4, 5, 6, 7, 8];
 	} else {
+		socket.emit('getStarter', { gameId: $page.params.id, playerMove: $usernameStore });
 		files = [1, 2, 3, 4, 5, 6, 7, 8].reverse();
 	}
 
