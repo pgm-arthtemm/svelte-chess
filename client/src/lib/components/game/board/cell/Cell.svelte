@@ -2,6 +2,8 @@
 	import { page } from '$app/stores';
 	import { move } from '$lib/utils/game/move';
 
+	console.log('IM HERE');
+
 	export let color: string;
 	export let file: number;
 	export let rank: string;

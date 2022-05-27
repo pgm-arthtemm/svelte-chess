@@ -3,5 +3,11 @@
 </script>
 
 <div>
-	<h1>{$moves.length}</h1>
+	<ul class="flex flex-wrap">
+		{#each $moves as move}
+			<li class="mr-4 text-white">
+				<p>{move}</p>
+			</li>
+		{/each}
+	</ul>
 </div>

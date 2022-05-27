@@ -30,7 +30,7 @@
 		<h2 class="border-b-8 border-gray-800 p-1 text-gray-200 font-bold bg-gray-800">{title}</h2>
 		{#if textInput}
 			<Chat />
-		{:else if title === 'Moves player'}
+		{:else if title === 'Moves played'}
 			<Moves />
 		{/if}
 	</div>
