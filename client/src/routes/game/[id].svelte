@@ -58,7 +58,7 @@
 	});
 
 	socket.on('getMove', (data) => {
-		$moves.push(data);
+		$moves = [...$moves, data];
 		if ($playerMoveStore === $usernameStore) {
 			$playerMoveStore = $opponentName;
 		} else {
