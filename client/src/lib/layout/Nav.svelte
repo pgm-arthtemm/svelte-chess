@@ -7,7 +7,7 @@
 	export let checkLogin: () => boolean;
 
 	let visible: boolean = false;
-	let newGameVisible: boolean = false;
+	let newGameVisible: boolean = false; // @TODO: CHANGE THIS TO FALSE IN PRODUCTION
 
 	const handleLogOut = (): void => {
 		Cookie.remove('access_token');
@@ -61,5 +61,6 @@
 {/if}
 
 {#if newGameVisible}
+	<!-- <NewGame {newGameVisible} {handleToggleNewGame} /> -->
 	<NewGame {newGameVisible} {handleToggleNewGame} />
 {/if}

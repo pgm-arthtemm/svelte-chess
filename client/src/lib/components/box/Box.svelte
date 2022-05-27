@@ -2,6 +2,7 @@
 	import { usernameStore } from '../../../stores';
 	import Chat from '../game/chat/Chat.svelte';
 	import { io } from 'socket.io-client';
+	import Moves from '../game/moves/Moves.svelte';
 	const socket = io();
 
 	export let chat: any = [];
@@ -29,6 +30,8 @@
 		<h2 class="border-b-8 border-gray-800 p-1 text-gray-200 font-bold bg-gray-800">{title}</h2>
 		{#if textInput}
 			<Chat />
+		{:else if title === 'Moves player'}
+			<Moves />
 		{/if}
 	</div>
 	<div class="border-t-8 border-gray-800">

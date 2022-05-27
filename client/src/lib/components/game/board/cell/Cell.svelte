@@ -1,4 +1,7 @@
 <script lang="ts">
+	import { page } from '$app/stores';
+	import { move } from '$lib/utils/game/move';
+
 	export let color: string;
 	export let file: number;
 	export let rank: string;
@@ -9,6 +12,42 @@
 
 	const drop = (e: any): any => {
 		e.preventDefault();
+
+		// get the image element inside the div element
+		const data = e.dataTransfer.getData('text/plain');
+		const img = document.getElementById(data);
+		const piece = img.dataset.piece;
+
+		const newPos = e.target.dataset.id;
+		let char: string;
+
+		switch (piece) {
+			case 'pawn':
+				char = '';
+				break;
+			case 'rook':
+				char = 'R';
+				break;
+			case 'knight':
+				char = 'N';
+				break;
+			case 'bishop':
+				char = 'B';
+				break;
+			case 'queen':
+				char = 'Q';
+				break;
+			case 'king':
+				char = 'K';
+				break;
+			default:
+				char = '';
+				break;
+		}
+
+		move($page.params.id, `${char}${newPos}`);
+
+		console.log(`${char}${newPos}`);
 
 		let valid: boolean = false;
 
@@ -42,8 +81,11 @@
 		<img
 			class="absolute"
 			id={`piece-${rank}${file}`}
+			data-position={`${rank}${file}`}
 			draggable="true"
 			src="/pieces/w-pawn.png"
+			data-color="white"
+			data-piece="pawn"
 			alt="white pawn"
 			on:dragstart={drag}
 		/>
@@ -54,7 +96,10 @@
 			class="absolute"
 			id={`piece-${rank}${file}`}
 			draggable="true"
+			data-position={`${rank}${file}`}
 			src="/pieces/b-pawn.png"
+			data-color="black"
+			data-piece="pawn"
 			alt="black pawn"
 			on:dragstart={drag}
 		/>
@@ -66,7 +111,10 @@
 				class="absolute"
 				id={`piece-${rank}${file}`}
 				draggable="true"
+				data-position={`${rank}${file}`}
 				src="/pieces/b-bishop.png"
+				data-color="black"
+				data-piece="bishop"
 				alt="black bishop"
 				on:dragstart={drag}
 			/>
@@ -79,7 +127,10 @@
 				class="absolute"
 				id={`piece-${rank}${file}`}
 				draggable="true"
+				data-position={`${rank}${file}`}
 				src="/pieces/w-bishop.png"
+				data-color="white"
+				data-piece="bishop"
 				alt="white bishop"
 				on:dragstart={drag}
 			/>
@@ -92,7 +143,10 @@
 				class="absolute"
 				id={`piece-${rank}${file}`}
 				draggable="true"
+				data-position={`${rank}${file}`}
 				src="/pieces/w-rook.png"
+				data-color="white"
+				data-piece="rook"
 				alt="white rook"
 				on:dragstart={drag}
 			/>
@@ -105,7 +159,10 @@
 				class="absolute"
 				id={`piece-${rank}${file}`}
 				draggable="true"
+				data-position={`${rank}${file}`}
 				src="/pieces/w-knight.png"
+				data-color="white"
+				data-piece="knight"
 				alt="white knight"
 				on:dragstart={drag}
 			/>
@@ -118,7 +175,10 @@
 				class="absolute"
 				id={`piece-${rank}${file}`}
 				draggable="true"
+				data-position={`${rank}${file}`}
 				src="/pieces/b-rook.png"
+				data-color="black"
+				data-piece="rook"
 				alt="black rook"
 				on:dragstart={drag}
 			/>
@@ -131,7 +191,10 @@
 				class="absolute"
 				id={`piece-${rank}${file}`}
 				draggable="true"
+				data-position={`${rank}${file}`}
 				src="/pieces/b-knight.png"
+				data-color="black"
+				data-piece="knight"
 				alt="black knight"
 				on:dragstart={drag}
 			/>
@@ -144,7 +207,10 @@
 				class="absolute"
 				id={`piece-${rank}${file}`}
 				draggable="true"
+				data-position={`${rank}${file}`}
 				src="/pieces/b-queen.png"
+				data-color="black"
+				data-piece="queen"
 				alt="black queen"
 				on:dragstart={drag}
 			/>
@@ -157,7 +223,10 @@
 				class="absolute"
 				id={`piece-${rank}${file}`}
 				draggable="true"
+				data-position={`${rank}${file}`}
 				src="/pieces/b-king.png"
+				data-color="black"
+				data-piece="king"
 				alt="black king"
 				on:dragstart={drag}
 			/>
@@ -170,7 +239,10 @@
 				class="absolute"
 				id={`piece-${rank}${file}`}
 				draggable="true"
+				data-position={`${rank}${file}`}
 				src="/pieces/w-queen.png"
+				data-color="white"
+				data-piece="queen"
 				alt="white queen"
 				on:dragstart={drag}
 			/>
@@ -183,7 +255,10 @@
 				class="absolute"
 				id={`piece-${rank}${file}`}
 				draggable="true"
+				data-position={`${rank}${file}`}
 				src="/pieces/w-king.png"
+				data-color="white"
+				data-piece="king"
 				alt="white king"
 				on:dragstart={drag}
 			/>

@@ -17,7 +17,7 @@ export const webSocketServer = {
 				if (room) {
 					socket.join(gameId);
 					const roomSize = io.sockets.adapter.rooms.get(gameId).size;
-					if (roomSize === 3) {
+					if (roomSize === 2) {
 						io.in(gameId).emit('startGame');
 					}
 				} else {
@@ -31,6 +31,10 @@ export const webSocketServer = {
 
 			socket.on('chosenColor', (data) => {
 				socket.broadcast.to(data.gameId).emit('getColor', data.color);
+			});
+
+			socket.on('move', (data) => {
+				io.in(data.gameId).emit('getMove', data);
 			});
 		});
 	}
