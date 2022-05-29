@@ -7,21 +7,37 @@
 	export let file: number;
 	export let rank: string;
 
-	$: if (`${rank}${file}` === $moveMade.initPosition && $playerMoveStore !== $usernameStore) {
+	$: if (`${rank}${file}` === $moveMade.initPosition && $playerMoveStore === $usernameStore) {
+		console.log('initPos: ', $moveMade.initPosition);
+		console.log('newPos', $moveMade.newPosition);
+
+		let newPosy: string;
+
+		if ($moveMade.newPosition.length === 3) {
+			newPosy = $moveMade.newPosition.substring(1);
+			console.log(newPosy);
+		}
+
+		const checkNewPos = (newPos: string): string => {
+			if (newPos.length === 3) {
+				return newPos.substring(1);
+			} else {
+				return newPos;
+			}
+		};
+
 		const initPos = document.querySelector(`[data-id="${$moveMade.initPosition}"]`);
-		const newPos = document.querySelector(`[data-id="${$moveMade.newPosition}"]`);
+		const newPos = document.querySelector(`[data-id="${checkNewPos($moveMade.newPosition)}"]`);
 
 		const image = initPos.querySelector('img');
 
 		if (image) {
 			console.log('image: ', image);
 			initPos.removeChild(image);
+			newPos.appendChild(image);
 		} else {
 			console.log('image not found');
 		}
-
-		// move the image to the newPos
-		// newPos.appendChild(image);
 	}
 
 	const drag = (e: any): any => {
