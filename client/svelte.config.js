@@ -34,7 +34,7 @@ export const webSocketServer = {
 			});
 
 			socket.on('move', (data) => {
-				io.in(data.gameId).emit('getMove', data.move);
+				io.in(data.gameId).emit('getMove', data);
 			});
 
 			socket.on('getStarter', (data) => {

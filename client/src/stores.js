@@ -9,6 +9,13 @@ export const usernameStore = writable('');
 
 export const settings = writable({});
 
+export const initPos = writable('');
+
+export const moveMade = writable({
+	initPosition: '',
+	newPosition: ''
+});
+
 export const theme = writable((browser && localStorage.getItem('theme')) || 'dark');
 theme.subscribe((theme) => browser && (localStorage.theme = theme));
 

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { playerMoveStore, usernameStore } from '../../../../../stores';
+	import { playerMoveStore, usernameStore, initPos, moveMade } from '../../../../../stores';
 	import { page } from '$app/stores';
 	import { move } from '$lib/utils/game/move';
 
@@ -7,8 +7,27 @@
 	export let file: number;
 	export let rank: string;
 
+	$: if (`${rank}${file}` === $moveMade.initPosition && $playerMoveStore !== $usernameStore) {
+		const initPos = document.querySelector(`[data-id="${$moveMade.initPosition}"]`);
+		const newPos = document.querySelector(`[data-id="${$moveMade.newPosition}"]`);
+
+		const image = initPos.querySelector('img');
+
+		if (image) {
+			console.log('image: ', image);
+			initPos.removeChild(image);
+		} else {
+			console.log('image not found');
+		}
+
+		// move the image to the newPos
+		// newPos.appendChild(image);
+	}
+
 	const drag = (e: any): any => {
 		e.dataTransfer.setData('text/plain', e.target.id);
+
+		$initPos = e.target.dataset.position;
 	};
 
 	const drop = (e: any): any => {
@@ -51,9 +70,7 @@
 				break;
 		}
 
-		move($page.params.id, `${char}${newPos}`);
-
-		console.log(`${char}${newPos}`);
+		move($page.params.id, `${char}${newPos}`, $initPos);
 
 		let valid: boolean = false;
 

@@ -13,12 +13,12 @@
 
 	if (color === 'black') {
 		files = [1, 2, 3, 4, 5, 6, 7, 8];
+		ranks = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'].reverse();
 	} else {
 		socket.emit('getStarter', { gameId: $page.params.id, playerMove: $usernameStore });
+		ranks = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
 		files = [1, 2, 3, 4, 5, 6, 7, 8].reverse();
 	}
-
-	ranks = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
 </script>
 
 <div class="board">

@@ -6,7 +6,8 @@
 		usernameStore,
 		selectedColor,
 		moves,
-		playerMoveStore
+		playerMoveStore,
+		moveMade
 	} from '../../stores';
 	import { io } from 'socket.io-client';
 	import Box from '$lib/components/box/Box.svelte';
@@ -58,7 +59,12 @@
 	});
 
 	socket.on('getMove', (data) => {
-		$moves = [...$moves, data];
+		$moves = [...$moves, data.move];
+		$moveMade = {
+			initPosition: data.initPos,
+			newPosition: data.move
+		};
+
 		if ($playerMoveStore === $usernameStore) {
 			$playerMoveStore = $opponentName;
 		} else {
@@ -107,57 +113,28 @@
 {/if}
 
 {#if accepted && ready}
-	<!-- {#if accepted} -->
-	<div class="block md:hidden">
-		<!-- add time stats components here -->
-		<Board color={startColor} />
-		<Box style="mt-4" title="Actions" />
-		<Box style="mt-4" title="Moves played" />
-		<Box style="mt-4" gameId={$page.params.id} title="Chat with your opponent" textInput={true} />
-		<!-- add time stats components here -->
-	</div>
-
-	<div class="hidden md:block xl:hidden">
-		<div class="hidden md:flex justify-between xl:hidden">
+	<div class="xl:flex justify-between">
+		<Box
+			style="hidden xl:block w-1/6 max-w-1/6 2xl:max-w-1/5"
+			gameId={$page.params.id}
+			title="Chat with your opponent"
+			textInput={true}
+		/>
+		<div class="md:flex justify-between">
 			<Box
-				style="w-[calc(33% - 1rem)] max-w-[32%]"
+				style="hidden md:block md:w-[calc(33% - 1rem)] md:max-w-[32%] xl:hidden"
 				gameId={$page.params.id}
 				title="Chat with your opponent"
 				textInput={true}
 			/>
 			<Board color={startColor} />
 		</div>
-		<div class="md:flex justify-between mt-4">
-			<Box style="w-[calc(50%-0.5rem)]" title="Actions" />
-			<Box style="w-[calc(50%-0.5rem)]" title="Moves played" />
+		<div class="md:flex justify-between md:mt-4 xl:mt-0 xl:block xl:w-1/5 2xl:w-1/4">
+			<Box style="mt-4 md:mt-0 md:w-[calc(50%-0.5rem)] xl:w-auto" title="Actions" />
+			<Box style="mt-4 md:mt-0 md:w-[calc(50%-0.5rem)] xl:w-auto" title="Moves played" />
 		</div>
-	</div>
-
-	<div class="hidden xl:flex justify-between 2xl:hidden">
-		<Box
-			style="w-1/6 max-w-1/6"
-			gameId={$page.params.id}
-			title="Chat with your opponent"
-			textInput={true}
-		/>
-		<Board color={startColor} />
-		<div class="w-1/5">
-			<Box title="Actions" />
-			<Box title="Moves played" />
-		</div>
-	</div>
-
-	<div class="hidden 2xl:flex justify-between">
-		<Box
-			style="w-1/5 max-w-1/5"
-			gameId={$page.params.id}
-			title="Chat with your opponent"
-			textInput={true}
-		/>
-		<Board color={startColor} />
-		<div class="w-1/4">
-			<Box title="Actions" />
-			<Box title="Moves played" />
+		<div class="md:hidden">
+			<Box style="mt-4" gameId={$page.params.id} title="Chat with your opponent" textInput={true} />
 		</div>
 	</div>
 {/if}
