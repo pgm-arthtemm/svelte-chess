@@ -8,14 +8,10 @@
 	export let rank: string;
 
 	$: if (`${rank}${file}` === $moveMade.initPosition && $playerMoveStore === $usernameStore) {
-		console.log('initPos: ', $moveMade.initPosition);
-		console.log('newPos', $moveMade.newPosition);
-
 		let newPosy: string;
 
 		if ($moveMade.newPosition.length === 3) {
 			newPosy = $moveMade.newPosition.substring(1);
-			console.log(newPosy);
 		}
 
 		const checkNewPos = (newPos: string): string => {
@@ -26,13 +22,36 @@
 			}
 		};
 
+		// select all divs and remove class init_white
+		const initDivs = document.querySelectorAll('.init_white');
+		initDivs.forEach((div) => {
+			div.classList.remove('init_white');
+		});
+
+		// select all divs and remove class init_black
+		const initDivs2 = document.querySelectorAll('.init_black');
+		initDivs2.forEach((div) => {
+			div.classList.remove('init_black');
+		});
+
 		const initPos = document.querySelector(`[data-id="${$moveMade.initPosition}"]`);
 		const newPos = document.querySelector(`[data-id="${checkNewPos($moveMade.newPosition)}"]`);
+
+		if (initPos.getAttribute('data-color') === 'white') {
+			initPos.classList.add('init_white');
+		} else {
+			initPos.classList.add('init_black');
+		}
+
+		if (newPos.getAttribute('data-color') === 'white') {
+			newPos.classList.add('init_white');
+		} else {
+			newPos.classList.add('init_black');
+		}
 
 		const image = initPos.querySelector('img');
 
 		if (image) {
-			console.log('image: ', image);
 			initPos.removeChild(image);
 			newPos.appendChild(image);
 		} else {
@@ -114,6 +133,7 @@
 	on:drop={drop}
 	on:dragover={dragOver}
 	data-id={`${rank}${file}`}
+	data-color={color}
 	class={`cell ${color} md:w-16 md:h-16 lg:w-20 lg:h-20 xl:w-24 xl:h-24`}
 >
 	{#if file === 2}
@@ -311,5 +331,13 @@
 	}
 	.black {
 		background-color: rgb(48, 48, 47);
+	}
+
+	.init_white {
+		background-color: rgb(237, 213, 182);
+	}
+
+	.init_black {
+		background-color: rgb(96, 85, 67);
 	}
 </style>

@@ -33,8 +33,8 @@
 		if ($usernameStore === '') {
 			$usernameStore = usernameValue;
 		}
-		console.log('usernameStore: ', $usernameStore);
-		console.log('joinRoom');
+		// console.log('usernameStore: ', $usernameStore);
+		// console.log('joinRoom');
 	};
 
 	socket.on('startGame', () => {

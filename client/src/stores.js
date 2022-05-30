@@ -11,6 +11,11 @@ export const settings = writable({});
 
 export const initPos = writable('');
 
+export const prevMove = writable({
+	from: '',
+	to: ''
+});
+
 export const moveMade = writable({
 	initPosition: '',
 	newPosition: ''
