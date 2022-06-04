@@ -71,5 +71,12 @@ export const validateMove = (
 				return true;
 			}
 			break;
+		case 'bishop':
+			if (
+				(newFileN - startFileN) / (newRank - startRank) === 1 ||
+				(newFileN - startFileN) / (newRank - startRank) === -1
+			) {
+				return true;
+			}
 	}
 };

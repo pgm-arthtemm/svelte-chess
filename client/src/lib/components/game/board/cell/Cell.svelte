@@ -141,7 +141,7 @@
 	data-color={color}
 	class={`cell ${color} md:w-16 md:h-16 lg:w-20 lg:h-20 xl:w-24 xl:h-24`}
 >
-	{#if file === 2}
+	<!-- {#if file === 2}
 		<img
 			class="absolute"
 			id={`piece-${rank}${file}`}
@@ -167,7 +167,7 @@
 			alt="black pawn"
 			on:dragstart={drag}
 		/>
-	{/if}
+	{/if} -->
 
 	{#if file === 8}
 		{#if rank === 'c' || rank === 'f'}
