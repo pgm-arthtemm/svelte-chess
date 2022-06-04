@@ -66,5 +66,10 @@ export const validateMove = (
 				return true;
 			}
 			break;
+		case 'rook':
+			if ((newRank <= 8 && newFileN === startFileN) || (newFileN <= 8 && newRank === startRank)) {
+				return true;
+			}
+			break;
 	}
 };
