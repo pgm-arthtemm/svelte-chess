@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { selectedColor, usernameStore } from '../../../../stores';
+	import { selectedColor, usernameStore, timeSettings } from '../../../../stores';
 	import { checkLogin } from '$lib/utils/checkLogin';
 	import Modal from '$lib/components/modal/Modal.svelte';
 	import { io } from 'socket.io-client';
@@ -38,6 +38,11 @@
 
 	const startGame = (): void => {
 		socket.emit('createGame', gameRoomId);
+
+		$timeSettings = {
+			time: selectedTime,
+			increment: extraSeconds
+		};
 
 		const selectedElement: any = document.querySelector('.selected');
 		const color = selectedElement.dataset.color;

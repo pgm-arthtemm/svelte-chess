@@ -7,11 +7,13 @@
 		selectedColor,
 		moves,
 		playerMoveStore,
-		moveMade
+		moveMade,
+		timeSettings
 	} from '../../stores';
 	import { io } from 'socket.io-client';
 	import Box from '$lib/components/box/Box.svelte';
 	import Board from '$lib/components/game/board/Board.svelte';
+	import Clock from '$lib/components/game/time/Clock.svelte';
 
 	const socket = io();
 
@@ -20,6 +22,11 @@
 	let accepted: boolean = false;
 
 	let startColor: string = $selectedColor;
+	let startTime: number = $timeSettings.time;
+	let startIncrement: number = $timeSettings.increment;
+
+	let countingOpponent: boolean;
+	let countingYou: boolean;
 
 	/**
 	 * @TODO:
@@ -33,12 +40,11 @@
 		if ($usernameStore === '') {
 			$usernameStore = usernameValue;
 		}
-		// console.log('usernameStore: ', $usernameStore);
-		// console.log('joinRoom');
 	};
 
 	socket.on('startGame', () => {
 		socket.emit('chosenColor', { color: $selectedColor, gameId: $page.params.id });
+		socket.emit('chosenTimeSettings', { timeSettings: $timeSettings, gameId: $page.params.id });
 
 		socket.on('getColor', (color: string) => {
 			if (color !== null) {
@@ -46,6 +52,14 @@
 			}
 			ready = true;
 		});
+
+		socket.on('getTimeSettings', (data) => {
+			if ($timeSettings.time === 0) {
+				startTime = data.timeSettings.time;
+				startIncrement = data.timeSettings.increment;
+			}
+		});
+
 		accepted = true;
 	});
 
@@ -76,6 +90,23 @@
 		if (name !== $usernameStore) {
 			$opponentName = name;
 		}
+	});
+
+	socket.on('getClockSwitch', (name) => {
+		console.log(name);
+		if (name === $usernameStore) {
+			countingYou = false;
+			countingOpponent = true;
+		} else {
+			countingYou = true;
+			countingOpponent = false;
+		}
+
+		// if (name !== $usernameStore) {
+		// 	countingOpponent = true;
+		// } else {
+		// 	countingYou = true;
+		// }
 	});
 
 	socket.on('roomFull', () => {
@@ -114,6 +145,7 @@
 
 {#if accepted && ready}
 	<div class="xl:flex justify-between">
+		<Clock time={startTime} opponent={true} counting={countingOpponent} />
 		<Box
 			style="hidden xl:block w-1/6 max-w-1/6 2xl:max-w-1/5"
 			gameId={$page.params.id}
@@ -128,6 +160,7 @@
 				textInput={true}
 			/>
 			<Board color={startColor} />
+			<Clock time={startTime} counting={countingYou} />
 		</div>
 		<div class="md:flex justify-between md:mt-4 xl:mt-0 xl:block xl:w-1/5 2xl:w-1/4">
 			<Box style="mt-4 md:mt-0 md:w-[calc(50%-0.5rem)] xl:w-auto" title="Actions" />

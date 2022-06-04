@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { playerMoveStore, usernameStore, initPos, moveMade } from '../../../../../stores';
 	import { page } from '$app/stores';
-	import { move, validateMove } from '$lib/utils/game';
+	import { move, validateMove, clockSwitch } from '$lib/utils/game';
 
 	export let color: string;
 	export let file: number;
@@ -84,6 +84,8 @@
 		if (validateMove($initPos, newPos, piece, color)) {
 			img.setAttribute('data-position', newPos);
 
+			clockSwitch($page.params.id, $usernameStore);
+
 			switch (piece) {
 				case 'pawn':
 					char = '';
@@ -125,7 +127,6 @@
 				const data = e.dataTransfer.getData('text');
 				e.target.appendChild(document.getElementById(data));
 			}
-			console.log('YES');
 		}
 	};
 
@@ -141,7 +142,7 @@
 	data-color={color}
 	class={`cell ${color} md:w-16 md:h-16 lg:w-20 lg:h-20 xl:w-24 xl:h-24`}
 >
-	<!-- {#if file === 2}
+	{#if file === 2}
 		<img
 			class="absolute"
 			id={`piece-${rank}${file}`}
@@ -167,7 +168,7 @@
 			alt="black pawn"
 			on:dragstart={drag}
 		/>
-	{/if} -->
+	{/if}
 
 	{#if file === 8}
 		{#if rank === 'c' || rank === 'f'}

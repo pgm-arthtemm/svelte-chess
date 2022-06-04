@@ -33,6 +33,10 @@ export const webSocketServer = {
 				socket.broadcast.to(data.gameId).emit('getColor', data.color);
 			});
 
+			socket.on('chosenTimeSettings', (data) => {
+				socket.broadcast.to(data.gameId).emit('getTimeSettings', data);
+			});
+
 			socket.on('move', (data) => {
 				io.in(data.gameId).emit('getMove', data);
 			});
@@ -43,6 +47,10 @@ export const webSocketServer = {
 
 			socket.on('opponentName', (data) => {
 				io.in(data.gameId).emit('getOpponentName', data.name);
+			});
+
+			socket.on('clockSwitch', (data) => {
+				io.in(data.gameId).emit('getClockSwitch', data.username);
 			});
 		});
 	}

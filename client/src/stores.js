@@ -7,13 +7,16 @@ export const chat = writable([]);
 
 export const usernameStore = writable('');
 
-export const settings = writable({});
-
 export const initPos = writable('');
 
 export const prevMove = writable({
 	from: '',
 	to: ''
+});
+
+export const timeSettings = writable({
+	time: 0,
+	increment: 0
 });
 
 export const moveMade = writable({
