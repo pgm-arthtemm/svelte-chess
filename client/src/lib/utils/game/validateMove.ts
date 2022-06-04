@@ -51,5 +51,20 @@ export const validateMove = (
 			) {
 				return true;
 			}
+			break;
+		case 'king':
+			if (
+				(newRank === startRank + 1 && newFileN === startFileN) ||
+				(newRank === startRank - 1 && newFileN === startFileN) ||
+				(newRank === startRank && newFileN === startFileN + 1) ||
+				(newRank === startRank && newFileN === startFileN - 1) ||
+				(newRank === startRank + 1 && newFileN === startFileN + 1) ||
+				(newRank === startRank + 1 && newFileN === startFileN - 1) ||
+				(newRank === startRank - 1 && newFileN === startFileN + 1) ||
+				(newRank === startRank - 1 && newFileN === startFileN - 1)
+			) {
+				return true;
+			}
+			break;
 	}
 };
