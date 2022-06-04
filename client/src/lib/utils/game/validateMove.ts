@@ -78,5 +78,15 @@ export const validateMove = (
 			) {
 				return true;
 			}
+			break;
+		case 'queen':
+			if (
+				(newFileN - startFileN) / (newRank - startRank) === 1 ||
+				(newFileN - startFileN) / (newRank - startRank) === -1 ||
+				(newRank <= 8 && newFileN === startFileN) ||
+				(newFileN <= 8 && newRank === startRank)
+			) {
+				return true;
+			}
 	}
 };
