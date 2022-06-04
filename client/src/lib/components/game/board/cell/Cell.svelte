@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { playerMoveStore, usernameStore, initPos, moveMade } from '../../../../../stores';
 	import { page } from '$app/stores';
-	import { move } from '$lib/utils/game/move';
+	import { move, validateMove } from '$lib/utils/game';
 
 	export let color: string;
 	export let file: number;
@@ -61,7 +61,6 @@
 
 	const drag = (e: any): any => {
 		e.dataTransfer.setData('text/plain', e.target.id);
-
 		$initPos = e.target.dataset.position;
 	};
 
@@ -77,50 +76,56 @@
 		const data = e.dataTransfer.getData('text/plain');
 		const img = document.getElementById(data);
 		const piece = img.dataset.piece;
-
+		const color = img.dataset.color;
 		const newPos = e.target.dataset.id;
+
 		let char: string;
 
-		switch (piece) {
-			case 'pawn':
-				char = '';
-				break;
-			case 'rook':
-				char = 'R';
-				break;
-			case 'knight':
-				char = 'N';
-				break;
-			case 'bishop':
-				char = 'B';
-				break;
-			case 'queen':
-				char = 'Q';
-				break;
-			case 'king':
-				char = 'K';
-				break;
-			default:
-				char = '';
-				break;
-		}
+		if (validateMove($initPos, newPos, piece, color)) {
+			img.setAttribute('data-position', newPos);
 
-		move($page.params.id, `${char}${newPos}`, $initPos);
+			switch (piece) {
+				case 'pawn':
+					char = '';
+					break;
+				case 'rook':
+					char = 'R';
+					break;
+				case 'knight':
+					char = 'N';
+					break;
+				case 'bishop':
+					char = 'B';
+					break;
+				case 'queen':
+					char = 'Q';
+					break;
+				case 'king':
+					char = 'K';
+					break;
+				default:
+					char = '';
+					break;
+			}
 
-		let valid: boolean = false;
+			move($page.params.id, `${char}${newPos}`, $initPos);
 
-		if (e.target.tagName === 'IMG') {
-			// Pawn already on thie position, move on to validating the move
-			// TODO: Validate move
+			let valid: boolean = false;
 
-			if (valid) {
+			if (e.target.tagName === 'IMG') {
+				// Pawn already on thie position, move on to validating the move
+				// TODO: Validate move
+
+				if (valid) {
+					const data = e.dataTransfer.getData('text');
+					e.target.appendChild(document.getElementById(data));
+				}
+			} else {
+				// TODO: Validate move
 				const data = e.dataTransfer.getData('text');
 				e.target.appendChild(document.getElementById(data));
 			}
-		} else {
-			// TODO: Validate move
-			const data = e.dataTransfer.getData('text');
-			e.target.appendChild(document.getElementById(data));
+			console.log('YES');
 		}
 	};
 

@@ -78,6 +78,9 @@
 						<div class="flex items-center">
 							<p class={`pl-2 text-${userColor(match)}`}>{match.username}</p>
 						</div>
+						<div class="m-0 p-0 pl-6 text-white">
+							<p>vs</p>
+						</div>
 						<div class="flex items-center">
 							<p class={`pl-2 text-${opponentColor(match)}`}>{match.opponent.username}</p>
 						</div>

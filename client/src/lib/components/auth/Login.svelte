@@ -2,6 +2,7 @@
 	import Modal from '$lib/components/modal/Modal.svelte';
 	import Register from './Register.svelte';
 	import { login } from '$lib/utils/auth/login';
+	import { usernameStore } from '../../../stores';
 
 	export let visible: boolean;
 	export let handleToggle: () => void;
@@ -23,6 +24,7 @@
 	const loginUser = async (username: string, password: string): Promise<void> => {
 		try {
 			login(username, password, visible);
+			$usernameStore = username;
 			visible = !visible;
 		} catch (e) {
 			console.log(e);
