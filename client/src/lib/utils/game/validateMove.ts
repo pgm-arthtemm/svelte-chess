@@ -6,9 +6,11 @@ export const validateMove = (
 ): boolean => {
 	const startRank = parseInt(startPos.charAt(1), 10);
 	const startFile = startPos.charAt(0);
+	const startFileN = startFile.charCodeAt(0) - 97;
 
 	const newRank = parseInt(newPos.charAt(1), 10);
 	const newFile = newPos.charAt(0);
+	const newFileN = newFile.charCodeAt(0) - 97;
 
 	switch (piece) {
 		case 'pawn':
@@ -36,5 +38,18 @@ export const validateMove = (
 				}
 			}
 			break;
+		case 'knight':
+			if (
+				(newRank === startRank + 2 && newFileN === startFileN + 1) ||
+				(newRank === startRank + 2 && newFileN === startFileN - 1) ||
+				(newRank === startRank - 2 && newFileN === startFileN + 1) ||
+				(newRank === startRank - 2 && newFileN === startFileN - 1) ||
+				(newRank === startRank + 1 && newFileN === startFileN + 2) ||
+				(newRank === startRank + 1 && newFileN === startFileN - 2) ||
+				(newRank === startRank - 1 && newFileN === startFileN + 2) ||
+				(newRank === startRank - 1 && newFileN === startFileN - 2)
+			) {
+				return true;
+			}
 	}
 };
