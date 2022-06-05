@@ -115,6 +115,10 @@
 		}
 	});
 
+	socket.on('getForfeit', (name) => {
+		console.log('FORFEIT BY', name);
+	});
+
 	let oppInt = setInterval(() => {
 		if (countingOpponent) {
 			$opponentTimeSpent++;
@@ -158,7 +162,7 @@
 	<title>{changeTitle(userMove)} - Svelte Chess</title>
 </svelte:head>
 
-<!-- {#if !accepted}
+{#if !accepted}
 	<div>
 		<div class="text-center text-white text-lg md:text-xl leading-8">
 			{#if $usernameStore === ''}
@@ -225,39 +229,44 @@
 	</div>
 {/if}
 
-{#if accepted && ready && timeReady} -->
-<div class="xl:flex justify-between">
-	<Clock
-		style="md:m-auto xl:hidden"
-		time={startTime}
-		timeSpent={$opponentTimeSpent}
-		name="TODO Opponent"
-	/>
-	<Box
-		style="hidden xl:block w-1/6 max-w-1/6 2xl:max-w-1/5"
-		gameId={$page.params.id}
-		title="Chat with your opponent"
-		textInput={true}
-	/>
-	<div class="md:flex justify-between">
+{#if accepted && ready && timeReady}
+	<div class="xl:flex justify-between">
+		<Clock
+			style="md:m-auto xl:hidden"
+			time={startTime}
+			timeSpent={$opponentTimeSpent}
+			name="TODO Opponent"
+		/>
 		<Box
-			style="hidden md:block md:w-[calc(33% - 1rem)] md:max-w-[32%] xl:hidden"
+			style="hidden xl:block w-1/6 max-w-1/6 2xl:max-w-1/5"
 			gameId={$page.params.id}
 			title="Chat with your opponent"
 			textInput={true}
 		/>
-		<Board color={startColor} />
-		<Clock name="You" style="md:hidden" time={startTime} timeSpent={$yourTimeSpent} />
+		<div class="md:flex justify-between">
+			<Box
+				style="hidden md:block md:w-[calc(33% - 1rem)] md:max-w-[32%] xl:hidden"
+				gameId={$page.params.id}
+				title="Chat with your opponent"
+				textInput={true}
+			/>
+			<Board color={startColor} />
+			<Clock name="You" style="md:hidden" time={startTime} timeSpent={$yourTimeSpent} />
+		</div>
+		<Clock
+			name="You"
+			style="hidden md:block xl:hidden"
+			time={startTime}
+			timeSpent={$yourTimeSpent}
+		/>
+		<div class="md:flex justify-between md:mt-4 xl:mt-0 xl:block xl:w-1/5 2xl:w-1/4">
+			<Clock name="You" style="hidden xl:block" time={startTime} timeSpent={$opponentTimeSpent} />
+			<Box style="mt-4 md:mt-0 md:w-[calc(50%-0.5rem)] xl:w-auto" title="Actions" />
+			<Box style="mt-4 md:mt-0 md:w-[calc(50%-0.5rem)] xl:w-auto" title="Moves played" />
+			<Clock name="You" style="hidden xl:block" time={startTime} timeSpent={$yourTimeSpent} />
+		</div>
+		<div class="md:hidden">
+			<Box style="mt-4" gameId={$page.params.id} title="Chat with your opponent" textInput={true} />
+		</div>
 	</div>
-	<Clock name="You" style="hidden md:block xl:hidden" time={startTime} timeSpent={$yourTimeSpent} />
-	<div class="md:flex justify-between md:mt-4 xl:mt-0 xl:block xl:w-1/5 2xl:w-1/4">
-		<Clock name="You" style="hidden xl:block" time={startTime} timeSpent={$opponentTimeSpent} />
-		<Box style="mt-4 md:mt-0 md:w-[calc(50%-0.5rem)] xl:w-auto" title="Actions" />
-		<Box style="mt-4 md:mt-0 md:w-[calc(50%-0.5rem)] xl:w-auto" title="Moves played" />
-		<Clock name="You" style="hidden xl:block" time={startTime} timeSpent={$yourTimeSpent} />
-	</div>
-	<div class="md:hidden">
-		<Box style="mt-4" gameId={$page.params.id} title="Chat with your opponent" textInput={true} />
-	</div>
-</div>
-<!-- {/if} -->
+{/if}

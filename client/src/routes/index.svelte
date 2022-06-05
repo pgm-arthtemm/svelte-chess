@@ -27,11 +27,10 @@
 </script>
 
 <script lang="ts">
+	import Forfeit from '$lib/components/game/actions/Forfeit.svelte';
 	import { usernameStore } from '../stores';
 
 	export let data: any;
-
-	console.log(data);
 
 	if (checkLogin()) {
 		$usernameStore = data.user.username;

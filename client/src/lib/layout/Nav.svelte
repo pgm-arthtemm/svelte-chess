@@ -61,6 +61,5 @@
 {/if}
 
 {#if newGameVisible}
-	<!-- <NewGame {newGameVisible} {handleToggleNewGame} /> -->
 	<NewGame {newGameVisible} {handleToggleNewGame} />
 {/if}

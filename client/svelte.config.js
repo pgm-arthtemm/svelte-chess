@@ -52,6 +52,10 @@ export const webSocketServer = {
 			socket.on('clockSwitch', (data) => {
 				io.in(data.gameId).emit('getClockSwitch', data.username);
 			});
+
+			socket.on('forfeit', (data) => {
+				socket.broadcast.to(data.gameId).emit('getForfeit', data.username);
+			});
 		});
 	}
 };
