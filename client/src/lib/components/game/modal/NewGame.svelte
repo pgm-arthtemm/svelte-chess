@@ -15,10 +15,8 @@
 	export let handleToggleNewGame: () => void;
 
 	let minutesPerPlayer: number = 8;
-	let extraSecondsPerMove: number = 8;
 
 	$: selectedTime = timeOptions[minutesPerPlayer];
-	$: extraSeconds = timeOptions[extraSecondsPerMove];
 
 	const borderClasses = ['border-2', 'border-blue-300', 'border-solid', 'rounded-lg', 'selected'];
 
@@ -40,8 +38,7 @@
 		socket.emit('createGame', gameRoomId);
 
 		$timeSettings = {
-			time: selectedTime,
-			increment: extraSeconds
+			time: selectedTime
 		};
 
 		const selectedElement: any = document.querySelector('.selected');
@@ -84,17 +81,6 @@
 					min="1"
 					max="15"
 					bind:value={minutesPerPlayer}
-					class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
-				/>
-				<label class="font-bold text-xl pb-2" for="username"
-					>Extra seconds per move: {extraSeconds}</label
-				>
-				<input
-					id="minmax-range"
-					type="range"
-					min="1"
-					max="15"
-					bind:value={extraSecondsPerMove}
 					class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
 				/>
 			</section>

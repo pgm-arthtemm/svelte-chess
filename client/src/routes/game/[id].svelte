@@ -25,7 +25,6 @@
 
 	let startColor: string = $selectedColor;
 	let startTime: number = $timeSettings.time;
-	let startIncrement: number = $timeSettings.increment;
 
 	let countingOpponent: boolean;
 	let countingYou: boolean;
@@ -59,7 +58,6 @@
 		socket.on('getTimeSettings', (data) => {
 			if ($timeSettings.time === 0) {
 				startTime = data.timeSettings.time;
-				startIncrement = data.timeSettings.increment;
 			}
 			timeReady = true;
 		});
@@ -154,7 +152,12 @@
 
 {#if accepted && ready && timeReady}
 	<div class="xl:flex justify-between">
-		<Clock time={startTime} timeSpent={$opponentTimeSpent} />
+		<Clock
+			style="md:m-auto xl:hidden"
+			time={startTime}
+			timeSpent={$opponentTimeSpent}
+			name="TODO Opponent"
+		/>
 		<Box
 			style="hidden xl:block w-1/6 max-w-1/6 2xl:max-w-1/5"
 			gameId={$page.params.id}
@@ -169,11 +172,19 @@
 				textInput={true}
 			/>
 			<Board color={startColor} />
-			<Clock time={startTime} timeSpent={$yourTimeSpent} />
+			<Clock name="You" style="md:hidden" time={startTime} timeSpent={$yourTimeSpent} />
 		</div>
+		<Clock
+			name="You"
+			style="hidden md:block xl:hidden"
+			time={startTime}
+			timeSpent={$yourTimeSpent}
+		/>
 		<div class="md:flex justify-between md:mt-4 xl:mt-0 xl:block xl:w-1/5 2xl:w-1/4">
+			<Clock name="You" style="hidden xl:block" time={startTime} timeSpent={$opponentTimeSpent} />
 			<Box style="mt-4 md:mt-0 md:w-[calc(50%-0.5rem)] xl:w-auto" title="Actions" />
 			<Box style="mt-4 md:mt-0 md:w-[calc(50%-0.5rem)] xl:w-auto" title="Moves played" />
+			<Clock name="You" style="hidden xl:block" time={startTime} timeSpent={$yourTimeSpent} />
 		</div>
 		<div class="md:hidden">
 			<Box style="mt-4" gameId={$page.params.id} title="Chat with your opponent" textInput={true} />

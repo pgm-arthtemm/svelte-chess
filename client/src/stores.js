@@ -15,8 +15,7 @@ export const prevMove = writable({
 });
 
 export const timeSettings = writable({
-	time: 0,
-	increment: 0
+	time: 0
 });
 
 export const moveMade = writable({
