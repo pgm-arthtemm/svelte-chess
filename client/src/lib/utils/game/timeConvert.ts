@@ -1,14 +1,11 @@
-export const timeConvert = (minutes: number): string => {
-	// convert minutes to hh:mm:ss
-	const hours = Math.floor(minutes / 60);
-	const minutesLeft = minutes % 60;
-	const seconds = Math.floor((minutesLeft % 1) * 60);
+export const timeConvert = (timeInSeconds: number): string => {
+	const hours = Math.floor(timeInSeconds / 3600);
+	const minutes = Math.floor((timeInSeconds - hours * 3600) / 60);
+	const seconds = timeInSeconds - hours * 3600 - minutes * 60;
 
 	if (hours === 0) {
-		return `${minutesLeft < 10 ? '0' : ''}${minutesLeft}:${seconds < 10 ? '0' : ''}${seconds}`;
+		return `${minutes < 10 ? '0' : ''}${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
 	}
 
-	return `${hours}:${minutesLeft < 10 ? '0' : ''}${minutesLeft}:${
-		seconds < 10 ? '0' : ''
-	}${seconds}`;
+	return `${hours}:${minutes < 10 ? '0' : ''}${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
 };

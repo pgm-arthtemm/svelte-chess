@@ -8,7 +8,9 @@
 		moves,
 		playerMoveStore,
 		moveMade,
-		timeSettings
+		timeSettings,
+		opponentTimeSpent,
+		yourTimeSpent
 	} from '../../stores';
 	import { io } from 'socket.io-client';
 	import Box from '$lib/components/box/Box.svelte';
@@ -34,6 +36,7 @@
 	 * READY = TRUE IS ONLY FOR TESTING
 	 */
 	let ready: boolean = false;
+	let timeReady: boolean = false;
 
 	const joinRoom = (): void => {
 		socket.emit('joinRoom', $page.params.id);
@@ -58,6 +61,7 @@
 				startTime = data.timeSettings.time;
 				startIncrement = data.timeSettings.increment;
 			}
+			timeReady = true;
 		});
 
 		accepted = true;
@@ -92,8 +96,19 @@
 		}
 	});
 
+	let oppInt = setInterval(() => {
+		if (countingOpponent) {
+			$opponentTimeSpent++;
+		}
+	}, 1000);
+
+	let youInt = setInterval(() => {
+		if (countingYou) {
+			$yourTimeSpent++;
+		}
+	}, 1000);
+
 	socket.on('getClockSwitch', (name) => {
-		console.log(name);
 		if (name === $usernameStore) {
 			countingYou = false;
 			countingOpponent = true;
@@ -101,12 +116,6 @@
 			countingYou = true;
 			countingOpponent = false;
 		}
-
-		// if (name !== $usernameStore) {
-		// 	countingOpponent = true;
-		// } else {
-		// 	countingYou = true;
-		// }
 	});
 
 	socket.on('roomFull', () => {
@@ -143,9 +152,9 @@
 	</div>
 {/if}
 
-{#if accepted && ready}
+{#if accepted && ready && timeReady}
 	<div class="xl:flex justify-between">
-		<Clock time={startTime} opponent={true} counting={countingOpponent} />
+		<Clock time={startTime} timeSpent={$opponentTimeSpent} />
 		<Box
 			style="hidden xl:block w-1/6 max-w-1/6 2xl:max-w-1/5"
 			gameId={$page.params.id}
@@ -160,7 +169,7 @@
 				textInput={true}
 			/>
 			<Board color={startColor} />
-			<Clock time={startTime} counting={countingYou} />
+			<Clock time={startTime} timeSpent={$yourTimeSpent} />
 		</div>
 		<div class="md:flex justify-between md:mt-4 xl:mt-0 xl:block xl:w-1/5 2xl:w-1/4">
 			<Box style="mt-4 md:mt-0 md:w-[calc(50%-0.5rem)] xl:w-auto" title="Actions" />
