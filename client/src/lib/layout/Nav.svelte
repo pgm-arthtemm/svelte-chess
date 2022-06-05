@@ -37,7 +37,7 @@
 		<div>
 			<ul class="flex">
 				<li class="px-2">
-					<button on:click={newGame}>New Game</button>
+					<button id="newGame" on:click={newGame}>New Game</button>
 				</li>
 				<li>
 					<a href="/about">About</a>

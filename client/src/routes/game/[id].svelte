@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/stores';
+	import { fade } from 'svelte/transition';
 	import {
 		chat,
 		opponentName,
@@ -16,6 +17,11 @@
 	import Box from '$lib/components/box/Box.svelte';
 	import Board from '$lib/components/game/board/Board.svelte';
 	import Clock from '$lib/components/game/time/Clock.svelte';
+	import Button from '$lib/components/button/Button.svelte';
+	import { ButtonEnum } from '$lib/constants/button-enum';
+	import FaRegCopy from 'svelte-icons/fa/FaRegCopy.svelte';
+	import FaCheck from 'svelte-icons/fa/FaCheck.svelte';
+	import FaSpinner from 'svelte-icons/fa/FaSpinner.svelte';
 
 	const socket = io();
 
@@ -29,6 +35,8 @@
 	let countingOpponent: boolean;
 	let countingYou: boolean;
 
+	let copied: boolean = false;
+
 	/**
 	 * @TODO:
 	 * CHANGE THIS TO FALSE BEFORE DEPLOYMENT
@@ -36,15 +44,28 @@
 	 */
 	let ready: boolean = false;
 	let timeReady: boolean = false;
+	let joined: boolean = false;
 
 	const joinRoom = (): void => {
 		socket.emit('joinRoom', $page.params.id);
 		if ($usernameStore === '') {
 			$usernameStore = usernameValue;
 		}
+
+		joined = true;
+	};
+
+	const copyLink = (link: string): any => {
+		navigator.clipboard.writeText(link);
+
+		copied = true;
+		setTimeout(() => {
+			copied = false;
+		}, 2500);
 	};
 
 	socket.on('startGame', () => {
+		joined = false;
 		socket.emit('chosenColor', { color: $selectedColor, gameId: $page.params.id });
 		socket.emit('chosenTimeSettings', { timeSettings: $timeSettings, gameId: $page.params.id });
 
@@ -137,57 +158,106 @@
 	<title>{changeTitle(userMove)} - Svelte Chess</title>
 </svelte:head>
 
-{#if !accepted}
+<!-- {#if !accepted}
 	<div>
-		{#if $usernameStore === ''}
-			<div>
-				<input bind:value={usernameValue} type="text" placeholder="username" />
-			</div>
-		{/if}
+		<div class="text-center text-white text-lg md:text-xl leading-8">
+			{#if $usernameStore === ''}
+				<div>
+					<label class="block mb-2" for="username"
+						>You don't have a username yet... Pick one before joining the game:</label
+					>
+					<input
+						class="p-4 pt-3 text-white mb-3 bg-gray-800 rounded-xl inline-block w-1/2 font-semibold"
+						bind:value={usernameValue}
+						type="text"
+						name="username"
+						placeholder="Username"
+					/>
+				</div>
+			{/if}
 
-		<p class="text-white">{`http://localhost:3000/game/${$page.params.id}`}</p>
-		<button class="text-white font-bold" on:click={joinRoom}>READY</button>
+			{#if $usernameStore !== ''}
+				<h1>Hey <span class="font-bold">{$usernameStore}</span> !</h1>
+			{/if}
+
+			<p>Copy the link below and send it to your friend.</p>
+			<p>When you are ready, click the button. If you both are ready, the game will start.</p>
+
+			<div class="text-white mb-6 bg-gray-800 inline-block my-4 p-4 pt-3 rounded-xl relative">
+				<div class="flex items-center">
+					<p class="mr-4">
+						{`http://localhost:3000/game/${$page.params.id}`}
+					</p>
+					<div
+						class="w-7 h-7 cursor-pointer"
+						on:click={copyLink(`http://localhost:3000/game/${$page.params.id}`)}
+					>
+						<FaRegCopy />
+					</div>
+				</div>
+
+				{#if copied}
+					<div
+						in:fade
+						out:fade
+						class="p-2 px-3 -right-10 -bottom-14 inline-block rounded-lg bg-gray-900 text-white font-semibold absolute"
+					>
+						<div class="flex items-center">
+							<p class="mr-2">Copied link</p>
+							<div class="text-green-500 w-4 h-4">
+								<FaCheck />
+							</div>
+						</div>
+					</div>
+				{/if}
+			</div>
+			<Button text="READY" onClick={joinRoom} type={ButtonEnum.success} />
+		</div>
 	</div>
 {/if}
 
-{#if accepted && ready && timeReady}
-	<div class="xl:flex justify-between">
-		<Clock
-			style="md:m-auto xl:hidden"
-			time={startTime}
-			timeSpent={$opponentTimeSpent}
-			name="TODO Opponent"
-		/>
+{#if joined}
+	<div class="text-center text-white text-xl leading-8 pt-6">
+		<p>Waiting for the other player...</p>
+		<div class="text-white w-10 h-10 m-auto mt-4 animate-spin">
+			<FaSpinner />
+		</div>
+	</div>
+{/if}
+
+{#if accepted && ready && timeReady} -->
+<div class="xl:flex justify-between">
+	<Clock
+		style="md:m-auto xl:hidden"
+		time={startTime}
+		timeSpent={$opponentTimeSpent}
+		name="TODO Opponent"
+	/>
+	<Box
+		style="hidden xl:block w-1/6 max-w-1/6 2xl:max-w-1/5"
+		gameId={$page.params.id}
+		title="Chat with your opponent"
+		textInput={true}
+	/>
+	<div class="md:flex justify-between">
 		<Box
-			style="hidden xl:block w-1/6 max-w-1/6 2xl:max-w-1/5"
+			style="hidden md:block md:w-[calc(33% - 1rem)] md:max-w-[32%] xl:hidden"
 			gameId={$page.params.id}
 			title="Chat with your opponent"
 			textInput={true}
 		/>
-		<div class="md:flex justify-between">
-			<Box
-				style="hidden md:block md:w-[calc(33% - 1rem)] md:max-w-[32%] xl:hidden"
-				gameId={$page.params.id}
-				title="Chat with your opponent"
-				textInput={true}
-			/>
-			<Board color={startColor} />
-			<Clock name="You" style="md:hidden" time={startTime} timeSpent={$yourTimeSpent} />
-		</div>
-		<Clock
-			name="You"
-			style="hidden md:block xl:hidden"
-			time={startTime}
-			timeSpent={$yourTimeSpent}
-		/>
-		<div class="md:flex justify-between md:mt-4 xl:mt-0 xl:block xl:w-1/5 2xl:w-1/4">
-			<Clock name="You" style="hidden xl:block" time={startTime} timeSpent={$opponentTimeSpent} />
-			<Box style="mt-4 md:mt-0 md:w-[calc(50%-0.5rem)] xl:w-auto" title="Actions" />
-			<Box style="mt-4 md:mt-0 md:w-[calc(50%-0.5rem)] xl:w-auto" title="Moves played" />
-			<Clock name="You" style="hidden xl:block" time={startTime} timeSpent={$yourTimeSpent} />
-		</div>
-		<div class="md:hidden">
-			<Box style="mt-4" gameId={$page.params.id} title="Chat with your opponent" textInput={true} />
-		</div>
+		<Board color={startColor} />
+		<Clock name="You" style="md:hidden" time={startTime} timeSpent={$yourTimeSpent} />
 	</div>
-{/if}
+	<Clock name="You" style="hidden md:block xl:hidden" time={startTime} timeSpent={$yourTimeSpent} />
+	<div class="md:flex justify-between md:mt-4 xl:mt-0 xl:block xl:w-1/5 2xl:w-1/4">
+		<Clock name="You" style="hidden xl:block" time={startTime} timeSpent={$opponentTimeSpent} />
+		<Box style="mt-4 md:mt-0 md:w-[calc(50%-0.5rem)] xl:w-auto" title="Actions" />
+		<Box style="mt-4 md:mt-0 md:w-[calc(50%-0.5rem)] xl:w-auto" title="Moves played" />
+		<Clock name="You" style="hidden xl:block" time={startTime} timeSpent={$yourTimeSpent} />
+	</div>
+	<div class="md:hidden">
+		<Box style="mt-4" gameId={$page.params.id} title="Chat with your opponent" textInput={true} />
+	</div>
+</div>
+<!-- {/if} -->

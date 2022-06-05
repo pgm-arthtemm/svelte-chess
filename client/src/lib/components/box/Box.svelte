@@ -1,11 +1,12 @@
 <script lang="ts">
 	import { usernameStore } from '../../../stores';
 	import Chat from '../game/chat/Chat.svelte';
+	import Actions from '../game/actions/Actions.svelte';
 	import { io } from 'socket.io-client';
 	import Moves from '../game/moves/Moves.svelte';
 	const socket = io();
 
-	export let chat: any = [];
+	export const chat: any = [];
 	export let gameId: any = '';
 	export let title: string;
 	export let textInput: boolean = false;
@@ -32,6 +33,8 @@
 			<Chat />
 		{:else if title === 'Moves played'}
 			<Moves />
+		{:else if title === 'Actions'}
+			<Actions />
 		{/if}
 	</div>
 	<div class="border-t-8 border-gray-800">

@@ -6,7 +6,7 @@
 
 	const socket = io();
 
-	export let color: string;
+	export let color: string = '';
 
 	let files: number[];
 	let ranks: string[];
