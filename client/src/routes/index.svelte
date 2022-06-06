@@ -30,6 +30,8 @@
 	import Forfeit from '$lib/components/game/actions/Forfeit.svelte';
 	import Result from '$lib/components/game/modal/Result.svelte';
 	import { usernameStore } from '../stores';
+	import { ColorEnum } from '$lib/constants/color-enum';
+	import { ResultTypeEnum } from '$lib/constants/result-type.enum';
 
 	export let data: any;
 
@@ -70,4 +72,10 @@
 	</div>
 </div>
 
-<!-- <Result result={true} showResult={true} toggleResult={() => {}} /> -->
+<!-- <Result
+	resultType={ResultTypeEnum.forfeit}
+	result={ColorEnum.black}
+	won={true}
+	showResult={true}
+	toggleResult={() => {}}
+/> -->

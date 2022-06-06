@@ -5,6 +5,7 @@
 
 	export let visible: boolean;
 	export let handleToggle: () => void;
+	export let afterGame: boolean = false;
 
 	let username: string = '';
 	let email: string = '';

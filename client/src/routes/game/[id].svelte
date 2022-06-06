@@ -24,6 +24,7 @@
 	import FaSpinner from 'svelte-icons/fa/FaSpinner.svelte';
 	import Result from '$lib/components/game/modal/Result.svelte';
 	import { ColorEnum } from '$lib/constants/color-enum';
+	import { ResultTypeEnum } from '$lib/constants/result-type.enum';
 
 	const socket = io();
 
@@ -41,8 +42,10 @@
 
 	let gameDone: boolean = false;
 	let showResult: boolean = false;
+	let resultType: ResultTypeEnum = ResultTypeEnum.forfeit;
 	let result: ColorEnum;
 	let won: boolean;
+	let winnerName: string;
 
 	const toggleResult = () => {
 		showResult = !showResult;
@@ -143,6 +146,7 @@
 	socket.on('getForfeit', (user) => {
 		gameDone = true;
 		showResult = true;
+		resultType = ResultTypeEnum.forfeit;
 
 		if (user.color === 'white') {
 			result = ColorEnum.white;
@@ -155,8 +159,10 @@
 
 		if (user.username === $usernameStore) {
 			won = false;
+			winnerName = $opponentName;
 		} else {
 			won = true;
+			winnerName = $usernameStore;
 		}
 	});
 
@@ -264,7 +270,7 @@
 			style="md:m-auto xl:hidden"
 			time={startTime}
 			timeSpent={$opponentTimeSpent}
-			name="TODO Opponent"
+			name={$opponentName}
 		/>
 		<Box
 			style="hidden xl:block w-1/6 max-w-1/6 2xl:max-w-1/5"
@@ -301,5 +307,5 @@
 {/if}
 
 {#if gameDone}
-	<Result {result} {won} {showResult} {toggleResult} />
+	<Result {winnerName} {resultType} {result} {won} {showResult} {toggleResult} />
 {/if}

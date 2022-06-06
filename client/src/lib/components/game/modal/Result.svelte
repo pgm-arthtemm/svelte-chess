@@ -1,18 +1,36 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
-	import Button from '$lib/components/button/Button.svelte';
+	import Register from '$lib/components/auth/Register.svelte';
 	import Modal from '$lib/components/modal/Modal.svelte';
-	import { ButtonEnum } from '$lib/constants/button-enum';
 	import type { ColorEnum } from '$lib/constants/color-enum';
+	import type { ResultTypeEnum } from '$lib/constants/result-type.enum';
 	import { checkLogin } from '$lib/utils/checkLogin';
+	import { timeConvert } from '$lib/utils/game';
+	import {
+		opponentName,
+		opponentTimeSpent,
+		selectedColor,
+		usernameStore,
+		yourTimeSpent
+	} from '../../../../stores';
 
 	export let result: ColorEnum;
 	export let won: boolean;
+	export let winnerName: string;
+	export let resultType: ResultTypeEnum;
 	export let showResult: boolean = false;
 	export let toggleResult: () => void;
 
+	let showRegister: boolean = false;
+	const toggleRegister = () => (showRegister = !showRegister);
+
 	let loggedIn: boolean = checkLogin();
 	let title: string;
+
+	let notWinnerName: string;
+
+	if (winnerName !== $usernameStore) {
+		notWinnerName === $opponentName;
+	}
 
 	won ? (title = 'You won!') : (title = 'You lost!');
 </script>
@@ -20,43 +38,56 @@
 <Modal {title} open={showResult} on:close={toggleResult}>
 	<svelte:fragment slot="modal-body">
 		<section>
-			<div class="flex justify-between md:w-1/2 m-auto">
+			<div class="flex justify-between w-2/3 md:w-1/3 lg:w-1/2 m-auto items-center">
 				<div class="text-center">
 					<img
 						class={`${
 							result === 'black' ? 'border-4 border-green-700' : 'border-2 border-gray-600'
-						} w-20 h-20 rounded-md shadow-2xl`}
+						} w-20 h-20 rounded-md shadow-2xl m-auto`}
 						src="/pieces/w-pawn.png"
 						alt="white-pawn"
 					/>
-					<p class="text-xl font-semibold">username</p>
+					<p class="text-xl font-semibold">
+						{$selectedColor === 'white' ? $usernameStore : $opponentName}
+					</p>
 				</div>
+				<p class="text-lg font-bold">vs</p>
 				<div class="text-center">
 					<img
 						class={`${
 							result === 'white' ? 'border-4 border-green-700' : 'border-2 border-gray-600'
-						} w-20 h-20 rounded-md shadow-2xl`}
+						} w-20 h-20 rounded-md shadow-2xl m-auto`}
 						src="/pieces/b-pawn.png"
 						alt="white-pawn"
 					/>
-					<p class="text-xl font-semibold">username</p>
+					<p class="text-xl font-semibold">
+						{$selectedColor === 'black' ? $usernameStore : $opponentName}
+					</p>
 				</div>
 			</div>
 
+			<div class="text-lg font-semibold mt-6 text-center">
+				<p>You {won ? 'won' : 'lost'} the game by <span class="font-bold">{resultType}</span>.</p>
+				<p>
+					This game took <span class="font-bold"
+						>{timeConvert($opponentTimeSpent + $yourTimeSpent)}</span
+					>, you spent
+					<span class="font-bold">{timeConvert($yourTimeSpent)}</span>.
+				</p>
+			</div>
+
 			{#if !loggedIn}
-				<div>
-					<p>Want to save this game?</p>
-					<p>Create an account</p>
+				<div class="text-center my-8 text-lg font-semibold">
+					<p>You can save the result of your games by signing up.</p>
+					<p on:click={toggleRegister} class="text-blue-700 underline cursor-pointer">
+						Sign up here
+					</p>
 				</div>
 			{/if}
-
-			<Button
-				text="OK"
-				onClick={() => {
-					goto('/');
-				}}
-				type={ButtonEnum.success}
-			/>
 		</section>
 	</svelte:fragment>
 </Modal>
+
+{#if showRegister}
+	<Register visible={showRegister} handleToggle={toggleRegister} afterGame={true} />
+{/if}
