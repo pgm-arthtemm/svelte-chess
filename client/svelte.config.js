@@ -54,7 +54,7 @@ export const webSocketServer = {
 			});
 
 			socket.on('forfeit', (data) => {
-				socket.broadcast.to(data.gameId).emit('getForfeit', data.username);
+				socket.broadcast.to(data.gameId).emit('getForfeit', data);
 			});
 		});
 	}

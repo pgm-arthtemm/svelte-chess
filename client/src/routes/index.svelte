@@ -28,6 +28,7 @@
 
 <script lang="ts">
 	import Forfeit from '$lib/components/game/actions/Forfeit.svelte';
+	import Result from '$lib/components/game/modal/Result.svelte';
 	import { usernameStore } from '../stores';
 
 	export let data: any;
@@ -68,3 +69,5 @@
 		</div>
 	</div>
 </div>
+
+<!-- <Result result={true} showResult={true} toggleResult={() => {}} /> -->

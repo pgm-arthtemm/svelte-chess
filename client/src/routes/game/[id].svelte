@@ -22,6 +22,8 @@
 	import FaRegCopy from 'svelte-icons/fa/FaRegCopy.svelte';
 	import FaCheck from 'svelte-icons/fa/FaCheck.svelte';
 	import FaSpinner from 'svelte-icons/fa/FaSpinner.svelte';
+	import Result from '$lib/components/game/modal/Result.svelte';
+	import { ColorEnum } from '$lib/constants/color-enum';
 
 	const socket = io();
 
@@ -36,6 +38,15 @@
 	let countingYou: boolean;
 
 	let copied: boolean = false;
+
+	let gameDone: boolean = false;
+	let showResult: boolean = false;
+	let result: ColorEnum;
+	let won: boolean;
+
+	const toggleResult = () => {
+		showResult = !showResult;
+	};
 
 	/**
 	 * @TODO:
@@ -71,7 +82,9 @@
 
 		socket.on('getColor', (color: string) => {
 			if (color !== null) {
-				color === 'white' ? (startColor = 'black') : (startColor = 'white');
+				color === 'white'
+					? ((startColor = 'black'), ($selectedColor = 'black'))
+					: ((startColor = 'white'), ($selectedColor = 'white'));
 			}
 			ready = true;
 		});
@@ -115,10 +128,6 @@
 		}
 	});
 
-	socket.on('getForfeit', (name) => {
-		console.log('FORFEIT BY', name);
-	});
-
 	let oppInt = setInterval(() => {
 		if (countingOpponent) {
 			$opponentTimeSpent++;
@@ -130,6 +139,26 @@
 			$yourTimeSpent++;
 		}
 	}, 1000);
+
+	socket.on('getForfeit', (user) => {
+		gameDone = true;
+		showResult = true;
+
+		if (user.color === 'white') {
+			result = ColorEnum.white;
+		} else {
+			result = ColorEnum.black;
+		}
+
+		clearInterval(oppInt);
+		clearInterval(youInt);
+
+		if (user.username === $usernameStore) {
+			won = false;
+		} else {
+			won = true;
+		}
+	});
 
 	socket.on('getClockSwitch', (name) => {
 		if (name === $usernameStore) {
@@ -269,4 +298,8 @@
 			<Box style="mt-4" gameId={$page.params.id} title="Chat with your opponent" textInput={true} />
 		</div>
 	</div>
+{/if}
+
+{#if gameDone}
+	<Result {result} {won} {showResult} {toggleResult} />
 {/if}
