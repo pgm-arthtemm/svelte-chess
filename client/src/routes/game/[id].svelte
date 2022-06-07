@@ -226,12 +226,12 @@
 			<div class="text-white mb-6 bg-gray-800 inline-block my-4 p-4 pt-3 rounded-xl relative">
 				<div class="flex items-center">
 					<p class="mr-4">
-						{`https://svelte-frontent-chess.herokuapp.com/game/${$page.params.id}`}
+						{`https://svelte-chess.herokuapp.com/game/${$page.params.id}`}
 					</p>
 					<div
 						class="w-7 h-7 cursor-pointer"
 						on:click={copyLink(
-							`https://svelte-frontent-chess.herokuapp.com/game/${$page.params.id}`
+							`https://svelte-chess.herokuapp.com/game/${$page.params.id}`
 						)}
 					>
 						<FaRegCopy />
