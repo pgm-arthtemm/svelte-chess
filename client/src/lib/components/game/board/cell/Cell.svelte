@@ -12,11 +12,11 @@
 
 		if ($moveMade.newPosition.length === 3) {
 			newPosy = $moveMade.newPosition.substring(1);
+		} else {
+			newPosy = $moveMade.newPosition;
 		}
 
 		if ($moveMade.take) {
-			console.log($moveMade);
-
 			const imageTaken = document.querySelector(`[data-position="${newPosy}"]`);
 			imageTaken.remove();
 		}
@@ -351,5 +351,16 @@
 
 	.init_black {
 		background-color: rgb(96, 85, 67);
+	}
+
+	.cell {
+		position: relative;
+	}
+
+	img {
+		position: absolute;
+		width: 80%;
+		height: 80%;
+		margin: 0.3rem;
 	}
 </style>
