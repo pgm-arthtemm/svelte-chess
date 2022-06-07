@@ -19,7 +19,7 @@
 	<svelte:fragment slot="modal-body">
 		<section>
 			<p class="text-2xl font-bold text-center mb-4">Are you sure you want to forfeit?</p>
-			<div class="flex md:w-1/3 m-auto justify-between">
+			<div class="flex md:w-2/3 m-auto md:justify-between">
 				<Button text="YES" onClick={confirm} type={ButtonEnum.success} />
 				<Button text="NO" onClick={toggleForfeit} type={ButtonEnum.danger} />
 			</div>

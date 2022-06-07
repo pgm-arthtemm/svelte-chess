@@ -2,7 +2,8 @@ export const validateMove = (
 	startPos: string,
 	newPos: string,
 	piece: string,
-	color: string
+	color: string,
+	take = false
 ): boolean => {
 	const startRank = parseInt(startPos.charAt(1), 10);
 	const startFile = startPos.charAt(0);
@@ -15,6 +16,14 @@ export const validateMove = (
 	switch (piece) {
 		case 'pawn':
 			if (color === 'white') {
+				if (take) {
+					if (newFileN === startFileN + 1 || newFileN === startFileN - 1) {
+						if (newRank === startRank + 1) {
+							return true;
+						}
+					}
+				}
+
 				if (startRank === 2) {
 					if (
 						(newRank === 4 && startFile === newFile) ||
@@ -26,6 +35,14 @@ export const validateMove = (
 					return true;
 				}
 			} else if (color === 'black') {
+				if (take) {
+					if (newFileN === startFileN + 1 || newFileN === startFileN - 1) {
+						if (newRank === startRank - 1) {
+							return true;
+						}
+					}
+				}
+
 				if (startRank === 7) {
 					if (
 						(newRank === 5 && startFile === newFile) ||
