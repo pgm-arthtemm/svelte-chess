@@ -20,7 +20,8 @@ export const timeSettings = writable({
 
 export const moveMade = writable({
 	initPosition: '',
-	newPosition: ''
+	newPosition: '',
+	take: false
 });
 
 export const theme = writable((browser && localStorage.getItem('theme')) || 'dark');

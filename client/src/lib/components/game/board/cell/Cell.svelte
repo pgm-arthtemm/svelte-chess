@@ -14,6 +14,13 @@
 			newPosy = $moveMade.newPosition.substring(1);
 		}
 
+		if ($moveMade.take) {
+			console.log($moveMade);
+
+			const imageTaken = document.querySelector(`[data-position="${newPosy}"]`);
+			imageTaken.remove();
+		}
+
 		const checkNewPos = (newPos: string): string => {
 			if (newPos.length === 3) {
 				return newPos.substring(1);
@@ -72,12 +79,17 @@
 			return;
 		}
 
-		// get the image element inside the div element
 		const data = e.dataTransfer.getData('text/plain');
 		const img = document.getElementById(data);
 		const piece = img.dataset.piece;
 		const color = img.dataset.color;
-		const newPos = e.target.dataset.id;
+		let newPos = e.target.dataset.id;
+		let take: boolean = false;
+
+		if (newPos === undefined) {
+			take = true;
+			newPos = e.target.parentNode.dataset.id;
+		}
 
 		let char: string;
 
@@ -110,22 +122,16 @@
 					break;
 			}
 
-			move($page.params.id, `${char}${newPos}`, $initPos);
+			const data = e.dataTransfer.getData('text');
 
-			let valid: boolean = false;
-
-			if (e.target.tagName === 'IMG') {
-				// Pawn already on thie position, move on to validating the move
-				// TODO: Validate move
-
-				if (valid) {
-					const data = e.dataTransfer.getData('text');
-					e.target.appendChild(document.getElementById(data));
-				}
+			if (take) {
+				const parentDiv = e.target.parentNode;
+				e.target.remove();
+				parentDiv.appendChild(document.getElementById(data));
+				move($page.params.id, `${char}${newPos}`, $initPos, take);
 			} else {
-				// TODO: Validate move
-				const data = e.dataTransfer.getData('text');
 				e.target.appendChild(document.getElementById(data));
+				move($page.params.id, `${char}${newPos}`, $initPos, take);
 			}
 		}
 	};

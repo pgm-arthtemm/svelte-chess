@@ -6,7 +6,7 @@
 	<ul class="flex flex-wrap">
 		{#each $moves as move}
 			<li class="mr-4 text-white">
-				<p>{move}</p>
+				<p>{move.new}</p>
 			</li>
 		{/each}
 	</ul>

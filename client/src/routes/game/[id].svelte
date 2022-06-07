@@ -112,10 +112,11 @@
 	});
 
 	socket.on('getMove', (data) => {
-		$moves = [...$moves, data.move];
+		$moves = [...$moves, { initial: data.initPos, new: data.move }];
 		$moveMade = {
 			initPosition: data.initPos,
-			newPosition: data.move
+			newPosition: data.move,
+			take: data.take
 		};
 
 		if ($playerMoveStore === $usernameStore) {

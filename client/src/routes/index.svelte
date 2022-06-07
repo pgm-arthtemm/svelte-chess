@@ -71,11 +71,3 @@
 		</div>
 	</div>
 </div>
-
-<!-- <Result
-	resultType={ResultTypeEnum.forfeit}
-	result={ColorEnum.black}
-	won={true}
-	showResult={true}
-	toggleResult={() => {}}
-/> -->

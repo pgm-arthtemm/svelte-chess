@@ -35,24 +35,34 @@
 	</div>
 	<div class="flex">
 		<div>
-			<ul class="flex">
-				<li class="px-2">
-					<button id="newGame" on:click={newGame}>New Game</button>
-				</li>
+			<ul class="flex text-lg">
 				<li>
-					<a href="/about">About</a>
+					<button
+						class="font-semibold mr-6 transition-all duration-200 hover:text-red-500"
+						id="newGame"
+						on:click={newGame}>New Game</button
+					>
 				</li>
 				<li>
 					{#if checkLogin()}
-						<button on:click={handleLogOut}>Log out</button>
-						<a sveltekit:prefetch href="/profile">Profile</a>
+						<button
+							class="font-semibold mr-6 transition-all duration-200 hover:text-red-500"
+							on:click={handleLogOut}>Log out</button
+						>
+						<a
+							class="font-semibold mr-6 transition-all duration-200 hover:text-red-500"
+							sveltekit:prefetch
+							href="/profile">Profile</a
+						>
 					{:else}
-						<button on:click={handleToggle}>Log in</button>
+						<button
+							class="font-semibold mr-6 transition-all duration-200 hover:text-red-500"
+							on:click={handleToggle}>Log in</button
+						>
 					{/if}
 				</li>
 			</ul>
 		</div>
-		<ThemeToggle />
 	</div>
 </div>
 
