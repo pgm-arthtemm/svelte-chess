@@ -226,13 +226,11 @@
 			<div class="text-white mb-6 bg-gray-800 inline-block my-4 p-4 pt-3 rounded-xl relative">
 				<div class="flex items-center">
 					<p class="mr-4">
-						{`https://svelte-chess.herokuapp.com/game/${$page.params.id}`}
+						{`http://localhost:3000/game/${$page.params.id}`}
 					</p>
 					<div
 						class="w-7 h-7 cursor-pointer"
-						on:click={copyLink(
-							`https://svelte-chess.herokuapp.com/game/${$page.params.id}`
-						)}
+						on:click={copyLink(`http://localhost:3000/game/${$page.params.id}`)}
 					>
 						<FaRegCopy />
 					</div>
@@ -276,7 +274,7 @@
 			name={$opponentName}
 		/>
 		<Box
-			style="hidden xl:block w-1/6 max-w-1/6 2xl:max-w-1/5"
+			style="hidden xl:block w-1/6 max-w-1/6 2xl:w-1/5 2xl:max-w-1/5"
 			gameId={$page.params.id}
 			title="Chat with your opponent"
 			textInput={true}

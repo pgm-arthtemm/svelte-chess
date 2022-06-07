@@ -93,7 +93,7 @@
 
 		let char: string;
 
-		if (validateMove($initPos, newPos, piece, color)) {
+		if (validateMove($initPos, newPos, piece, color, take)) {
 			img.setAttribute('data-position', newPos);
 
 			clockSwitch($page.params.id, $usernameStore);

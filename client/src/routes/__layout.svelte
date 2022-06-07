@@ -4,7 +4,7 @@
 	import { checkLogin } from '$lib/utils/checkLogin';
 </script>
 
-<div class="bg-gray-700 h-screen">
+<div>
 	<Nav {checkLogin} />
 	<main class="container mx-auto p-2 sm:p-0">
 		<slot />

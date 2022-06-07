@@ -86,7 +86,8 @@
 			</section>
 
 			<section>
-				<ul class="flex w-4/6 m-auto h-44 justify-between items-center">
+				<p class="font-bold text-xl mt-8" for="username">Choose your start color</p>
+				<ul class="flex w-4/6 m-auto h-32 justify-between items-center">
 					<li data-color="white">
 						<button on:click={() => selectColor('white')}>
 							<img src="/pieces/w-king.png" alt="white king" />
