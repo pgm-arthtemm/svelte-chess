@@ -1,0 +1,38 @@
+<script lang="ts">
+	import { page } from '$app/stores';
+	import { usernameStore } from '../../../../stores';
+	import { io } from 'socket.io-client';
+	import Cell from './cell/Cell.svelte';
+
+	const socket = io();
+
+	export let color: string = '';
+
+	let files: number[];
+	let ranks: string[];
+
+	if (color === 'black') {
+		files = [1, 2, 3, 4, 5, 6, 7, 8];
+		ranks = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'].reverse();
+	} else {
+		socket.emit('getStarter', { gameId: $page.params.id, playerMove: $usernameStore });
+		ranks = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
+		files = [1, 2, 3, 4, 5, 6, 7, 8].reverse();
+	}
+</script>
+
+<div class="board">
+	<div class="grid grid-cols-8 aspect-square">
+		{#each files as file, fileIndex}
+			{#if fileIndex % 2 === 0}
+				{#each ranks as rank, rankIndex}
+					<Cell color={`${rankIndex % 2 === 0 ? 'white' : 'black'}`} {file} {rank} />
+				{/each}
+			{:else}
+				{#each ranks as rank, rankIndex}
+					<Cell color={`${rankIndex % 2 === 0 ? 'black' : 'white'}`} {file} {rank} />
+				{/each}
+			{/if}
+		{/each}
+	</div>
+</div>
