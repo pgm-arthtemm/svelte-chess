@@ -6,7 +6,7 @@
     "build": "svelte-kit build",
     "package": "svelte-kit package",
     "preview": "svelte-kit preview",
-    "start": "node ./server",
+    "start": "node server",
     "prepare": "svelte-kit sync",
     "test": "playwright test",
     "check": "svelte-check --tsconfig ./tsconfig.json",
