@@ -2,12 +2,13 @@
 	import { apiBaseUrl } from '$lib/config/config';
 	import Modal from '../modal/Modal.svelte';
 	import { login } from '$lib/utils/auth/login';
+	import { usernameStore } from '../../../stores';
 
 	export let visible: boolean;
 	export let handleToggle: () => void;
-	export const afterGame: boolean = false;
+	export let afterGame: boolean = false;
 
-	let username: string = '';
+	let username: string = afterGame ? $usernameStore : '';
 	let email: string = '';
 	let password: string = '';
 

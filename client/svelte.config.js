@@ -64,7 +64,7 @@ const config = {
 	preprocess: preprocess(),
 
 	kit: {
-		adapter: adapter(),
+		adapter: adapter({ out: 'build' }),
 		vite: {
 			plugins: [webSocketServer]
 		}
