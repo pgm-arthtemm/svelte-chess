@@ -221,7 +221,7 @@
 			{/if}
 
 			<p>Copy the link below and send it to your friend.</p>
-			<p>When you are ready, click the button. If you both are ready, the game will start.</p>
+			<p>When you are ready, click the button. If you both are ready, the game will start!</p>
 
 			<div class="text-white mb-6 bg-gray-800 inline-block my-4 p-4 pt-3 rounded-xl relative">
 				<div class="flex items-center">
