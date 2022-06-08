@@ -9,6 +9,8 @@ export const usernameStore = writable('');
 
 export const initPos = writable('');
 
+export const replayMove = writable(-1);
+
 export const prevMove = writable({
 	from: '',
 	to: ''
@@ -34,6 +36,8 @@ export const selectedColor = writable();
 export const playerMoveStore = writable();
 
 export const opponentName = writable();
+
+export const winnerNameStore = writable();
 
 export const yourTimeSpent = writable(0);
 

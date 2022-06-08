@@ -1,6 +1,5 @@
+import { Game } from 'src/games/entities/game.entity';
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
-import Role from 'src/enums/roles.enum';
-import { Message } from 'src/messages/entities/message.entity';
 
 @Entity()
 export class User {
@@ -16,13 +15,6 @@ export class User {
   @Column()
   password: string;
 
-  @OneToMany(() => Message, (message) => message.user)
-  messages: Message[];
-
-  // @Column({
-  //   type: 'enum',
-  //   enum: Role,
-  //   default: Role.USER,
-  // })
-  // role: Role;
+  @OneToMany(() => Game, (game) => game.user)
+  games?: Game[];
 }

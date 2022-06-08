@@ -11,7 +11,8 @@
 		moveMade,
 		timeSettings,
 		opponentTimeSpent,
-		yourTimeSpent
+		yourTimeSpent,
+		winnerNameStore
 	} from '../../stores';
 	import { io } from 'socket.io-client';
 	import Box from '$lib/components/box/Box.svelte';
@@ -23,8 +24,12 @@
 	import FaCheck from 'svelte-icons/fa/FaCheck.svelte';
 	import FaSpinner from 'svelte-icons/fa/FaSpinner.svelte';
 	import Result from '$lib/components/game/modal/Result.svelte';
+	import jwt_decode from 'jwt-decode';
+	import Cookies from 'js-cookie';
 	import { ColorEnum } from '$lib/constants/color-enum';
 	import { ResultTypeEnum } from '$lib/constants/result-type.enum';
+	import { gameDataToServer } from '$lib/utils/game';
+	import { checkLogin } from '$lib/utils/checkLogin';
 
 	const socket = io();
 
@@ -51,11 +56,6 @@
 		showResult = !showResult;
 	};
 
-	/**
-	 * @TODO:
-	 * CHANGE THIS TO FALSE BEFORE DEPLOYMENT
-	 * READY = TRUE IS ONLY FOR TESTING
-	 */
 	let ready: boolean = false;
 	let timeReady: boolean = false;
 	let joined: boolean = false;
@@ -161,9 +161,33 @@
 		if (user.username === $usernameStore) {
 			won = false;
 			winnerName = $opponentName;
+			$winnerNameStore = $opponentName;
 		} else {
 			won = true;
 			winnerName = $usernameStore;
+			$winnerNameStore = $usernameStore;
+		}
+
+		if (checkLogin()) {
+			const { sub }: any = jwt_decode(Cookies.get('access_token'));
+
+			let whitePlayer: string = $selectedColor === 'white' ? $usernameStore : $opponentName;
+			let blackPlayer: string = $selectedColor === 'black' ? $usernameStore : $opponentName;
+			let movesString: string = '';
+			for (let i = 0; i < $moves.length; i++) {
+				movesString += $moves[i].initial + ',' + $moves[i].new + ',';
+			}
+
+			let gameData = {
+				winner: $winnerNameStore,
+				whitePlayer,
+				blackPlayer,
+				date: new Date(),
+				moves: movesString,
+				userId: sub
+			};
+
+			gameDataToServer(gameData);
 		}
 	});
 

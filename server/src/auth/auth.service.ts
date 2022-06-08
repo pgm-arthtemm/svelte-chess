@@ -16,7 +16,7 @@ export class AuthService {
     const valid = user && (await bcrypt.compare(password, user.password));
 
     if (valid) {
-      const { password, username, ...rest } = user;
+      const { password, ...rest } = user;
       return rest;
     }
 
@@ -24,7 +24,11 @@ export class AuthService {
   }
 
   async login(user: any) {
-    const payload = { email: user.email, sub: user.id };
+    const payload = {
+      email: user.email,
+      sub: user.id,
+      username: user.username,
+    };
 
     return {
       access_token: this.jwtSerivce.sign(payload),
