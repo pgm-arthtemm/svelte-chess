@@ -16,5 +16,6 @@ export const login = async (username: string, password: string, visible = false)
 		Cookies.set('access_token', data.access_token, { expires: 1 });
 		visible = !visible;
 		goto('/profile');
+		return data;
 	}
 };

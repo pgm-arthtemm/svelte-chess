@@ -11,7 +11,8 @@
 		moveMade,
 		timeSettings,
 		opponentTimeSpent,
-		yourTimeSpent
+		yourTimeSpent,
+		winnerNameStore
 	} from '../../stores';
 	import { io } from 'socket.io-client';
 	import Box from '$lib/components/box/Box.svelte';
@@ -161,9 +162,11 @@
 		if (user.username === $usernameStore) {
 			won = false;
 			winnerName = $opponentName;
+			$winnerNameStore = $opponentName;
 		} else {
 			won = true;
 			winnerName = $usernameStore;
+			$winnerNameStore = $usernameStore;
 		}
 	});
 

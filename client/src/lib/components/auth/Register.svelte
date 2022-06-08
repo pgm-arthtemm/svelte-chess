@@ -1,8 +1,17 @@
 <script lang="ts">
 	import { apiBaseUrl } from '$lib/config/config';
+	import jwt_decode from 'jwt-decode';
 	import Modal from '../modal/Modal.svelte';
+	import Cookies from 'js-cookie';
 	import { login } from '$lib/utils/auth/login';
-	import { usernameStore } from '../../../stores';
+	import {
+		moves,
+		selectedColor,
+		usernameStore,
+		opponentName,
+		winnerNameStore
+	} from '../../../stores';
+	import { gameDataToServer } from '$lib/utils/game';
 
 	export let visible: boolean;
 	export let handleToggle: () => void;
@@ -26,7 +35,29 @@
 		});
 
 		if (res.ok) {
-			login(username, password, visible);
+			login(username, password, visible).then((data) => {
+				const { sub }: any = jwt_decode(Cookies.get('access_token'));
+
+				let winner: string = $winnerNameStore;
+				let whitePlayer: string = $selectedColor === 'white' ? $usernameStore : $opponentName;
+				let blackPlayer: string = $selectedColor === 'black' ? $usernameStore : $opponentName;
+				let date = new Date();
+				let movesString: string = '';
+				$moves.forEach((move: any) => {
+					movesString += JSON.stringify(move);
+				});
+
+				let gameData = {
+					winner,
+					whitePlayer,
+					blackPlayer,
+					date,
+					moves: movesString,
+					userId: sub
+				};
+
+				gameDataToServer(gameData);
+			});
 		}
 	};
 </script>

@@ -35,6 +35,8 @@ export const playerMoveStore = writable();
 
 export const opponentName = writable();
 
+export const winnerNameStore = writable();
+
 export const yourTimeSpent = writable(0);
 
 export const opponentTimeSpent = writable(0);
