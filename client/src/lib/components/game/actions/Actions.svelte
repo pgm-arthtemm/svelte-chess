@@ -9,6 +9,7 @@
 	import FaPlay from 'svelte-icons/fa/FaPlay.svelte';
 
 	export let replay: boolean = false;
+	export let moves: any = undefined;
 
 	let forfeitVisible: boolean = false;
 	let playing: boolean = false;
@@ -36,6 +37,12 @@
 	const togglePlay = () => {
 		playing = !playing;
 	};
+
+	setInterval(() => {
+		if (playing && $replayMove < moves.length - 1) {
+			nextMove();
+		}
+	}, 1500);
 
 	const switchSide = () => {
 		console.log('switch side');

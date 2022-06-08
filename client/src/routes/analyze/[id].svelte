@@ -16,10 +16,6 @@
 
 		moves = movesConvert(game.moves);
 		converted = true;
-
-		if (converted) {
-			console.log(moves);
-		}
 	});
 </script>
 
@@ -29,7 +25,12 @@
 			<Board {moves} replay={true} color={startColor} />
 		</div>
 		<div class="md:flex justify-between md:mt-4 xl:mt-0 xl:block xl:w-1/5 2xl:w-1/4">
-			<Box replay={true} style="mt-4 md:mt-0 md:w-[calc(50%-0.5rem)] xl:w-auto" title="Actions" />
+			<Box
+				{moves}
+				replay={true}
+				style="mt-4 md:mt-0 md:w-[calc(50%-0.5rem)] xl:w-auto"
+				title="Actions"
+			/>
 			<Box
 				{moves}
 				replay={true}

@@ -41,7 +41,7 @@
 				<Moves />
 			{/if}
 		{:else if title === 'Actions'}
-			<Actions {replay} />
+			<Actions {moves} {replay} />
 		{/if}
 	</div>
 	<div class="border-t-8 border-gray-800">
