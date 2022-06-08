@@ -38,20 +38,18 @@
 			login(username, password, visible).then((data) => {
 				const { sub }: any = jwt_decode(Cookies.get('access_token'));
 
-				let winner: string = $winnerNameStore;
 				let whitePlayer: string = $selectedColor === 'white' ? $usernameStore : $opponentName;
 				let blackPlayer: string = $selectedColor === 'black' ? $usernameStore : $opponentName;
-				let date = new Date();
 				let movesString: string = '';
-				$moves.forEach((move: any) => {
-					movesString += JSON.stringify(move);
-				});
+				for (let i = 0; i < $moves.length; i++) {
+					movesString += $moves[i].initial + ', ' + $moves[i].new + ', ';
+				}
 
 				let gameData = {
-					winner,
+					winner: $winnerNameStore,
 					whitePlayer,
 					blackPlayer,
-					date,
+					date: new Date(),
 					moves: movesString,
 					userId: sub
 				};
