@@ -5,8 +5,7 @@
 	import { usernameStore } from '../../../stores';
 
 	export let data: any;
-
-	console.log(data);
+	export let loggedInName: string;
 </script>
 
 <div class="border-8 border-gray-800 rounded-lg py-2 px-6">
@@ -34,7 +33,7 @@
 					>
 				</div>
 				<div>
-					{#if match.winner === $usernameStore}
+					{#if match.winner === loggedInName}
 						<Button text="WIN" type={ButtonEnum.success} />
 					{:else if match.winner === 'draw'}
 						<Button text="DRAW" type={ButtonEnum.warning} />

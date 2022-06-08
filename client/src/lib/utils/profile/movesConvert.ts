@@ -1,11 +1,19 @@
 export const movesConvert = (moves: string) => {
 	const movesArray = moves.split(',');
 
+	const movesArrayFixed = movesArray.map((move) => {
+		if (move.length > 2) {
+			return move.substring(1);
+		} else {
+			return move;
+		}
+	});
+
 	const pairs = [];
-	for (let i = 0; i < movesArray.length; i += 2) {
+	for (let i = 0; i < movesArrayFixed.length; i += 2) {
 		pairs.push({
-			from: movesArray[i],
-			to: movesArray[i + 1]
+			from: movesArrayFixed[i],
+			to: movesArrayFixed[i + 1]
 		});
 	}
 

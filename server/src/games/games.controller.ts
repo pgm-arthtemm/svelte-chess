@@ -22,7 +22,7 @@ export class GamesController {
 
   @Get('id/:id')
   findOne(@Param('id') id: string) {
-    return this.gamesService.findOne(+id);
+    return this.gamesService.findOne(id);
   }
 
   @Get('userId/:userId')

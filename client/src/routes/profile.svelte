@@ -6,11 +6,14 @@
 	import { onMount } from 'svelte';
 
 	let gameData: any;
+	let loggedInUser: string;
 
 	onMount(async () => {
 		if (checkLogin()) {
-			const { sub }: any = jwt_decode(Cookies.get('access_token'));
-			const response = await fetch(`http://localhost:4000/games/userId/${sub}`);
+			const decoded: any = jwt_decode(Cookies.get('access_token'));
+			loggedInUser = decoded.username;
+
+			const response = await fetch(`http://localhost:4000/games/userId/${decoded.sub}`);
 			gameData = await response.json();
 		}
 	});
@@ -36,5 +39,5 @@
 			</section>
 		</div>
 	</div>
-	<MatchHistory data={gameData} />
+	<MatchHistory loggedInName={loggedInUser} data={gameData} />
 {/if}

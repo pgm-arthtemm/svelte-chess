@@ -3,10 +3,13 @@
 	import { usernameStore } from '../../../../stores';
 	import { io } from 'socket.io-client';
 	import Cell from './cell/Cell.svelte';
+	import CellReplay from './replay/CellReplay.svelte';
 
 	const socket = io();
 
 	export let color: string = '';
+	export let replay: boolean = false;
+	export let moves: any = undefined;
 
 	let files: number[];
 	let ranks: string[];
@@ -26,11 +29,29 @@
 		{#each files as file, fileIndex}
 			{#if fileIndex % 2 === 0}
 				{#each ranks as rank, rankIndex}
-					<Cell color={`${rankIndex % 2 === 0 ? 'white' : 'black'}`} {file} {rank} />
+					{#if replay}
+						<CellReplay
+							{moves}
+							color={`${rankIndex % 2 === 0 ? 'white' : 'black'}`}
+							{file}
+							{rank}
+						/>
+					{:else}
+						<Cell color={`${rankIndex % 2 === 0 ? 'white' : 'black'}`} {file} {rank} />
+					{/if}
 				{/each}
 			{:else}
 				{#each ranks as rank, rankIndex}
-					<Cell color={`${rankIndex % 2 === 0 ? 'black' : 'white'}`} {file} {rank} />
+					{#if replay}
+						<CellReplay
+							{moves}
+							color={`${rankIndex % 2 === 0 ? 'black' : 'white'}`}
+							{file}
+							{rank}
+						/>
+					{:else}
+						<Cell color={`${rankIndex % 2 === 0 ? 'black' : 'white'}`} {file} {rank} />
+					{/if}
 				{/each}
 			{/if}
 		{/each}

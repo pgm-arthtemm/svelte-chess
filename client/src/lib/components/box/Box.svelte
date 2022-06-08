@@ -4,6 +4,7 @@
 	import Actions from '../game/actions/Actions.svelte';
 	import { io } from 'socket.io-client';
 	import Moves from '../game/moves/Moves.svelte';
+	import MovesReplay from '../game/moves/MovesReplay.svelte';
 	const socket = io();
 
 	export const chat: any = [];
@@ -11,6 +12,8 @@
 	export let title: string;
 	export let textInput: boolean = false;
 	export let style: string = '';
+	export let replay: boolean = false;
+	export let moves: any = undefined;
 
 	let chatMessage: string = '';
 
@@ -32,9 +35,13 @@
 		{#if textInput}
 			<Chat />
 		{:else if title === 'Moves played'}
-			<Moves />
+			{#if replay}
+				<MovesReplay {moves} />
+			{:else}
+				<Moves />
+			{/if}
 		{:else if title === 'Actions'}
-			<Actions />
+			<Actions {replay} />
 		{/if}
 	</div>
 	<div class="border-t-8 border-gray-800">

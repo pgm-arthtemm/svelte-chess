@@ -9,6 +9,8 @@ export const usernameStore = writable('');
 
 export const initPos = writable('');
 
+export const replayMove = writable(-1);
+
 export const prevMove = writable({
 	from: '',
 	to: ''
