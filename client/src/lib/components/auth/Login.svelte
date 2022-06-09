@@ -29,6 +29,7 @@
 			error = true;
 		} else {
 			visible = !visible;
+			window.location.reload();
 			$usernameStore = username;
 		}
 	};

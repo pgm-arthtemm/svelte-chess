@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { moves, replayMove, prevMove } from '../stores';
+	import { moves, replayMove, prevMove, usernameStore } from '../stores';
 	import MatchHistory from '$lib/components/profile/MatchHistory.svelte';
 	import { checkLogin } from '$lib/utils/checkLogin';
 	import jwt_decode from 'jwt-decode';
@@ -21,6 +21,7 @@
 		if (checkLogin()) {
 			const decoded: any = jwt_decode(Cookies.get('access_token'));
 			loggedInUser = decoded.username;
+			$usernameStore = decoded.username;
 
 			const response = await fetch(`${apiBaseUrl}/games/userId/${decoded.sub}`);
 			gameData = await response.json();

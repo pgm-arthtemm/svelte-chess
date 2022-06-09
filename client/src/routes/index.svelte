@@ -36,13 +36,11 @@
 	}
 
 	const openNewGame = (): any => {
-		const newGameButton = document.getElementById('newGame');
-		newGameButton.click();
+		document.getElementById('newGame').click();
 	};
 
 	const createAccount = (): any => {
-		const accountButton = document.getElementById('createAccount');
-		accountButton.click();
+		document.getElementById('createAccount').click();
 	};
 </script>
 
