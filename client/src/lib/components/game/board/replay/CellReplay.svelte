@@ -6,20 +6,21 @@
 	export let rank: string;
 	export let moves: any;
 
-	$: if ($replayMove >= 0 && moves[$replayMove].from === `${rank}${file}`) {
-		const image = document.querySelector(`[data-position="${rank}${file}"]`);
-		const source = document.querySelector(`[data-id="${moves[$replayMove].from}"]`);
-		const destination = document.querySelector(`[data-id="${moves[$replayMove].to}"]`);
+	$: if ($replayMove >= 0 && $replayMove < moves.length) {
+		if (moves[$replayMove].from === `${rank}${file}`) {
+			const image = document.querySelector(`[data-position="${rank}${file}"]`);
+			const source = document.querySelector(`[data-id="${moves[$replayMove].from}"]`);
+			const destination = document.querySelector(`[data-id="${moves[$replayMove].to}"]`);
 
-		// if destination has image
-		if (destination.querySelector('img')) {
-			destination.querySelector('img').remove();
-			destination.appendChild(source.querySelector('img'));
-			image.setAttribute('data-position', moves[$replayMove].to);
-		} else {
-			source.childNodes[0].remove();
-			destination.appendChild(image);
-			image.setAttribute('data-position', moves[$replayMove].to);
+			if (destination.querySelector('img')) {
+				destination.querySelector('img').remove();
+				destination.appendChild(source.querySelector('img'));
+				image.setAttribute('data-position', moves[$replayMove].to);
+			} else {
+				source.childNodes[0].remove();
+				destination.appendChild(image);
+				image.setAttribute('data-position', moves[$replayMove].to);
+			}
 		}
 	}
 </script>

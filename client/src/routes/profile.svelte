@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { moves, replayMove, prevMove } from '../stores';
 	import MatchHistory from '$lib/components/profile/MatchHistory.svelte';
 	import { checkLogin } from '$lib/utils/checkLogin';
 	import jwt_decode from 'jwt-decode';
@@ -8,6 +9,13 @@
 
 	let gameData: any;
 	let loggedInUser: string;
+
+	$replayMove = -1;
+	$moves = [];
+	$prevMove = {
+		from: '',
+		to: ''
+	};
 
 	onMount(async () => {
 		if (checkLogin()) {
