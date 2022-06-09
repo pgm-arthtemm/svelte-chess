@@ -12,7 +12,8 @@
 		timeSettings,
 		opponentTimeSpent,
 		yourTimeSpent,
-		winnerNameStore
+		winnerNameStore,
+		gameStarter
 	} from '../../stores';
 	import { io } from 'socket.io-client';
 	import Box from '$lib/components/box/Box.svelte';
@@ -244,38 +245,43 @@
 				<h1>Hey <span class="font-bold">{$usernameStore}</span> !</h1>
 			{/if}
 
-			<p>Copy the link below and send it to your friend.</p>
-			<p>When you are ready, click the button. If you both are ready, the game will start!</p>
+			{#if $gameStarter}
+				<p>Copy the link below and send it to your friend.</p>
+				<p>When you are ready, click the button. If you both are ready, the game will start!</p>
 
-			<div class="text-white mb-6 bg-gray-800 inline-block my-4 p-4 pt-3 rounded-xl relative">
-				<div class="flex items-center">
-					<p class="mr-4">
-						{`https://svelte-chess.herokuapp.com/game/${$page.params.id}`}
-					</p>
-					<div
-						class="w-7 h-7 cursor-pointer"
-						on:click={copyLink(`https://svelte-chess.herokuapp.com/game/${$page.params.id}`)}
-					>
-						<FaRegCopy />
-					</div>
-				</div>
-
-				{#if copied}
-					<div
-						in:fade
-						out:fade
-						class="p-2 px-3 -right-10 -bottom-14 inline-block rounded-lg bg-gray-900 text-white font-semibold absolute"
-					>
-						<div class="flex items-center">
-							<p class="mr-2">Copied link</p>
-							<div class="text-green-500 w-4 h-4">
-								<FaCheck />
-							</div>
+				<div class="text-white mb-6 bg-gray-800 inline-block my-4 p-4 pt-3 rounded-xl relative">
+					<div class="flex items-center">
+						<p class="mr-4">
+							{`https://svelte-chess.herokuapp.com/game/${$page.params.id}`}
+						</p>
+						<div
+							class="w-7 h-7 cursor-pointer"
+							on:click={copyLink(`https://svelte-chess.herokuapp.com/game/${$page.params.id}`)}
+						>
+							<FaRegCopy />
 						</div>
 					</div>
-				{/if}
-			</div>
-			<Button text="READY" onClick={joinRoom} type={ButtonEnum.success} />
+
+					{#if copied}
+						<div
+							in:fade
+							out:fade
+							class="p-2 px-3 -right-10 -bottom-14 inline-block rounded-lg bg-gray-900 text-white font-semibold absolute"
+						>
+							<div class="flex items-center">
+								<p class="mr-2">Copied link</p>
+								<div class="text-green-500 w-4 h-4">
+									<FaCheck />
+								</div>
+							</div>
+						</div>
+					{/if}
+				</div>
+			{/if}
+
+			{#if !joined}
+				<Button text="READY" onClick={joinRoom} type={ButtonEnum.success} />
+			{/if}
 		</div>
 	</div>
 {/if}
