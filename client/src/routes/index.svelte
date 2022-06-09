@@ -2,6 +2,7 @@
 	import { checkLogin } from '$lib/utils/checkLogin';
 	import jwt_decode from 'jwt-decode';
 	import Cookies from 'js-cookie';
+	import { apiBaseUrl } from '$lib/config/config';
 
 	export const load = async ({ fetch }) => {
 		let user: any;
@@ -9,8 +10,8 @@
 
 		if (checkLogin()) {
 			const { sub }: any = jwt_decode(Cookies.get('access_token'));
-			const response = await fetch(`http://localhost:4000/users/id/${sub}`);
-			const repsonse2 = await fetch('http://localhost:4000/users');
+			const response = await fetch(`${apiBaseUrl}/users/id/${sub}`);
+			const repsonse2 = await fetch(`${apiBaseUrl}/users`);
 			user = await response.json();
 			users = await repsonse2.json();
 		}
