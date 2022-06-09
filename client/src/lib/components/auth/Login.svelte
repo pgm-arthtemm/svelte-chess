@@ -9,6 +9,7 @@
 
 	let username: string = '';
 	let password: string = '';
+	let error: boolean = false;
 
 	let registerModal: boolean = false;
 
@@ -22,12 +23,13 @@
 	};
 
 	const loginUser = async (username: string, password: string): Promise<void> => {
-		try {
-			login(username, password, visible);
-			$usernameStore = username;
+		const res: any = await login(username, password);
+
+		if (res.statusCode === 401) {
+			error = true;
+		} else {
 			visible = !visible;
-		} catch (e) {
-			console.log(e);
+			$usernameStore = username;
 		}
 	};
 </script>
@@ -45,6 +47,12 @@
 					<label class="font-bold text-xl pb-2" for="password">Password</label>
 					<input bind:value={password} type="password" placeholder="password" />
 				</div>
+
+				{#if error}
+					<div>
+						<p class="text-red-500 text-center">Incorrect username or password</p>
+					</div>
+				{/if}
 			</section>
 
 			<button

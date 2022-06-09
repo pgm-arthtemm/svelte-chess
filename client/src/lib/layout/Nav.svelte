@@ -56,6 +56,7 @@
 						>
 					{:else}
 						<button
+							id="createAccount"
 							class="font-semibold mr-6 transition-all duration-200 hover:text-red-500"
 							on:click={handleToggle}>Log in</button
 						>

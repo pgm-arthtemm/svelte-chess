@@ -20,6 +20,7 @@
 	let username: string = afterGame ? $usernameStore : '';
 	let email: string = '';
 	let password: string = '';
+	let error: boolean = false;
 
 	const register = async (username: string, email: string, password: string): Promise<void> => {
 		const res = await fetch(`${apiBaseUrl}/auth/register`, {
@@ -35,7 +36,9 @@
 		});
 
 		if (res.ok) {
-			login(username, password, visible).then((data) => {
+			handleToggle();
+
+			login(username, password).then((data) => {
 				const { sub }: any = jwt_decode(Cookies.get('access_token'));
 
 				let whitePlayer: string = $selectedColor === 'white' ? username : $opponentName;
@@ -56,12 +59,14 @@
 
 				gameDataToServer(gameData);
 			});
+		} else {
+			error = true;
 		}
 	};
 </script>
 
 {#if visible}
-	<Modal title="Register" open={visible} on:close={() => handleToggle()}>
+	<Modal title="Register" open={visible} on:close={handleToggle}>
 		<svelte:fragment slot="modal-body">
 			<section>
 				<div class="flex flex-col">
@@ -79,11 +84,16 @@
 					<input bind:value={password} type="password" placeholder="password" />
 				</div>
 
+				{#if error}
+					<div>
+						<p class="text-red-500 text-center">Username or email already exist</p>
+					</div>
+				{/if}
+
 				<button
 					class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mt-4 rounded"
 					on:click={() => {
 						register(username, email, password);
-						handleToggle();
 					}}>Register</button
 				>
 			</section>

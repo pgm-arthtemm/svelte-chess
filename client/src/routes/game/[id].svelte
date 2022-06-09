@@ -31,6 +31,7 @@
 	import { ResultTypeEnum } from '$lib/constants/result-type.enum';
 	import { gameDataToServer } from '$lib/utils/game';
 	import { checkLogin } from '$lib/utils/checkLogin';
+	import { onMount } from 'svelte';
 
 	const socket = io();
 
@@ -52,6 +53,13 @@
 	let result: ColorEnum;
 	let won: boolean;
 	let winnerName: string;
+
+	onMount(() => {
+		if (checkLogin()) {
+			const { username }: any = jwt_decode(Cookies.get('access_token'));
+			$usernameStore = username;
+		}
+	});
 
 	const toggleResult = () => {
 		showResult = !showResult;

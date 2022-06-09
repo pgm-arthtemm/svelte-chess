@@ -53,12 +53,14 @@
 					</td>
 					<td>
 						<p class=" text-white">
-							{movesConvert(match.moves).length - 1}
+							{movesConvert(match.moves).length}
 						</p>
 					</td>
 					<td>
-						<a class="text-blue-400 cursor-pointer underline" href={`/analyze/${match.id}`}
-							>Analyze</a
+						<a
+							sveltekit:prefetch
+							class="text-blue-400 cursor-pointer underline"
+							href={`/analyze/${match.id}`}>Analyze</a
 						>
 					</td>
 					<td>
