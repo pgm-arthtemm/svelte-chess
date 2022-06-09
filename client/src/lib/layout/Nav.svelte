@@ -1,7 +1,7 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import Login from '$lib/components/auth/Login.svelte';
 	import NewGame from '$lib/components/game/modal/NewGame.svelte';
-	import ThemeToggle from '$lib/components/theme/ThemeToggle.svelte';
 	import Cookie from 'js-cookie';
 
 	export let checkLogin: () => boolean;
@@ -11,6 +11,7 @@
 
 	const handleLogOut = (): void => {
 		Cookie.remove('access_token');
+		goto('/');
 		window.location.reload();
 	};
 
@@ -56,6 +57,7 @@
 						>
 					{:else}
 						<button
+							id="createAccount"
 							class="font-semibold mr-6 transition-all duration-200 hover:text-red-500"
 							on:click={handleToggle}>Log in</button
 						>

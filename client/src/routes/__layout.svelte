@@ -1,7 +1,9 @@
-<script>
+<script lang="ts">
 	import '../app.postcss';
 	import Nav from '$lib/layout/Nav.svelte';
 	import { checkLogin } from '$lib/utils/checkLogin';
+
+	$: checkLogin();
 </script>
 
 <div>
