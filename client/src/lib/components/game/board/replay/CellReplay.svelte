@@ -7,6 +7,10 @@
 	export let moves: any;
 
 	$: if ($replayMove >= 0 && $replayMove < moves.length) {
+		if (moves[$replayMove].to !== undefined && moves[$replayMove].to.length > 2) {
+			moves[$replayMove].to = moves[$replayMove].to.substring(1);
+		}
+
 		if (moves[$replayMove].from === `${rank}${file}`) {
 			const image = document.querySelector(`[data-position="${rank}${file}"]`);
 			const source = document.querySelector(`[data-id="${moves[$replayMove].from}"]`);

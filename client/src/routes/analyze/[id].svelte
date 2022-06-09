@@ -20,21 +20,21 @@
 </script>
 
 {#if converted}
-	<div class="xl:flex">
+	<div class="xl:flex xl:justify-between">
 		<div class="md:flex m-auto justify-center">
 			<Board {moves} replay={true} color={startColor} />
 		</div>
-		<div class="md:flex justify-between md:mt-4 xl:inline-block m-auto">
+		<div class="md:flex justify-between md:mt-4 xl:w-1/3 xl:mt-0 xl:inline-block m-auto">
 			<Box
 				{moves}
 				replay={true}
-				style="mt-4 md:mt-0 md:w-[calc(50%-0.5rem)] xl:m-auto xl:w-2/3 2xl:w-full"
+				style="mt-4 md:mt-0 md:w-[calc(50%-0.5rem)] xl:w-full xl:m-0 xl:m-auto xl:w-2/3 2xl:w-full"
 				title="Actions"
 			/>
 			<Box
 				{moves}
 				replay={true}
-				style="mt-4 md:mt-0 md:w-[calc(50%-0.5rem)] xl:m-auto xl:w-2/3 2xl:w-full"
+				style="mt-4 md:mt-0 md:w-[calc(50%-0.5rem)] xl:w-full xl:m-0 xl:m-auto xl:w-2/3 2xl:w-full"
 				title="Moves played"
 			/>
 		</div>
