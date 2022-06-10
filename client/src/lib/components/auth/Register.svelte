@@ -41,7 +41,6 @@
 
 			if (!afterGame) {
 				login(username, password);
-				window.location.reload();
 			} else {
 				login(username, password).then((data) => {
 					const { sub }: any = jwt_decode(Cookies.get('access_token'));
