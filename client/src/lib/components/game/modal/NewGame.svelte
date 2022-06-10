@@ -8,6 +8,11 @@
 	import { onMount } from 'svelte';
 	import { timeOptions } from '$lib/config/config';
 
+	const environment = process.env.NODE_ENV || 'development';
+
+	export const redirectUrl =
+		environment === 'production' ? 'https://svelte-chess.herokuapp.com' : 'http://localhost:3000';
+
 	const socket = io();
 	const gameRoomId: string = uuidv4();
 
@@ -54,7 +59,7 @@
 		}
 
 		newGameVisible = false;
-		goto(`http://localhost:3000/game/${gameRoomId}`);
+		goto(`${redirectUrl}/${gameRoomId}`);
 	};
 </script>
 
