@@ -44,7 +44,6 @@
 				window.location.reload();
 			} else {
 				login(username, password).then((data) => {
-					window.location.reload();
 					const { sub }: any = jwt_decode(Cookies.get('access_token'));
 
 					let whitePlayer: string = $selectedColor === 'white' ? username : $opponentName;

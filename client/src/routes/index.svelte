@@ -23,6 +23,7 @@
 				const { sub }: any = jwt_decode(Cookies.get('access_token'));
 				const userRes = await fetch(`${apiBaseUrl}/users/id/${sub}`);
 				user = await userRes.json();
+				$usernameStore = user.username;
 			}
 
 			loaded = true;
@@ -30,10 +31,6 @@
 
 		getData();
 	});
-
-	if (checkLogin() && loaded) {
-		$usernameStore = user.username;
-	}
 
 	const openNewGame = (): any => {
 		document.getElementById('newGame').click();
@@ -60,7 +57,7 @@
 					<span class="text-white">{users.length}</span> players registered.
 				</p>
 				<p class="text-lg font-semibold text-gray-400">
-					<span class="text-white">{games.length}</span> games played.
+					<span class="text-white">{games.length}</span> games hosted.
 				</p>
 			</div>
 			<div

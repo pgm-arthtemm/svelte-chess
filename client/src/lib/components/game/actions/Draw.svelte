@@ -4,24 +4,24 @@
 	import Button from '$lib/components/button/Button.svelte';
 	import Modal from '$lib/components/modal/Modal.svelte';
 	import { ButtonEnum } from '$lib/constants/button-enum';
-	import { forfeit } from '$lib/utils/game/actions';
+	import { draw } from '$lib/utils/game/actions';
 
-	export let forfeitVisible: boolean;
-	export let toggleForfeit: () => void = () => {};
+	export let toggleDraw: () => void = () => {};
+	export let drawVisible: boolean = false;
 
 	const confirm = () => {
-		forfeit($page.params.id, $usernameStore, $selectedColor);
-		toggleForfeit();
+		draw($page.params.id, $usernameStore);
+		toggleDraw();
 	};
 </script>
 
-<Modal title="Do you want to forfeit?" open={forfeitVisible} on:close={toggleForfeit}>
+<Modal title="Do you want to request a draw?" open={drawVisible} on:close={toggleDraw}>
 	<svelte:fragment slot="modal-body">
 		<section>
-			<p class="text-2xl font-bold text-center mb-4">Are you sure you want to forfeit?</p>
+			<p class="text-2xl font-bold text-center mb-4">Are you sure you want to request a draw?</p>
 			<div class="flex md:w-2/3 m-auto md:justify-between">
 				<Button text="YES" onClick={confirm} type={ButtonEnum.success} />
-				<Button text="NO" onClick={toggleForfeit} type={ButtonEnum.danger} />
+				<Button text="NO" onClick={toggleDraw} type={ButtonEnum.danger} />
 			</div>
 		</section>
 	</svelte:fragment>
