@@ -6,6 +6,13 @@
 	import Cookies from 'js-cookie';
 	import { onMount } from 'svelte';
 	import { apiBaseUrl } from '$lib/config/config';
+	import { goto } from '$app/navigation';
+
+	onMount(() => {
+		if (!checkLogin()) {
+			goto('/');
+		}
+	});
 
 	let gameData: any;
 	let loggedInUser: string;

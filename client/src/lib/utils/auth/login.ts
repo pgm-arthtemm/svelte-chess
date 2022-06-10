@@ -1,4 +1,3 @@
-import { goto } from '$app/navigation';
 import { apiBaseUrl } from '$lib/config/config';
 import Cookies from 'js-cookie';
 
@@ -15,10 +14,7 @@ export const login = async (username: string, password: string): Promise<void> =
 
 	if (res.ok) {
 		Cookies.set('access_token', data.access_token, { expires: 1 });
-		goto('/profile');
-		setTimeout(() => {
-			window.location.reload();
-		}, 500);
+		window.location.reload();
 
 		return data;
 	} else {

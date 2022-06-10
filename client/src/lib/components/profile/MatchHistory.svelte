@@ -2,8 +2,12 @@
 	import { ButtonEnum } from '$lib/constants/button-enum';
 	import Button from '../button/Button.svelte';
 	import { movesConvert } from '$lib/utils/profile/movesConvert';
+	import { dateConvert } from '$lib/utils/profile/dateConvert';
 
 	export let data: any;
+
+	const gameData = data.reverse();
+
 	export let loggedInName: string;
 
 	const openNewGame = () => {
@@ -11,7 +15,7 @@
 	};
 </script>
 
-{#if data.length > 0}
+{#if gameData.length > 0}
 	<h1 class="text-white font-semibold text-5xl">Your match history</h1>
 	<div class="border-8 border-gray-800 rounded-lg py-2 my-4 px-6">
 		<table class="w-full text-lg text-left text-white">
@@ -26,7 +30,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				{#each data as match}
+				{#each gameData as match}
 					<tr>
 						<td>
 							<div class="flex items-center mb-1">
@@ -51,7 +55,7 @@
 						</td>
 						<td>
 							<p class=" text-white">
-								{match.date}
+								{dateConvert(match.date)}
 							</p>
 						</td>
 						<td>

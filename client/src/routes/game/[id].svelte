@@ -277,7 +277,7 @@
 </script>
 
 <svelte:head>
-	<title>{changeTitle(userMove)} - Svelte Chess</title>
+	<title>New Game - Svelte Chess</title>
 </svelte:head>
 
 {#if !accepted}

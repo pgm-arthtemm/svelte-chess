@@ -47,9 +47,9 @@
 
 {#if loaded}
 	<div
-		class="text-center text-3xl md:text-4xl 2xl:text-6xl 2xl:leading-normal 2xl:font-bold md:flex text-white font-semibold mt-4"
+		class="text-center text-3xl md:text-4xl 2xl:text-6xl 2xl:leading-normal 2xl:font-bold md:flex text-white items-center font-semibold mt-4"
 	>
-		<img class="hidden w-1/2 md:block" src="/board.PNG" alt="board" />
+		<img class="hidden w-1/2 h-1/2 md:block" src="/board.PNG" alt="board" />
 		<div class="p-8">
 			<h1>Play Chess for Free against your friends!</h1>
 			<div class="flex justify-between mt-6 lg:w-2/3 m-auto">
@@ -57,7 +57,7 @@
 					<span class="text-white">{users.length}</span> players registered.
 				</p>
 				<p class="text-lg font-semibold text-gray-400">
-					<span class="text-white">{games.length}</span> games hosted.
+					<span class="text-white">{Math.floor(games.length / 2)}</span> games hosted.
 				</p>
 			</div>
 			<div
