@@ -5,6 +5,9 @@ export const apiBaseUrl =
 		? 'https://svelte-chess-server.herokuapp.com'
 		: 'http://localhost:4000';
 
+export const frontendBaseUrl =
+	environment === 'production' ? 'https://svelte-chess.herokuapp.com' : 'http://localhost:3000';
+
 export const timeOptions = {
 	1: '1',
 	2: '2',

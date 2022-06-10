@@ -62,7 +62,6 @@ export const webSocketServer = {
 			});
 
 			socket.on('confirmDraw', (data) => {
-				console.log('ACCEPT DRAW');
 				socket.broadcast.to(data).emit('getConfirmDraw');
 			});
 		});
