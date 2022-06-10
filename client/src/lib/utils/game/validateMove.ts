@@ -22,17 +22,17 @@ export const validateMove = (
 							return true;
 						}
 					}
-				}
-
-				if (startRank === 2) {
-					if (
-						(newRank === 4 && startFile === newFile) ||
-						(newRank === 3 && startFile === newFile)
-					) {
+				} else {
+					if (startRank === 2) {
+						if (
+							(newRank === 4 && startFile === newFile) ||
+							(newRank === 3 && startFile === newFile)
+						) {
+							return true;
+						}
+					} else if (newRank === startRank + 1 && startFile === newFile) {
 						return true;
 					}
-				} else if (newRank === startRank + 1 && startFile === newFile) {
-					return true;
 				}
 			} else if (color === 'black') {
 				if (take) {
@@ -41,17 +41,17 @@ export const validateMove = (
 							return true;
 						}
 					}
-				}
-
-				if (startRank === 7) {
-					if (
-						(newRank === 5 && startFile === newFile) ||
-						(newRank === 6 && startFile === newFile)
-					) {
+				} else {
+					if (startRank === 7) {
+						if (
+							(newRank === 5 && startFile === newFile) ||
+							(newRank === 6 && startFile === newFile)
+						) {
+							return true;
+						}
+					} else if (newRank === startRank - 1 && newFile === startFile) {
 						return true;
 					}
-				} else if (newRank === startRank - 1 && newFile === startFile) {
-					return true;
 				}
 			}
 			break;

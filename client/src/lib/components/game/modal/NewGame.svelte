@@ -54,7 +54,7 @@
 		}
 
 		newGameVisible = false;
-		goto(`game/${gameRoomId}`);
+		goto(`http://localhost:3000/game/${gameRoomId}`);
 	};
 </script>
 

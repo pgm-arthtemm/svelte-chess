@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Register from '$lib/components/auth/Register.svelte';
 	import Modal from '$lib/components/modal/Modal.svelte';
-	import type { ColorEnum } from '$lib/constants/color-enum';
+	import { ColorEnum } from '$lib/constants/color-enum';
 	import type { ResultTypeEnum } from '$lib/constants/result-type.enum';
 	import { checkLogin } from '$lib/utils/checkLogin';
 	import { timeConvert } from '$lib/utils/game';
@@ -13,12 +13,13 @@
 		yourTimeSpent
 	} from '../../../../stores';
 
-	export let result: ColorEnum;
-	export let won: boolean;
+	export let result: ColorEnum = ColorEnum.none;
+	export let won: boolean = false;
 	export let winnerName: string;
 	export let resultType: ResultTypeEnum;
 	export let showResult: boolean = false;
 	export let toggleResult: () => void;
+	export let draw: boolean = false;
 
 	let showRegister: boolean = false;
 	const toggleRegister = () => (showRegister = !showRegister);
@@ -32,7 +33,15 @@
 		notWinnerName === $opponentName;
 	}
 
-	won ? (title = 'You won!') : (title = 'You lost!');
+	if (won) {
+		title = 'You won!';
+	} else {
+		title = 'You lost!';
+	}
+
+	if (draw) {
+		title = 'Draw!';
+	}
 </script>
 
 <Modal {title} open={showResult} on:close={toggleResult}>
@@ -67,7 +76,11 @@
 			</div>
 
 			<div class="text-lg font-semibold mt-6 text-center">
-				<p>You {won ? 'won' : 'lost'} the game by <span class="font-bold">{resultType}</span>.</p>
+				{#if draw}
+					<p>The game ended in a <span class="font-bold">draw</span></p>
+				{:else}
+					<p>You {won ? 'won' : 'lost'} the game by <span class="font-bold">{resultType}</span>.</p>
+				{/if}
 				<p>
 					This game took <span class="font-bold"
 						>{timeConvert($opponentTimeSpent + $yourTimeSpent)}</span

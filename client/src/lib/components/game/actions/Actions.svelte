@@ -8,15 +8,20 @@
 	import FaPlay from 'svelte-icons/fa/FaPlay.svelte';
 	import FaFastBackward from 'svelte-icons/fa/FaFastBackward.svelte';
 	import FaPause from 'svelte-icons/fa/FaPause.svelte';
+	import Modal from '$lib/components/modal/Modal.svelte';
+	import Button from '$lib/components/button/Button.svelte';
+	import { ButtonEnum } from '$lib/constants/button-enum';
+	import Draw from './Draw.svelte';
 
 	export let replay: boolean = false;
 	export let moves: any = undefined;
 
 	let forfeitVisible: boolean = false;
+	let drawVisible: boolean = false;
 	let playing: boolean = false;
 
-	const askForDraw = () => {
-		console.log('ask for draw');
+	const toggleDraw = () => {
+		drawVisible = !drawVisible;
 	};
 
 	const openForfeit = () => {
@@ -79,7 +84,7 @@
 		<div on:click={() => openForfeit()} class="text-white w-7 h-7 cursor-pointer">
 			<FaFlag />
 		</div>
-		<div on:click={() => askForDraw()} class="text-white w-8 h-8 cursor-pointer">
+		<div on:click={() => toggleDraw()} class="text-white w-8 h-8 cursor-pointer">
 			<FaHandshake />
 		</div>
 	{/if}
@@ -87,4 +92,8 @@
 
 {#if forfeitVisible}
 	<Forfeit {forfeitVisible} {toggleForfeit} />
+{/if}
+
+{#if drawVisible}
+	<Draw {drawVisible} {toggleDraw} />
 {/if}

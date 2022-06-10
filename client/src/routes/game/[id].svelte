@@ -32,6 +32,7 @@
 	import { gameDataToServer } from '$lib/utils/game';
 	import { checkLogin } from '$lib/utils/checkLogin';
 	import { onMount } from 'svelte';
+	import DrawOffer from '$lib/components/game/actions/DrawOffer.svelte';
 
 	const socket = io();
 
@@ -52,7 +53,10 @@
 	let resultType: ResultTypeEnum = ResultTypeEnum.forfeit;
 	let result: ColorEnum;
 	let won: boolean;
+	let draw: boolean = false;
 	let winnerName: string;
+	let drawOfferVisible: boolean = false;
+	let drawName: string = '';
 
 	onMount(() => {
 		if (checkLogin()) {
@@ -60,6 +64,10 @@
 			$usernameStore = username;
 		}
 	});
+
+	const toggleDrawOffer = () => {
+		drawOfferVisible = !drawOfferVisible;
+	};
 
 	const toggleResult = () => {
 		showResult = !showResult;
@@ -153,6 +161,47 @@
 		}
 	}, 1000);
 
+	socket.on('getDraw', (user) => {
+		if (user !== $usernameStore) {
+			drawOfferVisible = true;
+			drawName = user;
+		}
+	});
+
+	socket.on('getConfirmDraw', () => {
+		console.log('draw accepted');
+
+		gameDone = true;
+		showResult = true;
+		draw = true;
+		resultType = ResultTypeEnum.draw;
+
+		clearInterval(oppInt);
+		clearInterval(youInt);
+
+		if (checkLogin()) {
+			const { sub }: any = jwt_decode(Cookies.get('access_token'));
+
+			let whitePlayer: string = $selectedColor === 'white' ? $usernameStore : $opponentName;
+			let blackPlayer: string = $selectedColor === 'black' ? $usernameStore : $opponentName;
+			let movesString: string = '';
+			for (let i = 0; i < $moves.length; i++) {
+				movesString += $moves[i].initial + ',' + $moves[i].new + ',';
+			}
+
+			let gameData = {
+				winner: 'draw',
+				whitePlayer,
+				blackPlayer,
+				date: new Date(),
+				moves: movesString,
+				userId: sub
+			};
+
+			gameDataToServer(gameData);
+		}
+	});
+
 	socket.on('getForfeit', (user) => {
 		gameDone = true;
 		showResult = true;
@@ -228,7 +277,7 @@
 </script>
 
 <svelte:head>
-	<title>{changeTitle(userMove)} - Svelte Chess</title>
+	<title>New Game - Svelte Chess</title>
 </svelte:head>
 
 {#if !accepted}
@@ -351,5 +400,9 @@
 {/if}
 
 {#if gameDone}
-	<Result {winnerName} {resultType} {result} {won} {showResult} {toggleResult} />
+	<Result {draw} {winnerName} {resultType} {result} {won} {showResult} {toggleResult} />
+{/if}
+
+{#if drawOfferVisible}
+	<DrawOffer {drawName} {drawOfferVisible} {toggleDrawOffer} />
 {/if}

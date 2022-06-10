@@ -19,6 +19,10 @@
 	});
 </script>
 
+<svelte:head>
+	<title>Analyze your game - Svelte Chess</title>
+</svelte:head>
+
 {#if converted}
 	<div class="xl:flex xl:justify-between">
 		<div class="md:flex m-auto justify-center">
