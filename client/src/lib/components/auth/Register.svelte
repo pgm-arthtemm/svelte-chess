@@ -12,8 +12,6 @@
 		usernameStore
 	} from '../../../stores';
 	import { gameDataToServer } from '$lib/utils/game';
-	import { form, field } from 'svelte-forms';
-	import { required, email } from 'svelte-forms/validators';
 
 	export let visible: boolean;
 	export let handleToggle: () => void;
@@ -22,10 +20,8 @@
 	let error: boolean = false;
 
 	let username: string = afterGame ? $usernameStore : '';
-	const emailField = field('emailField', '', [required(), email()]);
-	const passwordField = field('passwordField', '', [required()]);
-
-	const registerForm = form(emailField, passwordField);
+	let emailField: string;
+	let passwordField: string;
 
 	const register = async (username: string, email: string, password: string): Promise<void> => {
 		const res = await fetch(`${apiBaseUrl}/auth/register`, {
@@ -92,37 +88,18 @@
 
 				<div class="flex flex-col">
 					<label class="font-bold text-xl pb-2" for="email">Email</label>
-					<input bind:value={$emailField.value} type="email" placeholder="email" />
-
-					{#if $registerForm.hasError('emailField.required')}
-						<p class="text-red-500 text-sm mb-2">Email is required</p>
-					{/if}
-
-					{#if $registerForm.hasError('emailField.email')}
-						<p class="text-red-500 text-sm mb-2">Email is not valid</p>
-					{/if}
+					<input bind:value={emailField} type="email" placeholder="email" />
 				</div>
 
 				<div class="flex flex-col">
 					<label class="font-bold text-xl pb-2" for="password">Password</label>
-					<input bind:value={$passwordField.value} type="password" placeholder="password" />
-
-					{#if $registerForm.hasError('passwordField.required')}
-						<p class="text-red-500 text-sm mb-2">Password is required</p>
-					{/if}
+					<input bind:value={passwordField} type="password" placeholder="password" />
 				</div>
 
-				{#if error}
-					<div>
-						<p class="text-red-500 text-center">Username or email already exist</p>
-					</div>
-				{/if}
-
 				<button
-					disabled={!$registerForm.valid}
 					class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mt-4 rounded"
 					on:click={() => {
-						register(username, $emailField.value, $passwordField.value);
+						register(username, emailField, passwordField);
 					}}>Register</button
 				>
 			</section>
