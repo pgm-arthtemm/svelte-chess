@@ -267,13 +267,6 @@
 	socket.on('getMessage', (data) => {
 		$chat = [...$chat, data];
 	});
-
-	const changeTitle = (userMove: boolean): string => {
-		if (userMove) {
-			return 'Your turn';
-		}
-		return `Opponent's turn`;
-	};
 </script>
 
 <svelte:head>
