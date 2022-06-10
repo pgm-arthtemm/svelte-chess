@@ -37,6 +37,7 @@
 
 	const startGame = (): void => {
 		$gameStarter = true;
+		console.log('gameStarter');
 
 		socket.emit('createGame', gameRoomId);
 

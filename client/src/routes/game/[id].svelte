@@ -36,6 +36,8 @@
 
 	const socket = io();
 
+	console.log($gameStarter, 'GAMESTARTER ON GAME');
+
 	let usernameValue: string = '';
 	let userMove: boolean = false;
 	let accepted: boolean = false;
