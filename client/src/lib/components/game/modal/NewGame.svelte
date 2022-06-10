@@ -59,7 +59,7 @@
 		}
 
 		newGameVisible = false;
-		goto(`${redirectUrl}/${gameRoomId}`);
+		goto(`${redirectUrl}/game/${gameRoomId}`);
 	};
 </script>
 
