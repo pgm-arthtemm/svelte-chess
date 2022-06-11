@@ -11,6 +11,8 @@ export const initPos = writable('');
 
 export const replayMove = writable(-1);
 
+export const gameStarter = writable(false);
+
 export const prevMove = writable({
 	from: '',
 	to: ''
