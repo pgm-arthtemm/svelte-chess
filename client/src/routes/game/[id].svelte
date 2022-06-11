@@ -33,6 +33,7 @@
 	import { checkLogin } from '$lib/utils/checkLogin';
 	import { onMount } from 'svelte';
 	import DrawOffer from '$lib/components/game/actions/DrawOffer.svelte';
+	import { frontendBaseUrl } from '$lib/config/config';
 
 	const socket = io();
 
@@ -351,11 +352,11 @@
 				<div class="text-white mb-6 bg-gray-800 inline-block my-4 p-4 pt-3 rounded-xl relative">
 					<div class="flex items-center">
 						<p class="mr-4">
-							{`https://svelte-chess.herokuapp.com/game/${$page.params.id}`}
+							{`${frontendBaseUrl}/game/${$page.params.id}`}
 						</p>
 						<div
 							class="w-7 h-7 cursor-pointer"
-							on:click={copyLink(`https://svelte-chess.herokuapp.com/game/${$page.params.id}`)}
+							on:click={copyLink(`${frontendBaseUrl}/game/${$page.params.id}`)}
 						>
 							<FaRegCopy />
 						</div>
