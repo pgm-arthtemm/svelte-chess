@@ -67,6 +67,10 @@ io.on('connection', (socket) => {
 		console.log('ACCEPT DRAW');
 		socket.broadcast.to(data).emit('getConfirmDraw');
 	});
+
+	socket.on('gameOver', (data) => {
+		socket.broadcast.to(data.gameId).emit('getGameOver', data);
+	});
 });
 
 app.use(handler);
