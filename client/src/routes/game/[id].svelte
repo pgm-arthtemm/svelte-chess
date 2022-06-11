@@ -224,6 +224,7 @@
 		gameDone = true;
 		showResult = true;
 		draw = true;
+		$winnerNameStore = 'draw';
 		resultType = ResultTypeEnum.draw;
 
 		clearInterval(oppInt);
