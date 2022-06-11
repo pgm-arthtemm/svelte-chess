@@ -1,7 +1,8 @@
 <script lang="ts">
-	import { playerMoveStore, usernameStore, initPos, moveMade } from '../../../../../stores';
+	import { playerMoveStore, usernameStore, initPos, moveMade, moves } from '../../../../../stores';
 	import { page } from '$app/stores';
 	import { move, validateMove, clockSwitch } from '$lib/utils/game';
+	import { gameOver } from '$lib/utils/game/gameOver';
 
 	export let color: string;
 	export let file: number;
@@ -125,6 +126,15 @@
 			const data = e.dataTransfer.getData('text');
 
 			if (take) {
+				if (e.target.dataset.piece === 'king') {
+					const color = $moves.length % 2 === 0 ? 'black' : 'white';
+
+					gameOver($page.params.id, $playerMoveStore, color);
+				}
+
+				console.log($playerMoveStore);
+				console.log(e.target.dataset.piece);
+
 				const parentDiv = e.target.parentNode;
 				e.target.remove();
 				parentDiv.appendChild(document.getElementById(data));

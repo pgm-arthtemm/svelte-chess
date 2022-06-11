@@ -168,6 +168,55 @@
 		}
 	});
 
+	socket.on('getGameOver', (data) => {
+		gameDone = true;
+		showResult = true;
+		resultType = ResultTypeEnum.checkmate;
+
+		clearInterval(oppInt);
+		clearInterval(youInt);
+
+		if (data.color === 'white') {
+			result = ColorEnum.white;
+		} else {
+			result = ColorEnum.black;
+		}
+
+		if (data.username === $usernameStore) {
+			won = true;
+			winnerName = $usernameStore;
+			$winnerNameStore = $usernameStore;
+		} else {
+			won = false;
+			winnerName = $opponentName;
+			$winnerNameStore = $opponentName;
+		}
+
+		console.log($winnerNameStore);
+
+		if (checkLogin()) {
+			const { sub }: any = jwt_decode(Cookies.get('access_token'));
+
+			let whitePlayer: string = $selectedColor === 'white' ? $usernameStore : $opponentName;
+			let blackPlayer: string = $selectedColor === 'black' ? $usernameStore : $opponentName;
+			let movesString: string = '';
+			for (let i = 0; i < $moves.length; i++) {
+				movesString += $moves[i].initial + ',' + $moves[i].new + ',';
+			}
+
+			let gameData = {
+				winner: $winnerNameStore,
+				whitePlayer,
+				blackPlayer,
+				date: new Date(),
+				moves: movesString,
+				userId: sub
+			};
+
+			gameDataToServer(gameData);
+		}
+	});
+
 	socket.on('getConfirmDraw', () => {
 		console.log('draw accepted');
 

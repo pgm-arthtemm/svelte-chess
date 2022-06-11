@@ -28,6 +28,7 @@
 		if (res.statusCode === 401) {
 			error = true;
 		} else {
+			window.location.reload();
 			visible = !visible;
 			$usernameStore = username;
 		}

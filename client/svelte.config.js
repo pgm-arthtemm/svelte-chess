@@ -64,6 +64,10 @@ export const webSocketServer = {
 			socket.on('confirmDraw', (data) => {
 				socket.broadcast.to(data).emit('getConfirmDraw');
 			});
+
+			socket.on('gameOver', (data) => {
+				socket.broadcast.to(data.gameId).emit('getGameOver', data);
+			});
 		});
 	}
 };
