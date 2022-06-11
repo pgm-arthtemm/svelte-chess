@@ -42,7 +42,7 @@
 
 			if (!afterGame) {
 				login(username, password);
-				window.location.reload();
+				goto(`${frontendBaseUrl}/profile`);
 			} else {
 				login(username, password).then((data) => {
 					goto(`${frontendBaseUrl}/profile`);
