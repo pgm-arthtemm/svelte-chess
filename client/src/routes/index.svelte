@@ -25,6 +25,22 @@
 	let loaded: boolean = false;
 
 	onMount(() => {
+		($chat = []),
+			($opponentName = ''),
+			($selectedColor = ''),
+			($moves = []),
+			($playerMoveStore = ''),
+			($moveMade = {
+				initPosition: '',
+				newPosition: '',
+				take: false
+			}),
+			($timeSettings = { time: 0 }),
+			($opponentTimeSpent = 0),
+			($yourTimeSpent = 0),
+			($winnerNameStore = ''),
+			($gameStarter = false);
+
 		const getData = async () => {
 			const usersRes = await fetch(`${apiBaseUrl}/users`);
 			const gamesRes = await fetch(`${apiBaseUrl}/games`);
