@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { apiBaseUrl } from '$lib/config/config';
+	import { apiBaseUrl, frontendBaseUrl } from '$lib/config/config';
 	import jwt_decode from 'jwt-decode';
 	import Modal from '../modal/Modal.svelte';
 	import Cookies from 'js-cookie';
@@ -12,6 +12,7 @@
 		usernameStore
 	} from '../../../stores';
 	import { gameDataToServer } from '$lib/utils/game';
+	import { goto } from '$app/navigation';
 
 	export let visible: boolean;
 	export let handleToggle: () => void;
@@ -41,8 +42,10 @@
 
 			if (!afterGame) {
 				login(username, password);
+				goto(`${frontendBaseUrl}/profile`);
 			} else {
 				login(username, password).then((data) => {
+					goto(`${frontendBaseUrl}/profile`);
 					const { sub }: any = jwt_decode(Cookies.get('access_token'));
 
 					let whitePlayer: string = $selectedColor === 'white' ? username : $opponentName;

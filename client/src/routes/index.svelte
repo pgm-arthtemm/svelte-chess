@@ -3,7 +3,20 @@
 	import jwt_decode from 'jwt-decode';
 	import Cookies from 'js-cookie';
 	import { apiBaseUrl } from '$lib/config/config';
-	import { usernameStore } from '../stores';
+	import {
+		chat,
+		gameStarter,
+		moveMade,
+		moves,
+		opponentName,
+		opponentTimeSpent,
+		playerMoveStore,
+		selectedColor,
+		timeSettings,
+		usernameStore,
+		winnerNameStore,
+		yourTimeSpent
+	} from '../stores';
 	import { onMount } from 'svelte';
 
 	let user: any;
@@ -12,6 +25,22 @@
 	let loaded: boolean = false;
 
 	onMount(() => {
+		($chat = []),
+			($opponentName = ''),
+			($selectedColor = ''),
+			($moves = []),
+			($playerMoveStore = ''),
+			($moveMade = {
+				initPosition: '',
+				newPosition: '',
+				take: false
+			}),
+			($timeSettings = { time: 0 }),
+			($opponentTimeSpent = 0),
+			($yourTimeSpent = 0),
+			($winnerNameStore = ''),
+			($gameStarter = false);
+
 		const getData = async () => {
 			const usersRes = await fetch(`${apiBaseUrl}/users`);
 			const gamesRes = await fetch(`${apiBaseUrl}/games`);

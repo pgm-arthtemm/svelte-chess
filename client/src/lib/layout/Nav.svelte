@@ -2,6 +2,7 @@
 	import { goto } from '$app/navigation';
 	import Login from '$lib/components/auth/Login.svelte';
 	import NewGame from '$lib/components/game/modal/NewGame.svelte';
+	import { frontendBaseUrl } from '$lib/config/config';
 	import Cookie from 'js-cookie';
 
 	export let checkLogin: () => boolean;
@@ -11,7 +12,7 @@
 
 	const handleLogOut = (): void => {
 		Cookie.remove('access_token');
-		goto('/');
+		goto(frontendBaseUrl);
 		window.location.reload();
 	};
 

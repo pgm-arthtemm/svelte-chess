@@ -58,6 +58,19 @@ io.on('connection', (socket) => {
 	socket.on('forfeit', (data) => {
 		socket.broadcast.to(data.gameId).emit('getForfeit', data);
 	});
+
+	socket.on('draw', (data) => {
+		socket.broadcast.to(data.gameId).emit('getDraw', data.username);
+	});
+
+	socket.on('confirmDraw', (data) => {
+		console.log('ACCEPT DRAW');
+		socket.broadcast.to(data).emit('getConfirmDraw');
+	});
+
+	socket.on('gameOver', (data) => {
+		socket.broadcast.to(data.gameId).emit('getGameOver', data);
+	});
 });
 
 app.use(handler);

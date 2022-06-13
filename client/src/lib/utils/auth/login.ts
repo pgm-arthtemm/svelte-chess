@@ -14,8 +14,6 @@ export const login = async (username: string, password: string): Promise<void> =
 
 	if (res.ok) {
 		Cookies.set('access_token', data.access_token, { expires: 1 });
-		window.location.reload();
-
 		return data;
 	} else {
 		return data;
