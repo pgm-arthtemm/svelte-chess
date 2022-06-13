@@ -41,10 +41,6 @@
 
 {#if gameData}
 	<div class="lg:w-2/3 m-auto ">
-		<h1 class="text-white font-semibold text-5xl mb-4">Your Profile</h1>
-		<div class="bg-gray-800 rounded-lg p-4 mb-6">
-			<div class="flex justify-between w-11/12 m-auto h-full" />
-		</div>
 		<MatchHistory loggedInName={loggedInUser} data={gameData} />
 	</div>
 {/if}
